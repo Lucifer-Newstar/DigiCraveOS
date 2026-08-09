@@ -32,6 +32,21 @@ const upsertCustomerFromOrder = async (order) => {
 const addOrder = async (req, res, next) => {
   try {
     const order = new Order(req.body);
+
+    // An order paid online arrives with Razorpay paymentData already verified,
+    // so it enters the lifecycle as Paid (matches UML U11 sequence). Cash
+    // orders start In Progress unless the client set a valid status.
+    const paidOnline = !!(
+      req.body?.paymentData?.razorpay_payment_id ||
+      req.body?.paymentData?.razorpay_order_id
+    );
+    if (paidOnline) {
+      order.orderStatus = "Paid";
+      if (order.paymentMethod == null) order.paymentMethod = "Online";
+    } else if (!order.orderStatus) {
+      order.orderStatus = "In Progress";
+    }
+
     await order.save();
     await upsertCustomerFromOrder(order);
     res

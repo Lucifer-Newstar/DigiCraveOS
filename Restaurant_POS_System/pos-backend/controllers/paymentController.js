@@ -28,20 +28,65 @@ const createOrder = async (req, res, next) => {
 
 const verifyPayment = async (req, res, next) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-      req.body;
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      amount, // optional: rupee amount, if the client sends it
+    } = req.body;
 
+    if (!config.razorpaySecretKey) {
+      return next(
+        createHttpError(
+          503,
+          "Payment gateway not configured (RAZORPAY_KEY_SECRET missing)."
+        )
+      );
+    }
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return next(createHttpError(400, "Missing payment verification fields."));
+    }
+
+    // HMAC-SHA256 signature verification (matches UML U11 sequence).
     const expectedSignature = crypto
       .createHmac("sha256", config.razorpaySecretKey)
       .update(razorpay_order_id + "|" + razorpay_payment_id)
       .digest("hex");
 
-    if (expectedSignature === razorpay_signature) {
-      res.json({ success: true, message: "Payment verified successfully!" });
-    } else {
-      const error = createHttpError(400, "Payment verification failed!");
-      return next(error);
+    if (expectedSignature !== razorpay_signature) {
+      return next(createHttpError(400, "Payment verification failed!"));
     }
+
+    // Persist a Payment record on successful verification. This is the
+    // "insert Payment doc" step shown in the U11 sequence diagram — it now
+    // happens in the main verify flow, not only via the async webhook.
+    let payment = null;
+    try {
+      payment = await Payment.findOneAndUpdate(
+        { paymentId: razorpay_payment_id },
+        {
+          $set: {
+            paymentId: razorpay_payment_id,
+            orderId: razorpay_order_id,
+            amount: amount ? Number(amount) : undefined,
+            currency: "INR",
+            status: "captured",
+            method: "Online",
+            createdAt: new Date(),
+          },
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+    } catch (e) {
+      // A missing payment record must not fail an otherwise-valid payment.
+      console.log(`⚠️  Payment persist skipped: ${e.message}`);
+    }
+
+    res.json({
+      success: true,
+      message: "Payment verified successfully!",
+      data: { payment },
+    });
   } catch (error) {
     next(error);
   }
