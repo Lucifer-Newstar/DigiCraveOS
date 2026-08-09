@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: pos-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - pos-mongo-data:/data/db
+    # For development, we use no authentication (easiest)
+    # If you want authentication later, uncomment the lines below
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: admin
+    #   MONGO_INITDB_ROOT_PASSWORD: admin123
+    #   MONGO_INITDB_DATABASE: pos-db
+
+volumes:
+  pos-mongo-data:
+    driver: local
