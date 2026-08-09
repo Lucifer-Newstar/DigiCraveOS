@@ -1,0 +1,8 @@
+# Vercel only builds the frontend (see vercel.json). Ignore everything else
+# to keep uploads small and avoid confusing the build.
+Restaurant_POS_ML/
+tests/
+docs/
+Restaurant_POS_System/pos-backend/
+push-to-digicrave.sh
+*.md
