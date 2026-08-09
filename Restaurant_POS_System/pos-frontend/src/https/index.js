@@ -31,6 +31,21 @@ export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
 // Customer Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
 
+// Menu Endpoints (categories + dishes, DB-backed)
+export const getMenu = () => axiosWrapper.get("/api/menu");
+export const getCategories = () => axiosWrapper.get("/api/menu/category");
+export const addCategory = (data) => axiosWrapper.post("/api/menu/category", data);
+export const deleteCategory = (id) =>
+  axiosWrapper.delete(`/api/menu/category/${id}`);
+export const getDishes = (params = {}) => {
+  const q = new URLSearchParams(params).toString();
+  return axiosWrapper.get(`/api/menu/dish${q ? `?${q}` : ""}`);
+};
+export const addDish = (data) => axiosWrapper.post("/api/menu/dish", data);
+export const updateDish = ({ dishId, ...data }) =>
+  axiosWrapper.put(`/api/menu/dish/${dishId}`, data);
+export const deleteDish = (id) => axiosWrapper.delete(`/api/menu/dish/${id}`);
+
 // ML Endpoints (proxied by the backend to the Restaurant_POS_ML service)
 export const getMlHealth = () => axiosWrapper.get("/api/ml/health");
 export const getSalesForecast = (horizonDays = 7) =>

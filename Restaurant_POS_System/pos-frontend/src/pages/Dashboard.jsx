@@ -4,6 +4,7 @@ import { BiSolidDish } from "react-icons/bi";
 import Metrics from "../components/dashboard/Metrics";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Modal from "../components/dashboard/Modal";
+import MenuModal from "../components/dashboard/MenuModal";
 import AiInsights from "../components/dashboard/AiInsights";
 
 const buttons = [
@@ -21,10 +22,14 @@ const Dashboard = () => {
   }, [])
 
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
+  // "category" | "dishes" | null
+  const [menuModalMode, setMenuModalMode] = useState(null);
   const [activeTab, setActiveTab] = useState("Metrics");
 
   const handleOpenModal = (action) => {
     if (action === "table") setIsTableModalOpen(true);
+    if (action === "category") setMenuModalMode("category");
+    if (action === "dishes") setMenuModalMode("dishes");
   };
 
   return (
@@ -67,6 +72,9 @@ const Dashboard = () => {
       }
 
       {isTableModalOpen && <Modal setIsTableModalOpen={setIsTableModalOpen} />}
+      {menuModalMode && (
+        <MenuModal mode={menuModalMode} onClose={() => setMenuModalMode(null)} />
+      )}
     </div>
   );
 };

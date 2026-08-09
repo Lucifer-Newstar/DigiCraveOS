@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { menus } from "../../constants";
+import React, { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { menus as fallbackMenus } from "../../constants";
+import { getMenu } from "../../https";
 import { GrRadialSelected } from "react-icons/gr";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -7,10 +9,26 @@ import { addItems } from "../../redux/slices/cartSlice";
 
 
 const MenuContainer = () => {
-  const [selected, setSelected] = useState(menus[0]);
   const [itemCount, setItemCount] = useState(0);
   const [itemId, setItemId] = useState();
+  const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
+
+  // Prefer DB-backed menu; fall back to the bundled constant when the DB
+  // has no categories yet, so the POS always has something to show.
+  const { data: menuRes } = useQuery({
+    queryKey: ["menu"],
+    queryFn: getMenu,
+  });
+
+  const menus = useMemo(() => {
+    const dbMenu = menuRes?.data?.data || [];
+    const withItems = dbMenu.filter((c) => (c.items || []).length > 0);
+    return withItems.length > 0 ? withItems : fallbackMenus;
+  }, [menuRes]);
+
+  const selected =
+    menus.find((m) => (m.id || m._id) === selectedId) || menus[0] || { items: [] };
 
   const increment = (id) => {
     setItemId(id);
@@ -39,10 +57,11 @@ const MenuContainer = () => {
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
         {menus.map((menu) => {
-          const isActive = selected.id === menu.id;
+          const menuKey = menu.id || menu._id;
+          const isActive = (selected.id || selected._id) === menuKey;
           return (
             <button
-              key={menu.id}
+              key={menuKey}
               type="button"
               aria-pressed={isActive}
               className={`flex flex-col items-start justify-between p-4 rounded-2xl h-[100px] text-left transition-all border ${
@@ -51,7 +70,7 @@ const MenuContainer = () => {
                   : "pos-card pos-card-hover text-slate-900 hover:bg-slate-50"
               }`}
               onClick={() => {
-                setSelected(menu);
+                setSelectedId(menuKey);
                 setItemId(0);
                 setItemCount(0);
               }}
@@ -80,9 +99,10 @@ const MenuContainer = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
         {selected?.items.map((item) => {
+          const itemKey = item.id || item._id;
           return (
             <div
-              key={item.id}
+              key={itemKey}
               className="pos-card pos-card-hover flex flex-col items-start justify-between p-4 h-[150px]"
             >
               <div className="flex items-start justify-between w-full">
@@ -103,17 +123,17 @@ const MenuContainer = () => {
                 </p>
                 <div className="flex items-center justify-between bg-slate-100 px-3 py-2 rounded-xl gap-4">
                   <button
-                    onClick={() => decrement(item.id)}
+                    onClick={() => decrement(itemKey)}
                     aria-label="Decrease quantity"
                     className="text-emerald-600 hover:text-emerald-700 text-2xl w-8 h-8 flex items-center justify-center"
                   >
                     &minus;
                   </button>
                   <span className="text-slate-900 font-semibold min-w-[1ch] text-center">
-                    {itemId == item.id ? itemCount : "0"}
+                    {itemId == itemKey ? itemCount : "0"}
                   </span>
                   <button
-                    onClick={() => increment(item.id)}
+                    onClick={() => increment(itemKey)}
                     aria-label="Increase quantity"
                     className="text-emerald-600 hover:text-emerald-700 text-2xl w-8 h-8 flex items-center justify-center"
                   >
