@@ -3,6 +3,7 @@ import OrderCard from "../components/orders/OrderCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getOrders } from "../https/index";
 import { enqueueSnackbar } from "notistack"
+import { toArray } from "../utils/index";
 
 const Orders = () => {
 
@@ -32,7 +33,7 @@ const Orders = () => {
     completed: ["Billing", "Paid", "Completed"],
   };
   const allowed = STATUS_FILTERS[status];
-  const orders = (resData?.data || []).filter(
+  const orders = toArray(resData).filter(
     (o) => !allowed || allowed.includes(o.orderStatus)
   );
 

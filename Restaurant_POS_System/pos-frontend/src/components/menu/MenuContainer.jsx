@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { menus as fallbackMenus } from "../../constants";
 import { getMenu } from "../../https";
+import { toArray } from "../../utils";
 import { GrRadialSelected } from "react-icons/gr";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -22,7 +23,7 @@ const MenuContainer = () => {
   });
 
   const menus = useMemo(() => {
-    const dbMenu = menuRes?.data?.data || [];
+    const dbMenu = toArray(menuRes);
     const withItems = dbMenu.filter((c) => (c.items || []).length > 0);
     return withItems.length > 0 ? withItems : fallbackMenus;
   }, [menuRes]);

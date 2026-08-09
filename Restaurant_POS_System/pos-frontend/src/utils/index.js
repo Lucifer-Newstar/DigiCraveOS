@@ -45,3 +45,15 @@ export const formatDateAndTime = (date) => {
 
   return dateAndTime;
 }
+// Safely extract an array from any common API/query shape:
+//   axiosResponse -> {data:{success, data:[...]}}   => res.data.data
+//   body          -> {success, data:[...]}           => body.data
+//   already an array                                 => as-is
+// Guards against the "X.filter is not a function" crash when a component
+// misreads the nesting level of a response.
+export const toArray = (res) => {
+  if (Array.isArray(res)) return res;
+  if (Array.isArray(res?.data)) return res.data;
+  if (Array.isArray(res?.data?.data)) return res.data.data;
+  return [];
+};

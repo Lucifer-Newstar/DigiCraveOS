@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCustomers } from "../../https";
+import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 
@@ -13,7 +14,7 @@ const Customers = () => {
     queryFn: getCustomers,
   });
 
-  const customers = data?.data?.data || [];
+  const customers = toArray(data);
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     if (!t) return customers;

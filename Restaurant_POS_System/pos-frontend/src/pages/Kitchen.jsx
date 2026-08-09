@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getOrders, updateOrderStatus } from "../https";
+import { toArray } from "../utils/index";
 
 // Kitchen Display (KDS-lite) — the Kitchen role's screen. Shows active tickets
 // (In Progress) with items, quantities, notes and station, and lets kitchen
@@ -31,7 +32,7 @@ const Kitchen = () => {
     onError: () => enqueueSnackbar("Update failed", { variant: "error" }),
   });
 
-  const orders = (data?.data || []).filter((o) =>
+  const orders = toArray(data).filter((o) =>
     ["In Progress", "On Hold"].includes(o.orderStatus)
   );
 

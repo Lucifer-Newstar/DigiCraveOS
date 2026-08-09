@@ -3,7 +3,7 @@ import { GrUpdate } from "react-icons/gr";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getOrders, updateOrderStatus } from "../../https/index";
-import { formatDateAndTime } from "../../utils";
+import { formatDateAndTime, toArray } from "../../utils";
 
 const RecentOrders = () => {
   const queryClient = useQueryClient();
@@ -54,7 +54,7 @@ const RecentOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {(resData?.data || []).map((order, index) => (
+            {toArray(resData).map((order, index) => (
               <tr
                 key={index}
                 className="border-b border-slate-100 hover:bg-slate-50"

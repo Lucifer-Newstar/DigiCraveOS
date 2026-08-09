@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 import { getCustomerMenu } from "../../https";
+import { toArray } from "../../utils";
 import { addGuestItem, guestCartCount, guestCartTotal } from "../../redux/slices/guestCartSlice";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
@@ -21,7 +22,7 @@ const CustomerMenu = () => {
   });
 
   const menu = useMemo(() => {
-    const cats = data?.data?.data || [];
+    const cats = toArray(data);
     return cats.filter((c) => (c.items || []).length > 0);
   }, [data]);
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { getCustomerOrders } from "../../https";
+import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 
@@ -24,7 +25,7 @@ const CustomerOrders = () => {
     queryFn: getCustomerOrders,
     refetchInterval: 15000, // live-ish status updates
   });
-  const orders = data?.data?.data || [];
+  const orders = toArray(data);
 
   return (
     <div className="max-w-2xl mx-auto">
