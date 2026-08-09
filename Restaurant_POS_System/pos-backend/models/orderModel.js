@@ -68,6 +68,10 @@ const orderSchema = new mongoose.Schema(
     },
     items: [orderItemSchema],
     table: { type: mongoose.Schema.Types.ObjectId, ref: "Table" },
+    // Dine-in (default) vs a guest self-order for pickup/delivery.
+    orderType: { type: String, default: "Dine In" },
+    // Who created the order: "staff" (POS) or "customer" (guest self-order).
+    placedBy: { type: String, default: "staff" },
     paymentMethod: String,
     paymentData: {
       razorpay_order_id: String,

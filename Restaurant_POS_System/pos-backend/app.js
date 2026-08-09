@@ -28,6 +28,7 @@ app.use("/api/user", require("./routes/userRoute"));
 app.use("/api/order", require("./routes/orderRoute"));
 app.use("/api/table", require("./routes/tableRoute"));
 app.use("/api/payment", require("./routes/paymentRoute"));
+app.use("/api/customer/auth", require("./routes/customerAuthRoute"));
 app.use("/api/customer", require("./routes/customerRoute"));
 app.use("/api/menu", require("./routes/menuRoute"));
 app.use("/api/ml", require("./routes/mlRoute"));
