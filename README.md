@@ -76,6 +76,30 @@ A full-featured **Restaurant POS System** built using the **MERN Stack** to stre
 </table>
 
 
+---
+
+## 🤖 **AI / ML Service (`Restaurant_POS_ML`)**
+
+An optional Python (FastAPI) microservice adds machine-learning insights on top
+of the existing MongoDB data — no schema changes required:
+
+- 📈 **Sales forecasting** — predicts upcoming daily revenue & order volume
+- 🍛 **Dish demand prediction** — expected quantities per dish for prep planning
+- 🧺 **Dish recommendations** — market-basket "frequently bought together"
+
+It reads the existing `orders` / `customers` collections directly. The Node
+backend proxies it under `/api/ml/*` (auth-protected) and the React app surfaces
+it in a new **"AI Insights"** tab on the Admin Dashboard.
+
+```
+React (AI Insights tab) ──/api/ml/*──► Node/Express ──► Restaurant_POS_ML (FastAPI) ──► MongoDB
+```
+
+See [`Restaurant_POS_ML/README.md`](./Restaurant_POS_ML/README.md) for setup,
+seeding demo data, and the full API reference.
+
+---
+
 ✨ Feel free to explore, contribute, and enhance the project! 🚀
 
 💡 To contribute, please check out the **CONTRIBUTING.md** for guidelines.

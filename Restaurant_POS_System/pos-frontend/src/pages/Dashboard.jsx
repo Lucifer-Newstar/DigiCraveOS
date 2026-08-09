@@ -4,6 +4,7 @@ import { BiSolidDish } from "react-icons/bi";
 import Metrics from "../components/dashboard/Metrics";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Modal from "../components/dashboard/Modal";
+import AiInsights from "../components/dashboard/AiInsights";
 
 const buttons = [
   { label: "Add Table", icon: <MdTableBar />, action: "table" },
@@ -11,7 +12,7 @@ const buttons = [
   { label: "Add Dishes", icon: <BiSolidDish />, action: "dishes" },
 ];
 
-const tabs = ["Metrics", "Orders", "Payments"];
+const tabs = ["Metrics", "Orders", "AI Insights", "Payments"];
 
 const Dashboard = () => {
 
@@ -58,6 +59,7 @@ const Dashboard = () => {
 
       {activeTab === "Metrics" && <Metrics />}
       {activeTab === "Orders" && <RecentOrders />}
+      {activeTab === "AI Insights" && <AiInsights />}
       {activeTab === "Payments" &&
         <div className="pos-card p-6 text-slate-500">
           Payment Component Coming Soon

@@ -30,3 +30,19 @@ export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
 
 // Customer Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
+
+// ML Endpoints (proxied by the backend to the Restaurant_POS_ML service)
+export const getMlHealth = () => axiosWrapper.get("/api/ml/health");
+export const getSalesForecast = (horizonDays = 7) =>
+  axiosWrapper.get(`/api/ml/forecast?horizon_days=${horizonDays}`);
+export const getDishDemand = (params = {}) => {
+  const q = new URLSearchParams();
+  if (params.targetDate) q.set("target_date", params.targetDate);
+  if (params.top) q.set("top", params.top);
+  const qs = q.toString();
+  return axiosWrapper.get(`/api/ml/demand${qs ? `?${qs}` : ""}`);
+};
+export const getMlPopular = (limit = 10) =>
+  axiosWrapper.get(`/api/ml/popular?limit=${limit}`);
+export const getDishRecommendations = (items = [], limit = 5) =>
+  axiosWrapper.post("/api/ml/recommend", { items, limit });
