@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
-from .db import load_orders
+from ..db import load_orders
 
 MIN_DAYS = 5  # need at least this many distinct days to model a trend
 

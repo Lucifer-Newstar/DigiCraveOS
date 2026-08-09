@@ -9,7 +9,7 @@ Lift(A, B) = P(A & B) / (P(A) * P(B))  -- >1 means positively associated.
 from collections import Counter, defaultdict
 from itertools import combinations
 
-from .db import load_order_items
+from ..db import load_order_items
 
 
 def _build_stats():

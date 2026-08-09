@@ -8,7 +8,7 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import demand, forecasting, recommender
+from .engines import demand, forecasting, recommender
 from .config import CORS_ORIGINS
 from .db import count_orders, ping
 

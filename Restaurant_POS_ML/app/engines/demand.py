@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, timezone
 
 import numpy as np
 
-from .db import get_db
+from ..db import get_db
 
 MIN_ROWS = 6  # min active days before we trust weekday seasonality
 
