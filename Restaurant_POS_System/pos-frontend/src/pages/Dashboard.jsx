@@ -6,6 +6,7 @@ import RecentOrders from "../components/dashboard/RecentOrders";
 import Modal from "../components/dashboard/Modal";
 import MenuModal from "../components/dashboard/MenuModal";
 import AiInsights from "../components/dashboard/AiInsights";
+import Payments from "../components/dashboard/Payments";
 
 const buttons = [
   { label: "Add Table", icon: <MdTableBar />, action: "table" },
@@ -65,11 +66,7 @@ const Dashboard = () => {
       {activeTab === "Metrics" && <Metrics />}
       {activeTab === "Orders" && <RecentOrders />}
       {activeTab === "AI Insights" && <AiInsights />}
-      {activeTab === "Payments" &&
-        <div className="pos-card p-6 text-slate-500">
-          Payment Component Coming Soon
-        </div>
-      }
+      {activeTab === "Payments" && <Payments />}
 
       {isTableModalOpen && <Modal setIsTableModalOpen={setIsTableModalOpen} />}
       {menuModalMode && (

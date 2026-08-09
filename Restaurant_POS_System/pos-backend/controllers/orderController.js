@@ -161,6 +161,76 @@ const getPopularDishes = async (req, res, next) => {
   }
 };
 
+// Payments view derived from orders (every order carries a paymentMethod,
+// bills and — for online payments — Razorpay ids). Returns a summary plus the
+// most recent payment rows so the dashboard can show real collection data.
+const getPayments = async (req, res, next) => {
+  try {
+    const limit = Number(req.query.limit) || 25;
+
+    const [summaryAgg, byMethod, recent] = await Promise.all([
+      Order.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalCollected: { $sum: "$bills.totalWithTax" },
+            totalTax: { $sum: "$bills.tax" },
+            count: { $sum: 1 },
+          },
+        },
+      ]),
+      Order.aggregate([
+        {
+          $group: {
+            _id: { $ifNull: ["$paymentMethod", "Unknown"] },
+            amount: { $sum: "$bills.totalWithTax" },
+            count: { $sum: 1 },
+          },
+        },
+        { $sort: { amount: -1 } },
+        { $project: { _id: 0, method: "$_id", amount: 1, count: 1 } },
+      ]),
+      Order.find()
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .select("customerDetails bills paymentMethod paymentData orderDate createdAt orderStatus"),
+    ]);
+
+    const summary = summaryAgg[0] || {
+      totalCollected: 0,
+      totalTax: 0,
+      count: 0,
+    };
+
+    const payments = recent.map((o) => ({
+      _id: o._id,
+      customerName: o.customerDetails?.name || "Guest",
+      amount: o.bills?.totalWithTax || 0,
+      tax: o.bills?.tax || 0,
+      method: o.paymentMethod || "Unknown",
+      status: o.orderStatus || "",
+      transactionId:
+        o.paymentData?.razorpay_payment_id || o.paymentData?.razorpay_order_id || "—",
+      date: o.orderDate || o.createdAt,
+    }));
+
+    res.status(200).json({
+      success: true,
+      data: {
+        summary: {
+          totalCollected: summary.totalCollected || 0,
+          totalTax: summary.totalTax || 0,
+          transactions: summary.count || 0,
+        },
+        byMethod,
+        payments,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addOrder,
   getOrderById,
@@ -168,4 +238,5 @@ module.exports = {
   updateOrder,
   getMetrics,
   getPopularDishes,
+  getPayments,
 };

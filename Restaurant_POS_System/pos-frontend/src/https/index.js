@@ -27,6 +27,8 @@ export const updateOrderStatus = ({ orderId, orderStatus }) =>
   axiosWrapper.put(`/api/order/${orderId}`, { orderStatus });
 export const getMetrics = () => axiosWrapper.get("/api/order/metrics");
 export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
+export const getPayments = (limit = 25) =>
+  axiosWrapper.get(`/api/order/payments?limit=${limit}`);
 
 // Customer Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
