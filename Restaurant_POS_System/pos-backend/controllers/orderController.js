@@ -4,26 +4,11 @@ const Customer = require("../models/customerModel");
 const Table = require("../models/tableModel");
 const { default: mongoose } = require("mongoose");
 
-// Upsert a customer record from an order's customer details.
-// Deduplicates by phone: first order creates the customer, later orders
-// increment their totals. Failures here must not fail the order itself.
+// Thin wrapper around Customer.upsertFromOrder (UML U03 static). Failures here
+// must not fail the order itself, so errors are swallowed with a log.
 const upsertCustomerFromOrder = async (order) => {
   try {
-    const details = order.customerDetails || {};
-    const phone = details.phone && String(details.phone).trim();
-    if (!phone) return;
-
-    await Customer.findOneAndUpdate(
-      { phone },
-      {
-        $set: { name: details.name, lastVisit: new Date() },
-        $inc: {
-          totalOrders: 1,
-          totalSpent: order.bills?.totalWithTax || 0,
-        },
-      },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
+    await Customer.upsertFromOrder(order);
   } catch (error) {
     console.log(`⚠️  Customer upsert skipped: ${error.message}`);
   }
