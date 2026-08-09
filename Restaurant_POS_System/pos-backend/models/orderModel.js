@@ -95,9 +95,95 @@ orderItemSchema.methods.lineTotal = function () {
   return (this.pricePerQuantity || 0) * (this.quantity || 1);
 };
 
+/* --------------------------- domain methods (U03) --------------------------- */
+
+// Mark an order as paid, recording payment metadata. Matches Order.markPaid().
+orderSchema.methods.markPaid = function (paymentData = {}, method) {
+  if (!Order.canTransition(this.orderStatus, "Paid")) {
+    // Allow paying from Served/Billing; otherwise flag the caller.
+    throw new Error(`Cannot mark Paid from "${this.orderStatus}".`);
+  }
+  this.orderStatus = "Paid";
+  if (method) this.paymentMethod = method;
+  if (paymentData && (paymentData.razorpay_order_id || paymentData.razorpay_payment_id)) {
+    this.paymentData = paymentData;
+  }
+  return this;
+};
+
+// Put an order On Hold, remembering where it came from. Matches Order.hold().
+orderSchema.methods.hold = function () {
+  if (!Order.canTransition(this.orderStatus, "On Hold")) {
+    throw new Error(`Cannot hold from "${this.orderStatus}".`);
+  }
+  this._statusBeforeHold = this.orderStatus;
+  this.orderStatus = "On Hold";
+  return this;
+};
+
+// Resume a held order back to its previous status. Matches Order.resume().
+orderSchema.methods.resume = function () {
+  if (this.orderStatus !== "On Hold") {
+    throw new Error(`Order is not On Hold (current: "${this.orderStatus}").`);
+  }
+  this.orderStatus = this._statusBeforeHold || "In Progress";
+  this._statusBeforeHold = undefined;
+  return this;
+};
+
+// Recompute this order's bill from its line items + a discount. Helper used
+// by split/merge so totals & GST stay consistent (2.5% CGST + 2.5% SGST).
+function computeBills(items, discount = 0) {
+  const total = items.reduce(
+    (s, it) => s + (it.price ?? (it.pricePerQuantity || 0) * (it.quantity || 1)),
+    0
+  );
+  const taxable = Math.max(total - discount, 0);
+  const cgst = +(taxable * 0.025).toFixed(2);
+  const sgst = +(taxable * 0.025).toFixed(2);
+  const tax = +(cgst + sgst).toFixed(2);
+  return {
+    total: +total.toFixed(2),
+    discount,
+    cgst,
+    sgst,
+    tax,
+    totalWithTax: +(taxable + tax).toFixed(2),
+  };
+}
+orderSchema.statics.computeBills = computeBills;
+
+// Split this order's items into N child bills by ratios (or evenly).
+// Returns plain bill objects (matches Bill.split()). Non-persisting.
+orderSchema.methods.split = function (parts = 2) {
+  const n = Math.max(2, Number(parts) || 2);
+  const items = this.items || [];
+  const groups = Array.from({ length: n }, () => []);
+  items.forEach((it, i) => groups[i % n].push(it.toObject ? it.toObject() : it));
+  return groups
+    .filter((g) => g.length > 0)
+    .map((g, idx) => ({
+      part: idx + 1,
+      items: g,
+      bills: computeBills(g),
+    }));
+};
+
+// Merge several orders' items + bills into one combined bill (matches
+// Bill.merge()). Static because it operates across multiple orders.
+orderSchema.statics.merge = function (orders = []) {
+  const items = orders.flatMap((o) =>
+    (o.items || []).map((it) => (it.toObject ? it.toObject() : it))
+  );
+  const discount = orders.reduce((s, o) => s + (o.bills?.discount || 0), 0);
+  return { items, bills: computeBills(items, discount) };
+};
+
 orderSchema.statics.STATUSES = ORDER_STATUSES;
 orderSchema.statics.TRANSITIONS = STATUS_TRANSITIONS;
 
-module.exports = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+
+module.exports = Order;
 module.exports.ORDER_STATUSES = ORDER_STATUSES;
 module.exports.STATUS_TRANSITIONS = STATUS_TRANSITIONS;

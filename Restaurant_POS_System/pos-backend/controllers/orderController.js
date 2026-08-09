@@ -304,6 +304,70 @@ const getPayments = async (req, res, next) => {
   }
 };
 
+// POST /api/order/:id/hold  &  /:id/resume  — matches Order.hold()/resume() (U03)
+const holdOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return next(createHttpError(404, "Invalid id!"));
+    const order = await Order.findById(id);
+    if (!order) return next(createHttpError(404, "Order not found!"));
+    order.hold();
+    await order.save();
+    res.status(200).json({ success: true, message: "Order on hold", data: order });
+  } catch (error) {
+    next(createHttpError(409, error.message));
+  }
+};
+
+const resumeOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return next(createHttpError(404, "Invalid id!"));
+    const order = await Order.findById(id);
+    if (!order) return next(createHttpError(404, "Order not found!"));
+    order.resume();
+    await order.save();
+    res.status(200).json({ success: true, message: "Order resumed", data: order });
+  } catch (error) {
+    next(createHttpError(409, error.message));
+  }
+};
+
+// GET /api/order/:id/split?parts=2 — matches Bill.split() (U03). Non-persisting.
+const splitOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return next(createHttpError(404, "Invalid id!"));
+    const order = await Order.findById(id);
+    if (!order) return next(createHttpError(404, "Order not found!"));
+    const parts = Number(req.query.parts) || 2;
+    res.status(200).json({ success: true, data: order.split(parts) });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST /api/order/merge  { orderIds: [...] } — matches Bill.merge() (U03).
+const mergeOrders = async (req, res, next) => {
+  try {
+    const { orderIds } = req.body;
+    if (!Array.isArray(orderIds) || orderIds.length < 2) {
+      return next(createHttpError(400, "Provide at least two orderIds to merge."));
+    }
+    const valid = orderIds.filter((x) => mongoose.Types.ObjectId.isValid(x));
+    const orders = await Order.find({ _id: { $in: valid } });
+    if (orders.length < 2) {
+      return next(createHttpError(404, "Two valid orders not found."));
+    }
+    res.status(200).json({ success: true, data: Order.merge(orders) });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addOrder,
   getOrderById,
@@ -312,4 +376,8 @@ module.exports = {
   getMetrics,
   getPopularDishes,
   getPayments,
+  holdOrder,
+  resumeOrder,
+  splitOrder,
+  mergeOrders,
 };
