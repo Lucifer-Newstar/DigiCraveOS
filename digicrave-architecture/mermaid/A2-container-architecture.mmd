@@ -4,10 +4,10 @@
 flowchart LR
     subgraph MVP["MVP 1.0 — shipped (this repository)"]
         direction TB
-        FE["POS Web App — React + Vite ✔<br>──────────────<br>Redux Toolkit · React Query · Tailwind<br>Auth · Home · Menu · Orders · Tables · Dashboard<br>AiInsights.jsx (forecast · demand · recommend)"]
-        API["POS API — Node.js + Express ✔<br>──────────────<br>routes: user · order · table · payment · customer · ml<br>JWT cookie auth + Admin role guard<br>Razorpay HMAC-SHA256 verification"]
+        FE["POS Web App — React + Vite ✔<br>──────────────<br>Redux Toolkit · React Query · Tailwind<br>Auth · Home · Menu · Orders · Tables · Dashboard<br>Dashboard tabs: Metrics (revenue trend + status donut) ·<br>Payments · AI Insights · menu mgmt (category/dish)<br>AiInsights.jsx (forecast · demand · recommend)"]
+        API["POS API — Node.js + Express ✔<br>──────────────<br>routes: user · order · table · payment · customer · menu · ml<br>menu: category & dish CRUD (Admin) · order lifecycle + hold/resume/split/merge<br>JWT cookie auth + Admin role guard<br>Razorpay HMAC-SHA256 verification"]
         MLS["ML Insights Service — FastAPI ✔<br>──────────────<br>GET /forecast (Ridge: trend + day-of-week)<br>GET /demand · POST /recommend (market-basket)<br>reads Mongo directly — no schema changes"]
-        MGO[("MongoDB (single instance) ✔<br>users · orders · tables · payments · customers")]
+        MGO[("MongoDB (single instance) ✔<br>users · orders · tables · payments · customers · categories · dishes")]
         RZP["Razorpay Cloud ✔<br>orders · signature verify · webhooks"]
 
         FE -- "REST /api/* (cookie JWT)" --> API

@@ -78,14 +78,27 @@ classDiagram
         +verifySignature()$ «HMAC-SHA256»
     }
 
-    class MenuItem {
-        <<roadmap>>
-        +String sku
+    class Category {
+        <<MVP ✔ — categoryModel.js>>
+        +String name  «unique»
+        +String icon
+        +String bgColor
+        +Date createdAt
+    }
+
+    class Dish {
+        <<MVP ✔ — dishModel.js>>
         +String name
-        +Category category
         +Number price
+        +ObjectId category
+        +String image
+        +Boolean isAvailable
+    }
+
+    class MenuItem {
+        <<roadmap — extends Dish>>
+        +String sku
         +Number foodCostPct
-        +Boolean available
     }
 
     class Recipe {
@@ -184,7 +197,9 @@ classDiagram
     Order "1" *-- "1..*" OrderItem : contains
     Order "1" --> "0..1" Bill : settles
     Bill "1" --> "1..*" Payment : split / modes
-    OrderItem "0..*" --> "1" MenuItem : refers to
+    Category "1" *-- "0..*" Dish : groups
+    OrderItem "0..*" --> "1" Dish : refers to
+    Dish <|-- MenuItem : product extends
     MenuItem "1" --> "0..1" Recipe : made by
     Recipe "1" *-- "1..*" RecipeLine
     RecipeLine "0..*" --> "1" InventoryItem : consumes
