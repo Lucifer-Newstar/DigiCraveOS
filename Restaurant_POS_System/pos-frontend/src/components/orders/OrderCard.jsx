@@ -3,7 +3,7 @@ import { FaCheckDouble, FaLongArrowAltRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import { formatDateAndTime, getAvatarName } from "../../utils/index";
 
-const OrderCard = ({ key, order }) => {
+const OrderCard = ({ order }) => {
   return (
     <div key={key} className="pos-card p-4">
       <div className="flex items-center gap-4">

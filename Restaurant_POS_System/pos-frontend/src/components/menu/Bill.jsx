@@ -115,7 +115,7 @@ const Bill = () => {
         // create order
 
         const reqData = {
-          amount: totalPriceWithTax.toFixed(2),
+          amount: Number(totalPriceWithTax),
         };
 
         const { data } = await createOrderRazorpay(reqData);

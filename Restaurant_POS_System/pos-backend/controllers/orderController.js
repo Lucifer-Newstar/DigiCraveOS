@@ -66,7 +66,7 @@ const getOrderById = async (req, res, next) => {
 const getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find().populate("table");
-    res.status(200).json({ data: orders });
+    res.status(200).json({ success: true, data: orders });
   } catch (error) {
     next(error);
   }

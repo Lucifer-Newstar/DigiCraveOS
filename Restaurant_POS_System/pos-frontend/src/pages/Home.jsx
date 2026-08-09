@@ -18,7 +18,7 @@ const Home = () => {
     queryFn: getMetrics,
   });
 
-  const m = resData?.data?.data || {};
+  const m = resData?.data || {};
 
   return (
     <div className="pos-page">

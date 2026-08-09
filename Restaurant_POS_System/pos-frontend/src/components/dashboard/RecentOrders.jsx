@@ -54,7 +54,7 @@ const RecentOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {resData?.data.data.map((order, index) => (
+            {(resData?.data || []).map((order, index) => (
               <tr
                 key={index}
                 className="border-b border-slate-100 hover:bg-slate-50"

@@ -18,7 +18,7 @@ const Metrics = () => {
     enqueueSnackbar("Failed to load metrics!", { variant: "error" });
   }
 
-  const m = resData?.data?.data || {};
+  const m = resData?.data || {};
 
   const metricsData = [
     {

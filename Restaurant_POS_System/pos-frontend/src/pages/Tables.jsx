@@ -48,7 +48,7 @@ const Tables = () => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-        {resData?.data.data.map((table) => {
+        {(resData?.data || []).map((table) => {
           return (
             <TableCard
               id={table._id}

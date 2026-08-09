@@ -1,6 +1,7 @@
 const Razorpay = require("razorpay");
 const config = require("../config/config");
 const crypto = require("crypto");
+const createHttpError = require("http-errors");
 const Payment = require("../models/paymentModel");
 
 const createOrder = async (req, res, next) => {
@@ -48,7 +49,7 @@ const verifyPayment = async (req, res, next) => {
 
 const webHookVerification = async (req, res, next) => {
   try {
-    const secret = config.razorpyWebhookSecret;
+    const secret = config.razorpayWebhookSecret;
     const signature = req.headers["x-razorpay-signature"];
 
     const body = JSON.stringify(req.body);
