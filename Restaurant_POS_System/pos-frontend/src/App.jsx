@@ -11,6 +11,7 @@ import Sidebar from "./components/shared/Sidebar";
 import { useSelector } from "react-redux";
 import useLoadData from "./hooks/useLoadData";
 import FullScreenLoader from "./components/shared/FullScreenLoader";
+import CustomerApp from "./CustomerApp";
 
 function Layout() {
   const isLoading = useLoadData();
@@ -96,10 +97,24 @@ function ProtectedRoutes({ children, roles }) {
   return children;
 }
 
+// Decides which "app" to render based on the URL, so the staff session loader
+// (useLoadData) never runs on the customer storefront and vice versa.
+function Root() {
+  const location = useLocation();
+  const isCustomer = location.pathname.startsWith("/customer");
+  return isCustomer ? (
+    <Routes>
+      <Route path="/customer/*" element={<CustomerApp />} />
+    </Routes>
+  ) : (
+    <Layout />
+  );
+}
+
 function App() {
   return (
     <Router>
-      <Layout />
+      <Root />
     </Router>
   );
 }

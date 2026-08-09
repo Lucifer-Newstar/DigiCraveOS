@@ -30,8 +30,23 @@ export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
 export const getPayments = (limit = 25) =>
   axiosWrapper.get(`/api/order/payments?limit=${limit}`);
 
-// Customer Endpoints
+// Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
+
+// Customer (Guest) portal Endpoints — separate auth from staff.
+export const customerRegister = (data) =>
+  axiosWrapper.post("/api/customer/auth/register", data);
+export const customerLogin = (data) =>
+  axiosWrapper.post("/api/customer/auth/login", data);
+export const customerLogout = () =>
+  axiosWrapper.post("/api/customer/auth/logout");
+export const getCustomerProfile = () =>
+  axiosWrapper.get("/api/customer/auth/me");
+export const getCustomerMenu = () => axiosWrapper.get("/api/customer/auth/menu");
+export const getCustomerOrders = () =>
+  axiosWrapper.get("/api/customer/auth/orders");
+export const placeCustomerOrder = (data) =>
+  axiosWrapper.post("/api/customer/auth/orders", data);
 
 // Menu Endpoints (categories + dishes, DB-backed)
 export const getMenu = () => axiosWrapper.get("/api/menu");
