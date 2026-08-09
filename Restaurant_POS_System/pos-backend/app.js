@@ -8,7 +8,6 @@ const app = express();
 
 
 const PORT = config.port;
-connectDB();
 
 // Middlewares
 app.use(cors({
@@ -37,7 +36,14 @@ app.use("/api/ml", require("./routes/mlRoute"));
 app.use(globalErrorHandler);
 
 
-// Server
-app.listen(PORT, () => {
-    console.log(`☑️  POS Server is listening on port ${PORT}`);
-})
+// Only connect to the DB and start listening when run directly
+// (e.g. `node app.js`). When imported by tests, the test harness controls
+// the database connection and mounts `app` via supertest without a listener.
+if (require.main === module) {
+    connectDB();
+    app.listen(PORT, () => {
+        console.log(`☑️  POS Server is listening on port ${PORT}`);
+    });
+}
+
+module.exports = app;
