@@ -4,6 +4,7 @@ import { tables } from "../constants";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTables } from "../https";
 import { enqueueSnackbar } from "notistack";
+import { toArray } from "../utils";
 
 const Tables = () => {
   const [status, setStatus] = useState("all");
@@ -48,7 +49,7 @@ const Tables = () => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-        {(resData?.data || []).map((table) => {
+        {toArray(resData).map((table) => {
           return (
             <TableCard
               id={table._id}

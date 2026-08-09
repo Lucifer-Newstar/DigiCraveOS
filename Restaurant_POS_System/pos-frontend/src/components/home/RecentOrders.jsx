@@ -4,6 +4,7 @@ import OrderList from "./OrderList";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getOrders } from "../../https/index";
+import { toArray } from "../../utils";
 
 const RecentOrders = () => {
   const { data: resData, isError } = useQuery({
@@ -39,8 +40,8 @@ const RecentOrders = () => {
 
         {/* Order list */}
         <div className="mt-2 px-4 pb-3 overflow-y-auto h-[300px] scrollbar-hide">
-          {resData?.data?.length > 0 ? (
-            resData.data.map((order) => {
+          {toArray(resData).length > 0 ? (
+            toArray(resData).map((order) => {
               return <OrderList key={order._id} order={order} />;
             })
           ) : (
