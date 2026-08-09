@@ -1,13 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaNotesMedical } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem, incrementItem, decrementItem } from "../../redux/slices/cartSlice";
+import { removeItem, incrementItem, decrementItem, updateItemNotes } from "../../redux/slices/cartSlice";
 
 const CartInfo = () => {
   const cartData = useSelector((state) => state.cart);
   const scrolLRef = useRef();
   const dispatch = useDispatch();
+  // Which cart lines have their notes input open.
+  const [openNotes, setOpenNotes] = useState({});
+  const toggleNotes = (id) =>
+    setOpenNotes((prev) => ({ ...prev, [id]: !prev[id] }));
 
   useEffect(() => {
     if(scrolLRef.current){
@@ -51,8 +55,14 @@ const CartInfo = () => {
                     aria-label="Remove item"
                   />
                   <FaNotesMedical
-                    className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                    onClick={() => toggleNotes(item.id)}
+                    className={`cursor-pointer ${
+                      item.notes || openNotes[item.id]
+                        ? "text-emerald-600"
+                        : "text-slate-400 hover:text-slate-600"
+                    }`}
                     size={20}
+                    aria-label="Add note"
                   />
                 </div>
                 {/* Quantity stepper */}
@@ -77,6 +87,17 @@ const CartInfo = () => {
                   </button>
                 </div>
               </div>
+              {(openNotes[item.id] || item.notes) && (
+                <input
+                  type="text"
+                  value={item.notes || ""}
+                  onChange={(e) =>
+                    dispatch(updateItemNotes({ id: item.id, notes: e.target.value }))
+                  }
+                  placeholder="Special instructions (e.g. no onion)"
+                  className="mt-3 w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
+                />
+              )}
             </div>
           );
         })}

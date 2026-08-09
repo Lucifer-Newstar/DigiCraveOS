@@ -30,6 +30,13 @@ const cartSlice = createSlice({
             }
         },
 
+        // Per-line special instructions (maps to OrderItem.notes in UML U03).
+        updateItemNotes: (state, action) => {
+            const { id, notes } = action.payload;
+            const item = state.find(i => i.id == id);
+            if (item) item.notes = notes;
+        },
+
         removeAllItems: (state) => {
             return [];
         }
@@ -37,5 +44,5 @@ const cartSlice = createSlice({
 })
 
 export const getTotalPrice = (state) => state.cart.reduce((total, item) => total + item.price, 0);
-export const { addItems, removeItem, incrementItem, decrementItem, removeAllItems } = cartSlice.actions;
+export const { addItems, removeItem, incrementItem, decrementItem, updateItemNotes, removeAllItems } = cartSlice.actions;
 export default cartSlice.reducer;
