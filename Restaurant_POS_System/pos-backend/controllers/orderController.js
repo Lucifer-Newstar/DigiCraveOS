@@ -122,6 +122,46 @@ const getMetrics = async (req, res, next) => {
         Table.countDocuments(),
       ]);
 
+    // Last-14-days revenue trend (for the dashboard chart).
+    const since = new Date();
+    since.setDate(since.getDate() - 13);
+    since.setHours(0, 0, 0, 0);
+
+    const trendAgg = await Order.aggregate([
+      {
+        $addFields: {
+          _day: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: { $ifNull: ["$orderDate", "$createdAt"] },
+            },
+          },
+        },
+      },
+      { $match: { _day: { $gte: since.toISOString().slice(0, 10) } } },
+      {
+        $group: {
+          _id: "$_day",
+          revenue: { $sum: "$bills.totalWithTax" },
+          orders: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+      { $project: { _id: 0, date: "$_id", revenue: 1, orders: 1 } },
+    ]);
+
+    // Order-status breakdown (for the donut chart).
+    const statusAgg = await Order.aggregate([
+      {
+        $group: {
+          _id: { $ifNull: ["$orderStatus", "Unknown"] },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $project: { _id: 0, status: "$_id", count: 1 } },
+    ]);
+
     res.status(200).json({
       success: true,
       data: {
@@ -131,6 +171,8 @@ const getMetrics = async (req, res, next) => {
         activeOrders,
         readyOrders,
         totalTables,
+        revenueTrend: trendAgg,
+        statusBreakdown: statusAgg,
       },
     });
   } catch (error) {
