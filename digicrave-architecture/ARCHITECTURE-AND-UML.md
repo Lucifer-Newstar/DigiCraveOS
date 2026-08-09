@@ -86,10 +86,10 @@ C4 Level 2: deployable containers. Left = the 5 containers in this repository to
 flowchart LR
     subgraph MVP["MVP 1.0 — shipped (this repository)"]
         direction TB
-        FE["POS Web App — React + Vite ✔<br>──────────────<br>Redux Toolkit · React Query · Tailwind<br>Auth · Home · Menu · Orders · Tables · Dashboard<br>AiInsights.jsx (forecast · demand · recommend)"]
-        API["POS API — Node.js + Express ✔<br>──────────────<br>routes: user · order · table · payment · customer · ml<br>JWT cookie auth + Admin role guard<br>Razorpay HMAC-SHA256 verification"]
+        FE["POS Web App — React + Vite ✔<br>──────────────<br>Redux Toolkit · React Query · Tailwind<br>Auth · Home · Menu · Orders · Tables · Dashboard<br>Dashboard tabs: Metrics (revenue trend + status donut) ·<br>Payments · AI Insights · menu mgmt (category/dish)<br>AiInsights.jsx (forecast · demand · recommend)"]
+        API["POS API — Node.js + Express ✔<br>──────────────<br>routes: user · order · table · payment · customer · menu · ml<br>menu: category & dish CRUD (Admin) · order lifecycle + hold/resume/split/merge<br>JWT cookie auth + Admin role guard<br>Razorpay HMAC-SHA256 verification"]
         MLS["ML Insights Service — FastAPI ✔<br>──────────────<br>GET /forecast (Ridge: trend + day-of-week)<br>GET /demand · POST /recommend (market-basket)<br>reads Mongo directly — no schema changes"]
-        MGO[("MongoDB (single instance) ✔<br>users · orders · tables · payments · customers")]
+        MGO[("MongoDB (single instance) ✔<br>users · orders · tables · payments · customers · categories · dishes")]
         RZP["Razorpay Cloud ✔<br>orders · signature verify · webhooks"]
 
         FE -- "REST /api/* (cookie JWT)" --> API
@@ -288,7 +288,7 @@ flowchart LR
 
 ## U01 · Use Case Diagram (behavioural)
 
-System boundary, eight human/system actors, and use cases clustered by module mirroring the client requirements list. «include»/«extend» refinements shown on billing.
+System boundary, eight human/system actors, and use cases clustered by module mirroring the client requirements list. «include»/«extend» refinements shown on billing. A **✔** marks use cases already delivered in the MVP: fast billing, hold/resume, split & merge bills, GST invoicing with discounts, cash/online settlement, and menu (category & dish) management.
 
 
 ![U01 · Use Case Diagram (behavioural)](rendered/U01-use-case.png)
@@ -311,11 +311,12 @@ flowchart LR
         direction TB
 
         subgraph BILL["1 · Core POS & Billing"]
-            uc1(["Fast touch billing"])
-            uc2(["Hold / resume · transfer table"])
-            uc3(["Split · merge bills · voids"])
-            uc4(["Settle bill — cash / card / UPI / wallet"])
-            uc5(["GST invoice · discounts · coupons"])
+            uc1(["Fast touch billing ✔"])
+            uc2(["Hold / resume · transfer table ✔"])
+            uc3(["Split · merge bills ✔ · voids"])
+            uc4(["Settle bill — cash / online ✔ · card / UPI / wallet"])
+            uc5(["GST invoice ✔ · discounts ✔ · coupons"])
+            uc5b(["Manage menu — categories & dishes ✔"])
             uc6(["Refund & void management"])
         end
 
@@ -557,14 +558,27 @@ classDiagram
         +verifySignature()$ «HMAC-SHA256»
     }
 
-    class MenuItem {
-        <<roadmap>>
-        +String sku
+    class Category {
+        <<MVP ✔ — categoryModel.js>>
+        +String name  «unique»
+        +String icon
+        +String bgColor
+        +Date createdAt
+    }
+
+    class Dish {
+        <<MVP ✔ — dishModel.js>>
         +String name
-        +Category category
         +Number price
+        +ObjectId category
+        +String image
+        +Boolean isAvailable
+    }
+
+    class MenuItem {
+        <<roadmap — extends Dish>>
+        +String sku
         +Number foodCostPct
-        +Boolean available
     }
 
     class Recipe {
@@ -663,7 +677,9 @@ classDiagram
     Order "1" *-- "1..*" OrderItem : contains
     Order "1" --> "0..1" Bill : settles
     Bill "1" --> "1..*" Payment : split / modes
-    OrderItem "0..*" --> "1" MenuItem : refers to
+    Category "1" *-- "0..*" Dish : groups
+    OrderItem "0..*" --> "1" Dish : refers to
+    Dish <|-- MenuItem : product extends
     MenuItem "1" --> "0..1" Recipe : made by
     Recipe "1" *-- "1..*" RecipeLine
     RecipeLine "0..*" --> "1" InventoryItem : consumes
@@ -859,16 +875,16 @@ Namespace organisation mirroring the repo folders, with «use» dependencies and
 flowchart TB
     subgraph UI["frontend packages «folder»"]
         PAGES["pages<br>Au · Home · Menu · Orders · Tables · Dashboard"]
-        COMPS["components<br>auth · dashboard · menu · orders · tables · invoice"]
+        COMPS["components<br>auth · dashboard (Metrics · Payments · AiInsights · MenuModal) · menu · orders · tables · invoice"]
         STORE["redux · store<br>customer · cart · user slices"]
         NET["https · API client<br>(axios + react-query)"]
     end
 
     subgraph CORE["pos-backend packages «folder»"]
-        ROUTES["routes<br>user · order · table · payment · customer · ml"]
-        CTRL["controllers<br>user · order · table · payment · customer · ml"]
+        ROUTES["routes<br>user · order · table · payment · customer · menu · ml"]
+        CTRL["controllers<br>user · order · table · payment · customer · menu · ml"]
         MIDW["middlewares<br>tokenVerification · globalErrorHandler"]
-        MODELS["models<br>user · order · table · payment · customer"]
+        MODELS["models<br>user · order · table · payment · customer · category · dish"]
         CONFIG["config<br>env · database"]
     end
 
