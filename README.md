@@ -100,6 +100,27 @@ seeding demo data, and the full API reference.
 
 ---
 
+## 🧪 **Tests**
+
+Automated tests live in [`tests/`](./tests): **Jest + Supertest** for the POS API
+and **pytest** for the ML service (30 passing). Run everything with:
+
+```bash
+bash tests/run-all-tests.sh
+```
+
+See [`tests/README.md`](./tests/README.md) for details.
+
+---
+
+## 📚 **Docs**
+
+- 🧾 **Phase 1 completion report:** [`docs/phase-1/PHASE-1-COMPLETION.md`](./docs/phase-1/PHASE-1-COMPLETION.md)
+- 🗺️ **Architecture & 14 UML diagrams:** [`docs/digicrave-architecture/`](./docs/digicrave-architecture)
+- 🐛 **Bug-fix log:** [`docs/bug-fixes/`](./docs/bug-fixes)
+
+---
+
 ✨ Feel free to explore, contribute, and enhance the project! 🚀
 
 💡 To contribute, please check out the **CONTRIBUTING.md** for guidelines.
