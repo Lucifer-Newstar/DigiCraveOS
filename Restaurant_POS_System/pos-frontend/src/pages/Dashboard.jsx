@@ -7,6 +7,7 @@ import Modal from "../components/dashboard/Modal";
 import MenuModal from "../components/dashboard/MenuModal";
 import AiInsights from "../components/dashboard/AiInsights";
 import Payments from "../components/dashboard/Payments";
+import Customers from "../components/dashboard/Customers";
 
 const buttons = [
   { label: "Add Table", icon: <MdTableBar />, action: "table" },
@@ -14,7 +15,7 @@ const buttons = [
   { label: "Add Dishes", icon: <BiSolidDish />, action: "dishes" },
 ];
 
-const tabs = ["Metrics", "Orders", "AI Insights", "Payments"];
+const tabs = ["Metrics", "Orders", "Customers", "AI Insights", "Payments"];
 
 const Dashboard = () => {
 
@@ -65,6 +66,7 @@ const Dashboard = () => {
 
       {activeTab === "Metrics" && <Metrics />}
       {activeTab === "Orders" && <RecentOrders />}
+      {activeTab === "Customers" && <Customers />}
       {activeTab === "AI Insights" && <AiInsights />}
       {activeTab === "Payments" && <Payments />}
 
