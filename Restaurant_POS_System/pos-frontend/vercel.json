@@ -1,8 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd Restaurant_POS_System/pos-frontend && npm install && npm run build",
-  "outputDirectory": "Restaurant_POS_System/pos-frontend/dist",
-  "installCommand": "echo 'install handled in buildCommand'",
   "framework": "vite",
   "rewrites": [
     {
