@@ -1,0 +1,94 @@
+%% U01 — USE CASE DIAGRAM (UML 2.5 · Behavioural)
+%% DigiCraveOS — AI Restaurant Operating System
+%% Actors are grouped around the system boundary; use cases are clustered
+%% by module (mirrors the 21-area client requirements list).
+flowchart LR
+    %% ================= ACTORS (left: people) =================
+    C(["👤 Guest / Customer"])
+    S(["👤 POS Staff<br>(Cashier · Waiter · Host)"])
+    K(["👤 Kitchen Staff"])
+    O(["👤 Owner / Manager"])
+    HQ(["👤 Franchise HQ"])
+
+    subgraph SYS["🏪 &nbsp;DigiCraveOS — system boundary"]
+        direction TB
+
+        subgraph BILL["1 · Core POS & Billing"]
+            uc1(["Fast touch billing"])
+            uc2(["Hold / resume · transfer table"])
+            uc3(["Split · merge bills · voids"])
+            uc4(["Settle bill — cash / card / UPI / wallet"])
+            uc5(["GST invoice · discounts · coupons"])
+            uc6(["Refund & void management"])
+        end
+
+        subgraph KIT["5 · Kitchen"]
+            uc7(["KOT generation & station routing"])
+            uc8(["KDS queue · prioritise tickets"])
+            uc9(["Prep-time ETA & delay alerts"])
+        end
+
+        subgraph STOCK["1/4 · Inventory & Procurement"]
+            uc10(["Recipe-based stock deduction (FIFO)"])
+            uc11(["Auto reorder & PO drafting"])
+            uc12(["Vendor comparison · quotes"])
+        end
+
+        subgraph GUEST["7/8 · Guests, Loyalty & Marketing"]
+            uc13(["QR self-ordering & QR pay"])
+            uc14(["Loyalty · memberships · gift cards"])
+            uc15(["Campaigns · win-back · referrals"])
+        end
+
+        subgraph DELIV["12 · Delivery & Aggregators"]
+            uc16(["Aggregator orders (Swiggy · Zomato)"])
+            uc17(["Menu & availability sync"])
+        end
+
+        subgraph COCKPIT["2/3 · Owner Copilot & Profit"]
+            uc18(["Morning briefing · health score"])
+            uc19(["Natural-language business query"])
+            uc20(["What-if simulation (price +₹20…)"])
+            uc21(["Profit & margin insights"])
+        end
+
+        subgraph ADMIN["10/13/16 · Admin, People & Finance"]
+            uc22(["Roles · shifts · attendance"])
+            uc23(["GST / P&L / audit reports"])
+            uc24(["Review monitoring & auto-replies"])
+            uc25(["Checklists · compliance · licences"])
+        end
+    end
+
+    %% ================= ACTORS (right: systems) =================
+    PG(["🏦 Payment Gateway<br>(Razorpay · UPI · Cards)"])
+    AG(["🛵 Aggregators<br>(Swiggy · Zomato)"])
+    MS(["💬 Messaging<br>(WhatsApp · SMS · Email)"])
+    VG(["🚚 Suppliers & Vendors"])
+    TL(["📊 Accounting / Tax<br>(Tally · GST portal)"])
+    AI(["🧠 LLM Provider"])
+
+    %% ---- human actor links (to clusters) ----
+    C --> GUEST
+    S --> BILL
+    S --> GUEST
+    K --> KIT
+    K --> STOCK
+    O --> COCKPIT
+    O --> ADMIN
+    HQ --> COCKPIT
+    HQ --> BILL
+
+    %% ---- system actor links ----
+    BILL <--> PG
+    DELIV <--> AG
+    GUEST --> MS
+    STOCK --> VG
+    ADMIN --> TL
+    COCKPIT --> AI
+
+    %% ---- include / extend (samples of UML refinement) ----
+    uc4 -.->|"«include»"| uc5
+    uc3 -.->|"«extend»"| uc4
+    uc14 -.->|"«extend»"| uc13
+    uc11 -.->|"«include»"| uc12

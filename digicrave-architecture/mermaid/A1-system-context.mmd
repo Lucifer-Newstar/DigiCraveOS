@@ -1,0 +1,36 @@
+%% A1 — SYSTEM CONTEXT DIAGRAM (C4 Level 1)
+%% The people and external systems around DigiCraveOS.
+flowchart TB
+    subgraph PEOPLE["people"]
+        G(["👤 Guest / Dine-in Customer"])
+        ST(["👤 Staff — Cashier · Waiter · Host"])
+        KS(["👤 Kitchen & Ops Team"])
+        OW(["👤 Restaurant Owner / Manager"])
+        HQ(["👤 Franchise HQ / Enterprise"])
+        SUP(["👤 Suppliers & Vendors"])
+    end
+
+    DC{{"🍽️ DigiCraveOS<br>═══════════════════════<br>AI Restaurant Operating System<br>· POS · Billing · KOT · KDS · Inventory<br>· Owner Copilot · Profit Engine<br>· Marketing · Reviews · Fraud · Finance<br>· Offline-first multi-terminal, cloud sync<br><br>MVP 1.0 live — this repo"}}
+
+    subgraph EXT["external systems"]
+        AG["🛵 Food Aggregators<br>Swiggy · Zomato"]
+        PG["🏦 Payment Gateways<br>Razorpay · UPI · Cards"]
+        MSG["💬 Messaging Gateways<br>WhatsApp · SMS · Email"]
+        RV["⭐ Review Platforms<br>Google · Swiggy · Zomato"]
+        TX["📊 Accounting & Tax<br>Tally · GST returns"]
+        LLM["🧠 AI / LLM Providers"]
+    end
+
+    G -- "orders · pays (QR / counter)" --> DC
+    ST -- "bills · KOTs · shifts · stock counts" --> DC
+    KS -- "prep status · waste logging" --> DC
+    OW -- "briefings · approvals · NL queries" --> DC
+    HQ -- "benchmarks · SOP compliance" --> DC
+    SUP -- "auto POs · price negotiation" --> DC
+
+    AG -- "orders & menu sync" --> DC
+    PG -- "payments · refunds" --> DC
+    MSG -- "campaigns & reminders" --> DC
+    RV -- "ratings & sentiment" --> DC
+    DC -- "books & filings" --> TX
+    DC -- "copilot reasoning" --> LLM

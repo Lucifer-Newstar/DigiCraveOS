@@ -1,0 +1,27 @@
+%% A3 — PRODUCT MODULE LANDSCAPE
+%% All 21 client requirement areas organised into five layers.
+%% 🟢 built in MVP · 🟠 phase 2 (operations) · 🟣 phase 3 (intelligence) · ⚪ phase 4 (scale)
+flowchart TB
+    subgraph L5["L5 · DATA & INFRA"]
+        d1["🟢 MongoDB operational"] ~~~ d2["🟠 Redis cache & queues"] ~~~ d3["🟣 Analytics / feature store"] ~~~ d4["🟣 Restaurant knowledge graph"] ~~~ d5["🟠 Object storage"] ~~~ d6["🟠 Cloud · Docker · CI/CD"]
+    end
+    subgraph L4["L4 · PLATFORM SERVICES"]
+        p1["🟢 Identity · RBAC · audit"] ~~~ p2["🟠 Multi-outlet & central menu"] ~~~ p3["🟠 Event bus & realtime WS"] ~~~ p4["🟠 Offline mode & cloud sync"] ~~~ p5["🟠 Notification center"] ~~~ p6["🟣 Automation & workflows"] ~~~ p7["🟣 Open APIs & integrations hub"] ~~~ p8["⚪ Developer & plugin SDK"]
+    end
+    subgraph L3["L3 · CORE DOMAIN"]
+        c1["🟢 Core POS & Billing"] ~~~ c2["🟠 Reservations · waitlist · tables"] ~~~ c3["🟣 Delivery intelligence & aggregators"] ~~~ c4["🟠 Customer & loyalty CRM"] ~~~ c5["🟠 Workforce · attendance · payroll"] ~~~ c6["🟠 Finance · GST · compliance"] ~~~ c7["🟠 Procurement & vendors"] ~~~ c8["🟠 Operations & checklists"] ~~~ c9["⚪ Enterprise & franchise"]
+    end
+    subgraph L2["L2 · AI INTELLIGENCE"]
+        a1["🟣 Owner Copilot"] ~~~ a2["🟣 Profit Engine"] ~~~ a3["🟠 Inventory intelligence"] ~~~ a4["🟣 Kitchen intelligence"] ~~~ a5["🟣 Menu intelligence"] ~~~ a6["🟣 Customer intelligence"] ~~~ a7["🟣 AI Marketing"] ~~~ a8["🟣 Review & reputation"] ~~~ a9["🟣 Fraud detection"] ~~~ a10["🟣 Workforce intelligence"] ~~~ a11["⚪ Computer vision"] ~~~ a12["🟣 Restaurant Brain (core)"]
+    end
+    subgraph L1["L1 · EXPERIENCE"]
+        e1["🟠 Touch POS & fast billing"] ~~~ e2["🟠 Kitchen Display System"] ~~~ e3["🟠 QR ordering & QR payments"] ~~~ e4["🟣 Owner mobile app"] ~~~ e5["⚪ Voice & AI receptionist"] ~~~ e6["⚪ Customer app / portal"]
+    end
+
+    L1 --> L2 --> L3 --> L4 --> L5
+
+    style L1 fill:#e0f2fe,stroke:#0284c7
+    style L2 fill:#ede9fe,stroke:#7c3aed
+    style L3 fill:#e0e7ff,stroke:#4f46e5
+    style L4 fill:#fef3c7,stroke:#d97706
+    style L5 fill:#d1fae5,stroke:#059669

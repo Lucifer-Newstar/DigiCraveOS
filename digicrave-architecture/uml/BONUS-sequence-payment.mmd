@@ -1,0 +1,44 @@
+%% U12 — SEQUENCE DIAGRAM #2 (UML 2.5 · Behavioural)
+%% "UPI payment with signature verification" — the exact Razorpay flow
+%% implemented in paymentController.js, plus the alt/loop frames.
+sequenceDiagram
+    autonumber
+    actor G as Guest
+    participant FE as POS / QR UI
+    participant API as pos-api
+    participant PC as PaymentController
+    participant RZ as Razorpay
+    participant DB as MongoDB
+    participant FR as Fraud hooks (roadmap)
+
+    G->>FE: tap "Pay bill ₹567"
+    FE->>API: POST /api/payment/create-order {amount:567}
+    API->>PC: createOrder()
+    PC->>RZ: orders.create(amount=56700, INR, receipt)
+    RZ-->>PC: razorpay_order_id
+    PC-->>FE: 200 {order}
+
+    FE->>RZ: checkout (UPI / card)
+    RZ-->>FE: razorpay_payment_id + signature
+    FE->>API: POST /api/payment/verify-payment<br>{order_id, payment_id, signature}
+    API->>PC: verifyPayment()
+    PC->>PC: expected = HMAC_SHA256(secret,<br>order_id + "|" + payment_id)
+
+    alt signature matches
+        PC-->>API: 200 verified
+        API->>DB: set Order.orderStatus=Paid<br>insert Payment doc
+        API-->>FE: WS "payment:captured"
+        FE-->>G: GST invoice + loyalty points
+        RZ->>API: (async) POST /webhook-verification
+        API->>PC: webHookVerification()
+        PC->>DB: reconcile + dedupe Payment
+    else signature mismatch
+        PC-->>API: 400 fail
+        API->>FR: log anomaly (screenshot fraud score)
+        API-->>FE: offer retry · switch mode
+    end
+
+    loop offline mode (network drop)
+        FE->>FE: queue mutation in localStorage
+        FE-->>API: replay on reconnect (idempotency-key)
+    end

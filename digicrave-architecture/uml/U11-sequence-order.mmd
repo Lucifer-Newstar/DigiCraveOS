@@ -1,0 +1,34 @@
+%% U11 — SEQUENCE DIAGRAM #1 (UML 2.5 · Behavioural)
+%% "Guest QR order → KOT → pay" — message names match the repo's REST routes.
+sequenceDiagram
+    autonumber
+    actor G as Guest (phone)
+    participant FE as QR Web / POS UI
+    participant API as pos-api (Express)
+    participant MW as isVerifiedUser
+    participant OC as OrderController
+    participant DB as MongoDB
+    participant KDS as KDS screen
+    participant ML as ML service (FastAPI)
+
+    G->>FE: scan table QR · build cart
+    FE->>API: POST /api/order<br>{customerDetails, items, table}
+    API->>MW: verify JWT (staff or guest-claim token)
+    MW-->>API: req.user
+    API->>OC: addOrder(req.body)
+    OC->>DB: insert Order (status=InProgress)
+    OC->>DB: upsert Customer by phone<br>{$inc totalOrders, totalSpent}
+    DB-->>OC: ok (atomic)
+    OC-->>API: 201 {success, data}
+    API-->>FE: order accepted
+    API->>KDS: WS emit "order:new" → KOT per station
+    KDS->>API: PUT /api/order/:id {status=Ready}
+    API->>DB: update orderStatus
+    DB-->>API: ok
+    API-->>KDS: ack
+    API-->>FE: WS "order:ready"
+    FE-->>G: notify (served soon)
+
+    Note over API,ML: passive analytics — no coupling
+    ML->>DB: nightly read of orders (trend + seasonality)
+    ML-->>API: GET /forecast (proxied, JWT-protected)

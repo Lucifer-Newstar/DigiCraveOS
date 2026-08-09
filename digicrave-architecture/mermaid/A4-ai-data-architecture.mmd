@@ -1,0 +1,50 @@
+%% A4 — AI & DATA ARCHITECTURE
+%% How the Restaurant Brain learns and acts — with the human-in-the-loop promise.
+flowchart LR
+    subgraph S["SOURCES — raw signals"]
+        s1["POS orders · bills · voids"]
+        s2["KDS ticket timestamps"]
+        s3["Payments & refunds"]
+        s4["Reviews · voice calls"]
+        s5["Supplier prices & invoices"]
+        s6["Attendance · shifts"]
+        s7["Cameras (future)"]
+    end
+
+    subgraph I["INGEST & EVENTS"]
+        i1["Event bus (Redis Streams)"]
+        i2["CDC listeners on MongoDB"]
+        i3["Webhooks (payments · aggregators)"]
+        i4["OCR vendor invoices"]
+        i5["ETL jobs (nightly + streaming)"]
+    end
+
+    subgraph ST["STORE & UNDERSTAND"]
+        st1[("Operational DB (MongoDB)")]
+        st2[("Analytics store (daily roll-ups)")]
+        st3[("Feature store (menu · demand)")]
+        st4[("Restaurant knowledge graph")]
+        st5[("Memory of decisions & outcomes")]
+    end
+
+    subgraph AI["INTELLIGENCE ENGINES"]
+        a1["Forecasting — sales · demand ✔MVP"]
+        a2["Recommendation & menu engineering ✔MVP"]
+        a3["Anomaly & fraud detection"]
+        a4["NL2Insight query engine"]
+        a5["LLM Copilot with RAG on memory"]
+        a6["Decision engine — what-if simulate"]
+    end
+
+    subgraph ACT["ACTION & DELIVERY"]
+        ac1["Morning briefing · health score"]
+        ac2["Auto actions (human-in-the-loop)"]
+        ac3["WhatsApp owner assistant"]
+        ac4["Campaigns · review replies"]
+        ac5["Purchase orders · scheduling"]
+    end
+
+    S --> I --> ST --> AI --> ACT
+    ACT -. "feedback loop: every accepted / rejected suggestion<br>and its business outcome is stored as memory" .-> I
+    ACT -.-> HITL{{"owner approval gate<br>(AI proposes until owner chooses full-auto)"}}
+    HITL -.-> ACT

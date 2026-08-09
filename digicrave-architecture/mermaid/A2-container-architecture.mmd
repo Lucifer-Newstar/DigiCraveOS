@@ -1,0 +1,38 @@
+%% A2 — CONTAINER DIAGRAM (C4 Level 2)
+%% Left: the five deployable containers in the repo today (green border = built).
+%% Right: the product target — MVP containers evolve in place (no rewrite).
+flowchart LR
+    subgraph MVP["MVP 1.0 — shipped (this repository)"]
+        direction TB
+        FE["POS Web App — React + Vite ✔<br>──────────────<br>Redux Toolkit · React Query · Tailwind<br>Auth · Home · Menu · Orders · Tables · Dashboard<br>AiInsights.jsx (forecast · demand · recommend)"]
+        API["POS API — Node.js + Express ✔<br>──────────────<br>routes: user · order · table · payment · customer · ml<br>JWT cookie auth + Admin role guard<br>Razorpay HMAC-SHA256 verification"]
+        MLS["ML Insights Service — FastAPI ✔<br>──────────────<br>GET /forecast (Ridge: trend + day-of-week)<br>GET /demand · POST /recommend (market-basket)<br>reads Mongo directly — no schema changes"]
+        MGO[("MongoDB (single instance) ✔<br>users · orders · tables · payments · customers")]
+        RZP["Razorpay Cloud ✔<br>orders · signature verify · webhooks"]
+
+        FE -- "REST /api/* (cookie JWT)" --> API
+        API -- "proxy /api/ml/*" --> MLS
+        API -- "Mongoose ODM" --> MGO
+        MLS -- "read-only (same DB)" --> MGO
+        API -- "HTTPS + webhook" --> RZP
+    end
+
+    subgraph TARGET["PRODUCT TARGET — modular evolution"]
+        direction TB
+        EDGE["1 · Edge & Channels (offline-first)<br>POS Terminal PWA · KDS Display · QR Guest Web<br>Owner Mobile App · Voice Gateway"]
+        CORE["2 · Application Core<br>API Gateway + JWT/RBAC + multi-outlet tenancy<br>Billing&KOT · Order&KDS · Menu · Inventory · CRM<br>Reservations · Workforce · Delivery Orchestration"]
+        BRAIN["3 · AI Services (the 'Brain')<br>Owner Copilot · Profit · Inventory · Kitchen · Menu<br>Marketing · Review/Voice · Vision — on a core layer of<br>unified memory · knowledge graph · decision engines"]
+        DATA["4 · Platform & Data<br>Event Bus (Redis Streams → Kafka) · Automation · Audit<br>MongoDB Atlas · Analytics / Feature Store · Object Storage"]
+        INT["5 · Integration Adapters<br>Razorpay · Swiggy/Zomato · WhatsApp · Tally/GST · Reviews"]
+
+        EDGE -- "HTTPS / WSS" --> CORE
+        CORE -- "context + decisions" --> BRAIN
+        BRAIN -- "features · learnings" --> DATA
+        CORE --> DATA
+        CORE -- "outbound / inbound" --> INT
+    end
+
+    FE -. "evolves into PWA + KDS" .-> EDGE
+    API -. "splits into modules" .-> CORE
+    MLS -. "grows into service family" .-> BRAIN
+    MGO -. "Atlas + analytics" .-> DATA

@@ -1,0 +1,200 @@
+%% U03 — CLASS DIAGRAM (UML 2.5 · Structural)
+%% Domain model. Stereotype «MVP ✔» = implemented in the repo today
+%% (pos-backend/models). All other classes are the product build-out.
+%% Style: attributes/methods shown for MVP classes exactly as coded.
+classDiagram
+    direction TB
+
+    class User {
+        <<MVP ✔ — userModel.js>>
+        +String name
+        +String email
+        +Number phone
+        +String password  «bcrypt hash»
+        +String role
+        +Date createdAt
+        +login()$ JWT
+    }
+
+    class Customer {
+        <<MVP ✔ — customerModel.js>>
+        +String name
+        +String phone  «unique»
+        +Number totalOrders
+        +Number totalSpent
+        +Date lastVisit
+        +upsertFromOrder(order)$
+    }
+
+    class Table {
+        <<MVP ✔ — tableModel.js>>
+        +Number tableNo
+        +String status
+        +Number seats
+        +ObjectId currentOrder
+    }
+
+    class Order {
+        <<MVP ✔ — orderModel.js>>
+        +String orderStatus
+        +Date orderDate
+        +Array~OrderItem~ items
+        +String paymentMethod
+        +RazorpayIds paymentData
+        +markPaid()
+        +hold() / resume()
+    }
+
+    class OrderItem {
+        <<MVP ✔ — embedded in Order.items[]>>
+        +String name
+        +Number price
+        +Number qty
+        +String notes
+        +String station
+        +lineTotal()
+    }
+
+    class Bill {
+        <<extract from MVP — Order.bills embedded today>>
+        +String invoiceNo
+        +Number total
+        +Number discount
+        +Number cgst  «2.5%»
+        +Number sgst  «2.5%»
+        +Number totalWithTax
+        +split(ratios)$ Bill[]
+        +merge(withBills)$ Bill
+    }
+
+    class Payment {
+        <<MVP ✔ — paymentModel.js>>
+        +String paymentId
+        +String orderId
+        +Number amount
+        +String currency
+        +String status
+        +String method  «Cash|Card|UPI|Wallet»
+        +verifySignature()$ «HMAC-SHA256»
+    }
+
+    class MenuItem {
+        <<roadmap>>
+        +String sku
+        +String name
+        +Category category
+        +Number price
+        +Number foodCostPct
+        +Boolean available
+    }
+
+    class Recipe {
+        <<roadmap>>
+        +Number yield
+        +Number targetFoodCostPct
+        +costPerServe()
+    }
+
+    class RecipeLine {
+        <<roadmap — association class>>
+        +Number qty
+        +String unit
+        +Number wastagePct
+    }
+
+    class InventoryItem {
+        <<roadmap>>
+        +String sku
+        +String name
+        +Number onHand
+        +String unit
+        +Number reorderPoint
+        +deduct(qty) «FIFO»
+    }
+
+    class Batch {
+        <<roadmap>>
+        +String batchCode
+        +Date mfgDate
+        +Date expiryDate
+        +Number qtyOnHand
+    }
+
+    class PurchaseOrder {
+        <<roadmap>>
+        +String poNo
+        +POStatus status
+        +Date expectedAt
+        +approve(byManager)
+    }
+
+    class POLine {
+        <<roadmap>>
+        +Number qty
+        +Number agreedRate
+    }
+
+    class Supplier {
+        <<roadmap>>
+        +String name
+        +String gstNo
+        +Number rating
+        +Number leadTimeDays
+    }
+
+    class Reservation {
+        <<roadmap>>
+        +Date slotAt
+        +Number partySize
+        +RsvStatus status
+        +noShowRisk()
+    }
+
+    class KOT {
+        <<roadmap — KOT / KDS>>
+        +String kartNo
+        +String station
+        +KotState state
+        +Number etaSec
+        +bump()
+    }
+
+    class Coupon {
+        <<roadmap>>
+        +String code
+        +CouponType type
+        +Number value
+        +Date validTill
+        +isEligible(bill)
+    }
+
+    class Review {
+        <<roadmap>>
+        +Source source  «Google|Swiggy|Zomato»
+        +Number stars
+        +String text
+        +Sentiment sentiment  «AI»
+    }
+
+    %% ============ relationships ============
+    User "1" --> "0..*" Order : takes (as cashier)
+    Customer "1" <-- "0..*" Order : placed by
+    Table "1" <-- "0..1" Order : seated at
+    Table "1" --> "0..*" Reservation : holds
+    Order "1" *-- "1..*" OrderItem : contains
+    Order "1" --> "0..1" Bill : settles
+    Bill "1" --> "1..*" Payment : split / modes
+    OrderItem "0..*" --> "1" MenuItem : refers to
+    MenuItem "1" --> "0..1" Recipe : made by
+    Recipe "1" *-- "1..*" RecipeLine
+    RecipeLine "0..*" --> "1" InventoryItem : consumes
+    InventoryItem "1" *-- "0..*" Batch : FIFO
+    PurchaseOrder "1" --> "1" Supplier
+    PurchaseOrder "1" *-- "1..*" POLine
+    POLine "0..*" --> "1" InventoryItem : replenishes
+    Bill "0..*" --> "0..*" Coupon : redeemed
+    Order "1" --> "0..*" KOT : fires
+    Customer "1" --> "0..*" Review : writes
+
+    note for Bill "MVP stores bills inside the Order document (as coded).\nProduct extracts Bill for split/merge, invoice series and audit."
+    note for Order "MVP statuses: InProgress / Ready / Served / Paid.\nLifecycle is detailed in U09 (state machine)."

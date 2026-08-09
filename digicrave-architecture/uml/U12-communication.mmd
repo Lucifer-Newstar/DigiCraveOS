@@ -1,0 +1,33 @@
+%% U13 — COMMUNICATION DIAGRAM (UML 2.5 · Behavioural)
+%% Same semantics as a sequence diagram but emphasises object links.
+%% Message order is encoded by numbering (1, 1.1, 2...).
+flowchart LR
+    subgraph LINKS["objects & links"]
+        G(["guest : Guest"])
+        FE["fe : QRWebApp"]
+        ROUTER["router : OrderRouter"]
+        MW["mw : TokenVerifier"]
+        OC["oc : OrderController"]
+        ORDDOC["o1047 : Order"]
+        CUSTDOC["priya : Customer"]
+        DB["db : MongoConn"]
+        WSHUB["ws : RealtimeHub"]
+        KDS["kds : StationScreen"]
+    end
+
+    G -- "1: submitCart()" --> FE
+    FE -- "2: POST /api/order" --> ROUTER
+    ROUTER -- "3: isVerifiedUser()" --> MW
+    MW -- "3.1: ok(req.user)" --> ROUTER
+    ROUTER -- "4: addOrder(body)" --> OC
+    OC -- "5: new(orderData)" --> ORDDOC
+    OC -- "6: save()" --> DB
+    DB -- "6.1: insertedId" --> OC
+    OC -- "7: findOneAndUpdate<br>(phone, $inc, upsert:true)" --> CUSTDOC
+    CUSTDOC -- "7.1: persist" --> DB
+    OC -- "8: json(201)" --> FE
+    OC -- "9: emit('order:new')" --> WSHUB
+    WSHUB -- "9.1: fan-out KOT" --> KDS
+
+    note1["Numbering shows sequence;<br>links show which objects may talk —<br>e.g. KDS never calls Mongo directly"]
+    OC -.-> note1

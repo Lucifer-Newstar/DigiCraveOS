@@ -1,0 +1,52 @@
+%% U07 — PACKAGE DIAGRAM (UML 2.5 · Structural)
+%% Namespace organisation + package dependencies («use» = dashed open arrow).
+%% Mirrors the repository today and its target split.
+flowchart TB
+    subgraph UI["frontend packages «folder»"]
+        PAGES["pages<br>Au · Home · Menu · Orders · Tables · Dashboard"]
+        COMPS["components<br>auth · dashboard · menu · orders · tables · invoice"]
+        STORE["redux · store<br>customer · cart · user slices"]
+        NET["https · API client<br>(axios + react-query)"]
+    end
+
+    subgraph CORE["pos-backend packages «folder»"]
+        ROUTES["routes<br>user · order · table · payment · customer · ml"]
+        CTRL["controllers<br>user · order · table · payment · customer · ml"]
+        MIDW["middlewares<br>tokenVerification · globalErrorHandler"]
+        MODELS["models<br>user · order · table · payment · customer"]
+        CONFIG["config<br>env · database"]
+    end
+
+    subgraph MLSVC["Restaurant_POS_ML «folder»"]
+        APP["app<br>main · config · db"]
+        ENG["engines<br>forecasting · demand · recommender"]
+        SEED["seed_data"]
+    end
+
+    subgraph FUTURE["product packages (roadmap) «folder»"]
+        KDSPKG["kds-service"]
+        INVPKG["inventory-service"]
+        BILLPKG["billing-service"]
+        COPILOT["ai-copilot-service"]
+        EVENTS["event-bus"]
+    end
+
+    PAGES --> COMPS
+    PAGES --> STORE
+    COMPS --> NET
+    NET -.->|"«use» HTTP /api/*"| ROUTES
+    ROUTES --> CTRL
+    ROUTES --> MIDW
+    CTRL --> MODELS
+    CTRL --> CONFIG
+    MODELS --> CONFIG
+    CTRL -.->|"«use» /api/ml/* proxy"| APP
+    APP --> ENG
+    ENG --> SEED
+
+    ROUTES -.->|"split target"| BILLPKG
+    ROUTES -.->|"split target"| KDSPKG
+    MODELS -.->|"owns"| INVPKG
+    ENG -.->|"powers"| COPILOT
+    BILLPKG & KDSPKG & INVPKG -.-> EVENTS
+    COPILOT -.-> EVENTS

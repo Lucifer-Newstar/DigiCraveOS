@@ -1,0 +1,50 @@
+%% U06 — DEPLOYMENT DIAGRAM (UML 2.5 · Structural)
+%% Where the software physically runs. Uses «device», «executionEnvironment»,
+%% «artifact» conventions as UML nodes (3D boxes).
+flowchart TB
+    subgraph FLOOR["🏪 Restaurant outlet — «device» nodes"]
+        POS["POS Terminal<br>«device»<br>----------------<br>Chrome PWA kiosk<br>+ thermal printer (ESC/POS)<br>localStorage offline queue"]
+        KDS["KDS Screen<br>«device»<br>----------------<br>Android TV / tablet<br>WebSocket client"]
+        TABQR["Guest phone<br>«device»<br>----------------<br>QR web app (no install)"]
+        OWNER["Owner phone<br>«device»<br>----------------<br>Owner app PWA<br>+ WhatsApp"]
+    end
+
+    subgraph EDGE["Edge cache (outlet uptime)"]
+        GW["Outlet mini-server<br>«node»<br>----------------<br>nginx reverse proxy<br>offline sync buffer"]
+    end
+
+    subgraph CLOUD["☁️ Cloud region — «executionEnvironment» Docker"]
+        direction TB
+        subgraph NODEAPI["app node"]
+            API["pos-api container<br>«node»<br>----------------<br>Node 20 · Express<br>artifacts: routes · controllers"]
+            ML["ml-insights container<br>«node» ✔<br>----------------<br>FastAPI · uvicorn :8100"]
+        end
+        subgraph DATAN["data node"]
+            MG[("MongoDB Atlas<br>«node»<br>replica set")]
+            RD[("Redis<br>«node»<br>cache · pub/sub · queues")]
+            S3[("Object storage<br>«node»<br>invoices · reports · media")]
+        end
+        WRK["workers container<br>«node»<br>----------------<br>scheduler · automations<br>campaigns · nightly ML retrain"]
+    end
+
+    subgraph EXT["🌐 External SaaS"]
+        RZ["Razorpay<br>«external node»"]
+        WA["WhatsApp Business API<br>(Gupshup)<br>«external node»"]
+        AGG["Swiggy / Zomato<br>Open APIs<br>«external node»"]
+        LLM["LLM API<br>«external node»"]
+    end
+
+    POS & KDS & TABQR & OWNER -- "HTTPS / WSS" --> GW
+    GW -- "HTTPS rest · WSS" --> API
+    API -- "TCP 27017 TLS" --> MG
+    API & WRK -- "TCP 6379" --> RD
+    API --> ML
+    WRK --> MG
+    WRK --> S3
+    API -- "REST + webhook" --> RZ
+    WRK -- "REST" --> WA
+    API -- "REST + polling" --> AGG
+    WRK -- "REST" --> LLM
+
+    note1["Rural-connectivity proof:<br>POS keeps billing offline;<br>queue replays on reconnect"]
+    POS -.-> note1

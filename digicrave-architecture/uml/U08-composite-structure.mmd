@@ -1,0 +1,44 @@
+%% U08 — COMPOSITE STRUCTURE DIAGRAM (UML 2.5 · Structural)
+%% Internal structure of the pos-api classifier: collaborating parts,
+%% ports (squares on the border) and connectors between them.
+flowchart TB
+    subgraph CS["⚙️ pos-api : PosApiServer  «composite»"]
+        direction TB
+
+        PORT1[["◧ http-in : 8000<br>«port»"]]
+        GW["routes : RouterHub<br>«part»"]
+        AUTH["mw : TokenVerifier<br>«part»"]
+        ERR["mw : GlobalErrorHandler<br>«part»"]
+        ORD["orderCtl : OrderController<br>«part»"]
+        PAY["payCtl : PaymentController<br>«part»"]
+        MLC["mlCtl : MlController<br>«part»"]
+        ODM["mongoose : OdmLayer<br>«part»"]
+        PORT2[["◨ mongo-out : 27017<br>«port»"]]
+        PORT3[["◨ ml-out : 8100<br>«port»"]]
+        PORT4[["◨ pay-out : 443<br>«port»"]]
+    end
+
+    REQ(["client request"])
+    MONGO[("orders · users · tables ·<br>payments · customers")]
+    MLAPI["ml-insights : FastAPI"]
+    RZP["razorpay : Orders/Signature API"]
+
+    REQ --> PORT1
+    PORT1 --> GW
+    GW -->|"req → user/order/table/payment"| AUTH
+    AUTH -->|"req.user"| ORD
+    AUTH --> PAY
+    AUTH --> MLC
+    ORD --> ODM
+    PAY --> ODM
+    ORD -- "delegation" --> ERR
+    PAY -- "delegation" --> ERR
+    ODM --> PORT2
+    MLC --> PORT3
+    PAY --> PORT4
+    PORT2 --> MONGO
+    PORT3 --> MLAPI
+    PORT4 --> RZP
+
+    note1["Connectors inside the composite carry typed roles:<br>req.user (principal), order model, payment ids,<br>error propagation — enforced by contract tests"]
+    AUTH -.-> note1
