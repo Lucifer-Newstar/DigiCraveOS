@@ -39,7 +39,11 @@ const Auth = () => {
             <h1 className="text-lg font-semibold text-slate-900 tracking-wide">Restro</h1>
           </div>
 
-          <h2 className="text-3xl text-center mt-8 font-bold tracking-tight text-slate-900 mb-8">
+          <span className="mx-auto -mt-2 mb-2 inline-block text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
+            Staff Portal
+          </span>
+
+          <h2 className="text-3xl text-center mt-4 font-bold tracking-tight text-slate-900 mb-8">
             {isRegister ? "Employee Registration" : "Employee Login"}
           </h2>
 
@@ -52,6 +56,15 @@ const Auth = () => {
               {isRegister ? "Already have an account? " : "Don't have an account? "}
               <a onClick={() => setIsRegister(!isRegister)} className="text-emerald-600 font-semibold hover:underline" href="#">
                 {isRegister ? "Sign in" : "Sign up"}
+              </a>
+            </p>
+          </div>
+
+          <div className="flex justify-center mt-4 border-t border-slate-100 pt-4">
+            <p className="text-sm text-slate-500">
+              Are you a customer?{" "}
+              <a href="/customer/login" className="text-orange-600 font-semibold hover:underline">
+                Order online here →
               </a>
             </p>
           </div>

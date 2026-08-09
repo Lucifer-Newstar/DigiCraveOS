@@ -14,14 +14,22 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
-  const navItems = [
-    { label: "Home", icon: FiHome, path: "/" },
-    { label: "Orders", icon: FiClipboard, path: "/orders" },
-    { label: "Tables", icon: FiGrid, path: "/tables" },
-  ];
+  const role = userData.role;
 
-  if (userData.role === "Admin") {
-    navItems.push({ label: "Dashboard", icon: FiPieChart, path: "/dashboard" });
+  // Role-based navigation (matches UML actors: Cashier/Waiter run the POS,
+  // Kitchen works the KDS, Admin/Owner gets the dashboard).
+  let navItems;
+  if (role === "Kitchen") {
+    navItems = [{ label: "Kitchen", icon: FiClipboard, path: "/kitchen" }];
+  } else {
+    navItems = [
+      { label: "Home", icon: FiHome, path: "/" },
+      { label: "Orders", icon: FiClipboard, path: "/orders" },
+      { label: "Tables", icon: FiGrid, path: "/tables" },
+    ];
+    if (role === "Admin") {
+      navItems.push({ label: "Dashboard", icon: FiPieChart, path: "/dashboard" });
+    }
   }
 
   const isActive = (path) =>

@@ -5,7 +5,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { Home, Auth, Orders, Tables, Menu, Dashboard } from "./pages";
+import { Home, Auth, Orders, Tables, Menu, Dashboard, Kitchen } from "./pages";
 import Header from "./components/shared/Header";
 import Sidebar from "./components/shared/Sidebar";
 import { useSelector } from "react-redux";
@@ -28,11 +28,19 @@ function Layout() {
         path="/"
         element={
           <ProtectedRoutes>
-            <Home />
+            <RoleHome />
           </ProtectedRoutes>
         }
       />
       <Route path="/auth" element={isAuth ? <Navigate to="/" /> : <Auth />} />
+      <Route
+        path="/kitchen"
+        element={
+          <ProtectedRoutes roles={["Kitchen", "Admin"]}>
+            <Kitchen />
+          </ProtectedRoutes>
+        }
+      />
       <Route
         path="/orders"
         element={
@@ -81,6 +89,13 @@ function Layout() {
       </div>
     </div>
   );
+}
+
+// The "/" landing depends on role: Kitchen staff go straight to the KDS.
+function RoleHome() {
+  const { role } = useSelector((state) => state.user);
+  if (role === "Kitchen") return <Navigate to="/kitchen" replace />;
+  return <Home />;
 }
 
 function ProtectedRoutes({ children, roles }) {
