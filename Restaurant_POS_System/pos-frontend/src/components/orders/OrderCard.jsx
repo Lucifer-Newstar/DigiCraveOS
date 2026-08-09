@@ -3,9 +3,23 @@ import { FaCheckDouble, FaLongArrowAltRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import { formatDateAndTime, getAvatarName } from "../../utils/index";
 
+// Presentation for each lifecycle status (matches UML U10 state machine).
+const STATUS_META = {
+  "In Progress": { badge: "pos-badge-amber", dot: "text-amber-500", note: "Preparing your order" },
+  "On Hold": { badge: "pos-badge-amber", dot: "text-amber-500", note: "On hold" },
+  Ready: { badge: "pos-badge-green", dot: "text-emerald-600", note: "Ready to serve" },
+  Served: { badge: "pos-badge-green", dot: "text-emerald-600", note: "Served" },
+  Billing: { badge: "pos-badge-amber", dot: "text-sky-500", note: "Awaiting payment" },
+  Paid: { badge: "pos-badge-green", dot: "text-emerald-600", note: "Paid" },
+  Completed: { badge: "pos-badge-green", dot: "text-emerald-600", note: "Completed" },
+  Voided: { badge: "pos-badge-amber", dot: "text-rose-500", note: "Voided" },
+};
+
 const OrderCard = ({ order }) => {
+  const meta = STATUS_META[order.orderStatus] || STATUS_META["In Progress"];
+  const isDone = ["Ready", "Served", "Paid", "Completed"].includes(order.orderStatus);
   return (
-    <div key={key} className="pos-card p-4">
+    <div className="pos-card p-4">
       <div className="flex items-center gap-4">
         <div className="bg-emerald-600 text-white h-12 w-12 flex items-center justify-center text-lg font-bold rounded-xl shrink-0">
           {getAvatarName(order.customerDetails.name)}
@@ -19,26 +33,17 @@ const OrderCard = ({ order }) => {
             <p className="text-slate-500 text-sm">Table <FaLongArrowAltRight className="text-slate-500 ml-2 inline" /> {order.table.tableNo}</p>
           </div>
           <div className="flex flex-col items-end gap-2">
-            {order.orderStatus === "Ready" ? (
-              <>
-                <p className="pos-badge pos-badge-green">
-                  <FaCheckDouble className="inline" /> {order.orderStatus}
-                </p>
-                <p className="text-slate-500 text-sm">
-                  <FaCircle className="inline mr-2 text-emerald-600" /> Ready to
-                  serve
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="pos-badge pos-badge-amber">
-                  <FaCircle className="inline" /> {order.orderStatus}
-                </p>
-                <p className="text-slate-500 text-sm">
-                  <FaCircle className="inline mr-2 text-amber-500" /> Preparing your order
-                </p>
-              </>
-            )}
+            <p className={`pos-badge ${meta.badge}`}>
+              {isDone ? (
+                <FaCheckDouble className="inline" />
+              ) : (
+                <FaCircle className="inline" />
+              )}{" "}
+              {order.orderStatus}
+            </p>
+            <p className="text-slate-500 text-sm">
+              <FaCircle className={`inline mr-2 ${meta.dot}`} /> {meta.note}
+            </p>
           </div>
         </div>
       </div>

@@ -63,20 +63,24 @@ const RecentOrders = () => {
                 <td className="p-4">{order.customerDetails.name}</td>
                 <td className="p-4">
                   <select
-                    className={`bg-white border border-slate-200 p-2 rounded-lg focus:outline-none focus:border-emerald-500 font-medium ${
-                      order.orderStatus === "Ready"
-                        ? "text-emerald-600"
-                        : "text-amber-600"
-                    }`}
+                    className="bg-white border border-slate-200 p-2 rounded-lg focus:outline-none focus:border-emerald-500 font-medium text-slate-700"
                     value={order.orderStatus}
                     onChange={(e) => handleStatusChange({orderId: order._id, orderStatus: e.target.value})}
                   >
-                    <option className="text-amber-600" value="In Progress">
-                      In Progress
-                    </option>
-                    <option className="text-emerald-600" value="Ready">
-                      Ready
-                    </option>
+                    {[
+                      "In Progress",
+                      "On Hold",
+                      "Ready",
+                      "Served",
+                      "Billing",
+                      "Paid",
+                      "Completed",
+                      "Voided",
+                    ].map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
                   </select>
                 </td>
                 <td className="p-4">{formatDateAndTime(order.orderDate)}</td>

@@ -82,16 +82,32 @@ const updateOrder = async (req, res, next) => {
       return next(error);
     }
 
-    const order = await Order.findByIdAndUpdate(
-      id,
-      { orderStatus },
-      { new: true }
-    );
-
-    if (!order) {
-      const error = createHttpError(404, "Order not found!");
-      return next(error);
+    if (!Order.ORDER_STATUSES.includes(orderStatus)) {
+      return next(
+        createHttpError(
+          400,
+          `Invalid status "${orderStatus}". Allowed: ${Order.ORDER_STATUSES.join(", ")}`
+        )
+      );
     }
+
+    const order = await Order.findById(id);
+    if (!order) {
+      return next(createHttpError(404, "Order not found!"));
+    }
+
+    // Enforce the state machine (matches UML U10).
+    if (!Order.canTransition(order.orderStatus, orderStatus)) {
+      return next(
+        createHttpError(
+          409,
+          `Cannot move order from "${order.orderStatus}" to "${orderStatus}".`
+        )
+      );
+    }
+
+    order.orderStatus = orderStatus;
+    await order.save();
 
     res
       .status(200)

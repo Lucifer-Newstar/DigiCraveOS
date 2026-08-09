@@ -24,6 +24,18 @@ const Orders = () => {
     enqueueSnackbar("Something went wrong!", {variant: "error"})
   }
 
+  // Map filter chips -> matching order statuses (matches UML U10 lifecycle).
+  const STATUS_FILTERS = {
+    all: null,
+    progress: ["In Progress", "On Hold"],
+    ready: ["Ready", "Served"],
+    completed: ["Billing", "Paid", "Completed"],
+  };
+  const allowed = STATUS_FILTERS[status];
+  const orders = (resData?.data || []).filter(
+    (o) => !allowed || allowed.includes(o.orderStatus)
+  );
+
   return (
     <section className="pos-page">
       <div className="pos-page-header">
@@ -61,8 +73,8 @@ const Orders = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {
-          resData?.data?.length > 0 ? (
-            resData.data.map((order) => {
+          orders.length > 0 ? (
+            orders.map((order) => {
               return <OrderCard key={order._id} order={order} />
             })
           ) : <p className="col-span-full text-slate-500">No orders available</p>
