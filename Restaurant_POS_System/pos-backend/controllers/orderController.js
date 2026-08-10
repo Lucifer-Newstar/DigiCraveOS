@@ -42,6 +42,87 @@ const addOrder = async (req, res, next) => {
   }
 };
 
+const getKitchenTickets = async (req, res, next) => {
+  try {
+    const orders = await Order.find({
+      orderStatus: { $in: ["In Progress", "On Hold"] },
+    }).populate("table");
+
+    const tickets = orders.flatMap((order) => {
+      const stationGroups = new Map();
+      (order.items || []).forEach((item, itemIndex) => {
+        const kitchenStatus = item.kitchenStatus || "Pending";
+        if (kitchenStatus === "Ready") return;
+        const station = item.station?.trim() || "General";
+        if (!stationGroups.has(station)) stationGroups.set(station, []);
+        stationGroups.get(station).push({
+          itemIndex,
+          name: item.name,
+          quantity: item.quantity || 1,
+          notes: item.notes || "",
+          station,
+          kitchenStatus,
+        });
+      });
+
+      return [...stationGroups.entries()].map(([station, items]) => ({
+        ticketId: `${order._id}:${station}`,
+        orderId: order._id,
+        station,
+        orderStatus: order.orderStatus,
+        orderDate: order.orderDate,
+        createdAt: order.createdAt,
+        customerDetails: order.customerDetails,
+        table: order.table,
+        orderType: order.orderType,
+        items,
+      }));
+    });
+
+    res.status(200).json({ success: true, data: tickets });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateKitchenItem = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const itemIndex = Number(req.body.itemIndex);
+    const { kitchenStatus } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(createHttpError(404, "Invalid id!"));
+    }
+    if (!Number.isInteger(itemIndex) || itemIndex < 0) {
+      return next(createHttpError(400, "A valid itemIndex is required."));
+    }
+    if (!Order.KITCHEN_STATUSES.includes(kitchenStatus)) {
+      return next(createHttpError(400, `Invalid kitchen status "${kitchenStatus}".`));
+    }
+
+    const order = await Order.findById(id);
+    if (!order) return next(createHttpError(404, "Order not found!"));
+    if (order.orderStatus === "On Hold" && kitchenStatus !== "Pending") {
+      return next(createHttpError(409, "Resume the order before starting kitchen work."));
+    }
+
+    const item = order.items[itemIndex];
+    if (!item) return next(createHttpError(404, "Order item not found!"));
+    const currentStatus = item.kitchenStatus || "Pending";
+    if (currentStatus !== kitchenStatus &&
+        !(Order.KITCHEN_TRANSITIONS[currentStatus] || []).includes(kitchenStatus)) {
+      return next(createHttpError(409, `Cannot move kitchen item from "${currentStatus}" to "${kitchenStatus}".`));
+    }
+
+    item.kitchenStatus = kitchenStatus;
+    await order.save();
+    res.status(200).json({ success: true, message: "Kitchen item updated", data: order });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -365,4 +446,6 @@ module.exports = {
   resumeOrder,
   splitOrder,
   mergeOrders,
+  getKitchenTickets,
+  updateKitchenItem,
 };

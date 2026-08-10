@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 // Canonical order lifecycle (matches UML U10 state machine):
 //   In Progress -> Ready -> Served -> Billing -> Paid -> Completed
 // with hold/resume and void branches.
+const KITCHEN_STATUSES = ["Pending", "Preparing", "Ready"];
+
+const KITCHEN_TRANSITIONS = {
+  Pending: ["Preparing"],
+  Preparing: ["Ready"],
+  Ready: [],
+};
+
 const ORDER_STATUSES = [
   "In Progress",
   "On Hold",
@@ -36,6 +44,7 @@ const orderItemSchema = new mongoose.Schema(
     quantity: { type: Number, default: 1 },
     notes: { type: String, default: "" }, // special instructions (U03)
     station: { type: String, default: "" }, // kitchen station routing (U03)
+    kitchenStatus: { type: String, enum: KITCHEN_STATUSES, default: "Pending" },
   },
   { _id: false }
 );
@@ -184,10 +193,14 @@ orderSchema.statics.merge = function (orders = []) {
 };
 
 orderSchema.statics.STATUSES = ORDER_STATUSES;
+orderSchema.statics.KITCHEN_STATUSES = KITCHEN_STATUSES;
+orderSchema.statics.KITCHEN_TRANSITIONS = KITCHEN_TRANSITIONS;
 orderSchema.statics.TRANSITIONS = STATUS_TRANSITIONS;
 
 const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
 module.exports.ORDER_STATUSES = ORDER_STATUSES;
+module.exports.KITCHEN_STATUSES = KITCHEN_STATUSES;
+module.exports.KITCHEN_TRANSITIONS = KITCHEN_TRANSITIONS;
 module.exports.STATUS_TRANSITIONS = STATUS_TRANSITIONS;

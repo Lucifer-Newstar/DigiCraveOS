@@ -70,13 +70,13 @@ No separate service or external integration is planned for this step.
 ## Documentation and verification checklist
 
 - [x] Scope recorded before implementation
-- [ ] Backend implementation recorded
-- [ ] Frontend implementation recorded
-- [ ] Tests recorded
-- [ ] Manual verification recorded
+- [x] Backend implementation recorded
+- [x] Frontend implementation recorded
+- [x] Tests recorded
+- [x] Manual verification recorded
 - [ ] Commit recorded
 - [ ] Phase 2 progress index updated
 
 ## Status
 
-**In progress — backend and frontend implementation started.**
+**Implementation complete — runtime verification pending.**

@@ -23,6 +23,9 @@ export const verifyPaymentRazorpay = (data) =>
 // Order Endpoints
 export const addOrder = (data) => axiosWrapper.post("/api/order/", data);
 export const getOrders = () => axiosWrapper.get("/api/order");
+export const getKitchenTickets = () => axiosWrapper.get("/api/order/kitchen");
+export const updateKitchenItem = ({ orderId, itemIndex, kitchenStatus }) =>
+  axiosWrapper.patch(`/api/order/${orderId}/kitchen`, { itemIndex, kitchenStatus });
 export const updateOrderStatus = ({ orderId, orderStatus }) =>
   axiosWrapper.put(`/api/order/${orderId}`, { orderStatus });
 export const getMetrics = () => axiosWrapper.get("/api/order/metrics");

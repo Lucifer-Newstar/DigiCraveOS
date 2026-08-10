@@ -11,6 +11,8 @@ const {
   resumeOrder,
   splitOrder,
   mergeOrders,
+  getKitchenTickets,
+  updateKitchenItem,
 } = require("../controllers/orderController");
 const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
 const router = express.Router();
@@ -20,12 +22,14 @@ const router = express.Router();
 router.route("/metrics").get(isVerifiedUser, getMetrics);
 router.route("/popular").get(isVerifiedUser, getPopularDishes);
 router.route("/payments").get(isVerifiedUser, getPayments);
+router.route("/kitchen").get(isVerifiedUser, restrictTo("Kitchen", "Admin"), getKitchenTickets);
 router.route("/merge").post(isVerifiedUser, mergeOrders);
 
 router.route("/").post(isVerifiedUser, addOrder);
 router.route("/").get(isVerifiedUser, getOrders);
 
 // Bill/lifecycle operations on a specific order (UML U03 methods).
+router.route("/:id/kitchen").patch(isVerifiedUser, restrictTo("Kitchen", "Admin"), updateKitchenItem);
 router.route("/:id/hold").post(isVerifiedUser, holdOrder);
 router.route("/:id/resume").post(isVerifiedUser, resumeOrder);
 router.route("/:id/split").get(isVerifiedUser, splitOrder);
