@@ -8,6 +8,10 @@
 - Targeted lint for the updated Kitchen page passed.
 - The implementation was reviewed against the Phase 2 scope.
 
+## Environment attempt
+
+Option A was attempted in the sandbox on 2026-09-18. The sandbox has no `mongod`, Docker, or Podman executable, so a local MongoDB instance could not be started here. The sandbox cannot reach a MongoDB process running only on the developer's own computer.
+
 ## Checks not complete
 
 - The full frontend lint command still reports 183 existing project lint errors across older files. The updated Kitchen page is clean in a targeted lint run.
