@@ -11,18 +11,20 @@ Automated tests for the POS API and the ML service.
 ## Prerequisites
 - **MongoDB** running on `localhost:27017` (tests use isolated databases:
   `pos-db-test` for the API, `pos-db-mltest` for ML, dropped after each run).
-- Backend deps installed (`Restaurant_POS_System/pos-backend/node_modules`).
+- Backend deps installed (`Restaurant_POS_System/pos-backend/node_modules`). The test runner does this automatically when using `tests/run-all-tests.sh`.
 - ML virtualenv at `Restaurant_POS_ML/.venv` with `pytest` + `httpx`.
 
 ## Run everything
 ```bash
+# From the repository root. The script installs backend and test dependencies if needed.
 bash tests/run-all-tests.sh
 ```
 
 ## Run individually
 ```bash
 # Backend API
-cd tests/backend && npm install && npx jest --runInBand --forceExit
+cd Restaurant_POS_System/pos-backend && npm install
+cd ../../tests/backend && npm install && npm test
 
 # ML service
 Restaurant_POS_ML/.venv/bin/python -m pytest tests/ml -v

@@ -8,6 +8,10 @@
 - Targeted lint for the updated Kitchen page passed.
 - The implementation was reviewed against the Phase 2 scope.
 
+## Developer-machine test result
+
+A Windows test attempt reached Jest, but only the test package was installed. The backend runtime dependency `mongoose` was missing from `Restaurant_POS_System/pos-backend/node_modules`, so Jest stopped before running any tests. The test runner and instructions were updated to install backend dependencies before starting Jest, and to use the pinned local Jest version through `npm test`.
+
 ## Environment attempt
 
 Option A was attempted in the sandbox on 2026-09-18. The sandbox has no `mongod`, Docker, or Podman executable, so a local MongoDB instance could not be started here. The sandbox cannot reach a MongoDB process running only on the developer's own computer.
