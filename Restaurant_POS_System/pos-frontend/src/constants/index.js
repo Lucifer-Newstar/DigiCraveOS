@@ -397,7 +397,7 @@ export const itemsData = [
 export const orders = [
   {
     id: "101",
-    customer: "Amrit Raj",
+    customer: "Navin Jairam",
     status: "Ready",
     dateTime: "January 18, 2025 08:32 PM",
     items: 8,

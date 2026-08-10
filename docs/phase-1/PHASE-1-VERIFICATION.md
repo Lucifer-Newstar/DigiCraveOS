@@ -1,5 +1,8 @@
 # ✅ DigiCraveOS — Phase 1 Verification (UML ↔ Implementation)
 
+DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
+
+
 This document cross-checks the **live implementation** against the actors and
 ✔-marked use cases in `docs/digicrave-architecture/ARCHITECTURE-AND-UML.md`,
 and records the fixes made to bring the running website in line with the

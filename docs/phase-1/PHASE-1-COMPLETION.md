@@ -1,5 +1,8 @@
 # ✅ DigiCraveOS — Phase 1 Completion Report
 
+DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
+
+
 **Phase 1 — MVP · LIVE** (per the Evolution Roadmap, Architecture 5).
 This document records everything delivered in Phase 1, how the codebase was
 brought into alignment with the UML blueprint, and how it is tested.
@@ -92,11 +95,11 @@ Suite lives in `tests/` (see `tests/README.md`).
 
 | Suite | Stack | Count |
 |-------|-------|-------|
-| Backend API | Jest + Supertest | 23 |
+| Backend API | Jest + Supertest | 31 |
 | ML service | pytest + FastAPI TestClient | 7 |
-| **Total** | | **30 passing** |
+| **Total** | | **38 passing** |
 
-Run everything: `bash tests/run-all-tests.sh` (requires MongoDB on :27017;
+Run everything: `bash tests/run-all-tests.sh` (31 backend + 7 ML tests; requires MongoDB on :27017;
 tests use isolated `*-test` databases).
 
 ---

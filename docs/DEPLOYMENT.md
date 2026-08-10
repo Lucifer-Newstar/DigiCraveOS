@@ -1,4 +1,7 @@
-# 🚀 DigiCraveOS — Deployment & CI/CD
+# 🚀 DigiCraveOS — Deployment Notes
+
+DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**. These notes describe the project setup in a simple, self-contained way.
+
 
 DigiCraveOS has **three runtimes + a database**, each with different hosting
 needs. Vercel is ideal for the frontend but cannot run a long-lived Node/Python
@@ -92,7 +95,7 @@ Both sites are HTTPS on Vercel/Render, so this works.
 
 `.github/workflows/ci.yml` runs on every push to `main`/`navin` and every PR:
 
-- **backend-tests** — spins up MongoDB, runs Jest + Supertest (23 tests).
+- **backend-tests** — spins up MongoDB, runs Jest + Supertest (31 tests).
 - **ml-tests** — spins up MongoDB, runs pytest (7 tests).
 - **frontend-build** — eslint + production `vite build`.
 

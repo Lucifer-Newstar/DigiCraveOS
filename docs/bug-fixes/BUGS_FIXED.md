@@ -1,7 +1,7 @@
-# Restaurant POS AI - Bugs Fixed Report
+# DigiCraveOS — Bugs Fixed
 
 **Date:** 2026-08-09  
-**Project:** https://github.com/Antonyshane14/Restaurant_pos_AI.git (navin branch)  
+**Project:** DigiCraveOS — maintained by Lucifer-Newstar / Navin Jairam
 **Scope:** All identified bugs in frontend (React + Vite + Redux + React Query) and backend (Node/Express + MongoDB + Mongoose + Razorpay).
 
 ## Summary of Fixes
@@ -189,9 +189,9 @@ All fixes preserve existing functionality while making the app run without crash
    - Admin-only Customers & tables add (use Admin role)
 
 ## Notes
-- The repo had a submodule pointer issue on initial clone (fixed by checking out `navin` branch which contains full source).
+- The project source is kept directly in this repository; no external project checkout is needed.
 - No `.env` files committed (good).
 - Project uses MERN + Razorpay + React Query + Redux Toolkit.
 - After fixes, the app should fully function end-to-end.
 
-All bugs fixed. Ready for use / further development! 🚀
+The documented fixes are in place. The project is ready for continued development.

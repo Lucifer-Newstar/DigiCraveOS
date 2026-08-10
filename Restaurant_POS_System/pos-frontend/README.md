@@ -1,8 +1,14 @@
-# React + Vite
+# DigiCraveOS frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder contains the React and Vite frontend for DigiCraveOS. It is maintained as part of the project by **Lucifer-Newstar / Navin Jairam**.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
+
+The development app runs on port `5173` and uses the backend API configured through the local environment file.
+
+For the full setup, see the repository README and the deployment notes.
