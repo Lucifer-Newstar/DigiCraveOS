@@ -8,7 +8,7 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 
 | Feature | Scope | Status |
 |---|---|---|
-| KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | Planned |
+| KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | In progress |
 | Inventory and recipes | Not started | Not started |
 | Reservations and waitlist | Not started | Not started |
 | Offline synchronization | Not started | Not started |
