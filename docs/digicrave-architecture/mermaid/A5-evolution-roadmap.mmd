@@ -1,0 +1,49 @@
+%% A5 — EVOLUTION ROADMAP
+%% Four phases; each ships working, sellable software that funds the next.
+flowchart LR
+    subgraph P1["PHASE 1 — MVP · LIVE ✔ (this repo)"]
+        p11["Core POS billing & orders"]
+        p12["Tables & dine-in flow"]
+        p13["Razorpay payments + GST bills"]
+        p14["Customer records (auto-CRM)"]
+        p15["Admin dashboard & metrics"]
+        p16["AI Insights: forecast · demand · recommend"]
+        p1v["💡 Owner proof: the till runs,<br>the data flows, the first AI works."]
+    end
+
+    subgraph P2["PHASE 2 — OPERATIONS COMPLETE"]
+        p21["KOT + Kitchen Display System"]
+        p22["Split / merge / hold bills · voids"]
+        p23["QR ordering & QR payments"]
+        p24["Inventory · recipes · purchasing · FIFO"]
+        p25["Reservations · waitlist · shifts · payroll"]
+        p26["Offline mode + cloud sync · finance & GST reports"]
+        p2v["💡 Every store function on one screen —<br>replaces 3-4 separate tools."]
+    end
+
+    subgraph P3["PHASE 3 — INTELLIGENCE (the AI product)"]
+        p31["Owner Copilot + WhatsApp assistant"]
+        p32["Profit Engine (pricing · combos · costs)"]
+        p33["Menu · Kitchen · Customer AI"]
+        p34["AI Marketing & review management"]
+        p35["Fraud detection & UPI reconciliation"]
+        p36["Restaurant Brain: memory + what-if simulator"]
+        p3v["💡 Software that advises, not just records."]
+    end
+
+    subgraph P4["PHASE 4 — SCALE & ECOSYSTEM"]
+        p41["Franchise central command & benchmarking"]
+        p42["Cross-restaurant intelligence (privacy-safe)"]
+        p43["Voice AI receptionist & Vision AI"]
+        p44["Supplier marketplace & embedded finance"]
+        p45["Open APIs · developer platform"]
+        p46["Insurance & lending integrations"]
+        p4v["💡 A platform business —<br>network effects and new revenue lines."]
+    end
+
+    P1 ==> P2 ==> P3 ==> P4
+
+    style P1 fill:#dcfce7,stroke:#16a34a
+    style P2 fill:#fef3c7,stroke:#d97706
+    style P3 fill:#ede9fe,stroke:#7c3aed
+    style P4 fill:#f1f5f9,stroke:#475569

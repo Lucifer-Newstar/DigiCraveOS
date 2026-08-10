@@ -1,0 +1,38 @@
+%% U09 — PROFILE DIAGRAM (UML 2.5 · Structural)
+%% The DigiCraveOS domain profile applied to the Order metaclass:
+%% tagged values, constraints and applied stereotypes — how we extend
+%% plain UML to speak "restaurant".
+flowchart TB
+    MC["Order<br>«metaclass»"]
+
+    subgraph PROF["DigiCraveOS Restaurant Profile «profile»"]
+        direction TB
+
+        ST1["DineInOrder<br>«stereotype»"]
+        ST2["AggregatorOrder<br>«stereotype»"]
+        ST3["QRSelfOrder<br>«stereotype»"]
+
+        subgraph TV["tagged values on «DineInOrder»"]
+            tv1["tableNo : Number [1]"]
+            tv2["guests : Number [1]<br>constraint: guests ≥ 1"]
+            tv3["serviceChargePct : Real [0..1]<br>default = 0"]
+            tv4["kotStations : String [*]<br>derived from menu items"]
+        end
+
+        C1{"constraints (OCL-style)"}
+        c1["context DineInOrder inv:<br>self.table.status = Occupied"]
+        c2["context DineInOrder inv:<br>self.bills.totalWithTax =<br>total - discount + cgst + sgst"]
+        c3["context AggregatorOrder inv:<br>self.commissionPct ≤ 30"]
+
+        APPLIED["applied example<br>----------------<br>o1047 : Order<br>«DineInOrder»<br>tableNo = 12<br>guests = 3<br>station = 'Tandoor'"]
+    end
+
+    MC -.->|"extends"| ST1
+    MC -.->|"extends"| ST2
+    MC -.->|"extends"| ST3
+    ST1 --> TV
+    TV --> C1
+    C1 --> c1
+    C1 --> c2
+    ST2 --> c3
+    ST1 -.->|"applied to"| APPLIED

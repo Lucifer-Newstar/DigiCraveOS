@@ -1,0 +1,56 @@
+# Render Blueprint — deploys the Node backend and the Python ML service.
+# The frontend is deployed separately on Vercel (see vercel.json).
+# MongoDB is expected to be MongoDB Atlas (set MONGODB_URI in the dashboard).
+#
+# Usage: on Render, "New +" -> "Blueprint" -> point at this repo.
+services:
+  # ------------------------------- POS API (Node) -----------------------------
+  - type: web
+    name: digicrave-pos-api
+    runtime: node
+    rootDir: Restaurant_POS_System/pos-backend
+    plan: free
+    buildCommand: npm install
+    startCommand: node app.js
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      # Point the ML proxy at the ML service deployed below.
+      - key: ML_SERVICE_URL
+        fromService:
+          type: web
+          name: digicrave-ml
+          property: hostport
+      # Secrets — set these in the Render dashboard (sync:false = not in git).
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false # e.g. https://your-frontend.vercel.app
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+
+  # ---------------------------- ML service (Python) ---------------------------
+  - type: web
+    name: digicrave-ml
+    runtime: python
+    rootDir: Restaurant_POS_ML
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: CORS_ORIGINS
+        sync: false # e.g. https://digicrave-pos-api.onrender.com
+      - key: MONGODB_URI
+        sync: false # same Atlas URI as the API

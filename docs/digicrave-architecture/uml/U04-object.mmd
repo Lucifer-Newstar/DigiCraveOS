@@ -1,0 +1,36 @@
+%% U04 — OBJECT DIAGRAM (UML 2.5 · Structural)
+%% A runtime snapshot of the domain model at a concrete moment:
+%% Friday dinner rush, 9-Aug-2026, 21:07 — Table 12, two KOTs in flight.
+flowchart LR
+    subgraph SNAP["🕘 snapshot · 2026-08-09 21:07"]
+        direction TB
+
+        t12["t12 : Table<br>---------------<br>tableNo = 12<br>status = 'Occupied'<br>seats = 4"]
+
+        cust["priya : Customer<br>---------------<br>phone = '98xxxxxx31'<br>totalOrders = 6<br>totalSpent = 7240"] 
+
+        o1047["o1047 : Order<br>---------------<br>orderStatus = 'InProgress'<br>orderDate = 21:04<br>paymentMethod = 'UPI'"]
+
+        i1["i1 : OrderItem<br>---------------<br>name = 'Butter Chicken'<br>price = 360 · qty = 1<br>station = 'Main'"]
+
+        i2["i2 : OrderItem<br>---------------<br>name = 'Butter Naan'<br>price = 60 · qty = 3<br>station = 'Tandoor'"]
+
+        b2211["b2211 : Bill<br>---------------<br>total = 540<br>cgst = 13.5 · sgst = 13.5<br>discount = 0<br>totalWithTax = 567"]
+
+        k9["k9 : KOT<br>---------------<br>station = 'Tandoor'<br>state = 'Fired'<br>etaSec = 180"]
+
+        p883["p883 : Payment<br>---------------<br>method = 'UPI'<br>status = 'Pending'"]
+
+        chik["chicken : InventoryItem<br>---------------<br>onHand = 7.2 kg"]
+        bat["batch B-191 : Batch<br>---------------<br>expiry = 2026-08-11"]
+    end
+
+    t12 -- "currentOrder" --> o1047
+    cust -- "placed" --> o1047
+    o1047 -- "items [1..*]" --> i1
+    o1047 -- "items" --> i2
+    o1047 -- "settles (when paid)" --> b2211
+    o1047 -- "fires" --> k9
+    b2211 -- "settles via" --> p883
+    i1 -- "consumes 0.25 kg (recipe)" --> chik
+    chik -- "deducted FIFO from" --> bat

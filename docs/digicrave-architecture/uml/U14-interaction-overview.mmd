@@ -1,0 +1,26 @@
+%% U14 — INTERACTION OVERVIEW DIAGRAM (UML 2.5 · Behavioural)
+%% An activity diagram whose nodes are whole interactions («sd» frames),
+%% showing how a restaurant's service day composes the other diagrams.
+flowchart TB
+    IO0([staff login · day start]) --> IO1
+
+    subgraph IO1["«sd» OPENING — checklists & cash float"]
+        O1["verify checklist tasks"]
+        O2["open cash drawer · set float"]
+    end
+
+    IO1 --> D1{"table open?<br>(loop all day)"}
+
+    D1 -->|"order flow"| IO3["«ref» QR ORDER → KOT<br>(see U11 sequence)"]
+    D1 -->|"payment flow"| IO4["«ref» PAYMENT VERIFY<br>(see BONUS sequence)"]
+    D1 -->|"fraud/void"| IO5["«sd» EXCEPTION — void / refund<br>[Manager role + reason]"]
+
+    IO3 --> D1
+    IO4 --> D1
+    IO5 --> D1
+
+    D1 -->|"day end"| IO6["«sd» DAY-CLOSE<br>Z-report · cash recon<br>· inventory variance"]
+
+    IO6 --> IO7["«ref» NIGHTLY ML RETRAIN<br>forecast · demand · recommender<br>(Restaurant_POS_ML)"]
+
+    IO7 --> IO8(["next day — models wiser"])

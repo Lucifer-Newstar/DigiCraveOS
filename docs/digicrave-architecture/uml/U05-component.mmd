@@ -1,0 +1,42 @@
+%% U05 — COMPONENT DIAGRAM (UML 2.5 · Structural)
+%% The pos-api container decomposed into components with provided (ball)
+%% and required (socket) interfaces. MVP components marked ✔.
+flowchart TB
+    subgraph API["⚙️ pos-api — Node.js + Express (evolves from MVP monolith)"]
+        direction TB
+
+        AuthC["Auth & RBAC ✔<br>«component»<br>----------------<br>JWT cookie issue/verify"]
+        OrderC["Order Service ✔<br>«component»<br>----------------<br>order lifecycle · metrics"]
+        BillC["Billing & Tax<br>«component»<br>----------------<br>bill calc · CGST/SGST<br>split · merge · void"]
+        PayC["Payment Adapter ✔<br>«component»<br>----------------<br>Razorpay orders · HMAC verify<br>webhooks"]
+        KDS-C["KDS Coordinator<br>«component»<br>----------------<br>KOT dispatch · station queues"]
+        InvC["Inventory Service<br>«component»<br>----------------<br>stock ledger · FIFO · reorder"]
+        CustC["Customer Service ✔<br>«component»<br>----------------<br>CRM upsert · loyalty"]
+        MLC["ML Gateway ✔<br>«component»<br>----------------<br>proxy /api/ml/* → FastAPI"]
+        RepC["Reporting Service<br>«component»<br>----------------<br>dashboards · GST · P&L"]
+        NotC["Notification Service<br>«component»<br>----------------<br>WhatsApp · SMS · email"]
+    end
+
+    WS["Realtime Hub<br>(Socket.IO)<br>«component»"]
+    DB[("MongoDB<br>«database»")]
+    ML["ML Insights<br>FastAPI ✔<br>«external component»"]
+    RZP["Razorpay Cloud<br>«external component»"]
+
+    AuthC -- "▸ IAuth (token)" --> OrderC
+    AuthC -- "▸ IAuth" --> BillC
+    OrderC -- "◂ uses IBilling" --> BillC
+    OrderC -- "▸ IOrderEvents" --> WS
+    BillC -- "◂ IPayment" --> PayC
+    PayC <--> RZP
+    OrderC -- "◂ IStock" --> InvC
+    KDS-C -- "◂ IOrderEvents" --> OrderC
+    KDS-C -- "▸ IKdsPush" --> WS
+    OrderC -- "◂ ICustomer" --> CustC
+    MLC -- "HTTP /forecast /demand /recommend" --> ML
+    RepC -- "◂ IOrderMetrics" --> OrderC
+    NotC -- "◂ IOrderEvents" --> WS
+
+    AuthC & OrderC & BillC & PayC & InvC & CustC & RepC & MLC -- "Mongoose ODM" --> DB
+
+    classDef mvp fill:#dcfce7,stroke:#16a34a,color:#14532d;
+    class AuthC,OrderC,PayC,CustC,MLC mvp;

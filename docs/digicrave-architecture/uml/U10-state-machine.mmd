@@ -1,0 +1,42 @@
+%% U10 — STATE MACHINE DIAGRAM (UML 2.5 · Behavioural)
+%% Lifecycle of the Order entity — MVP transitions (solid names) plus
+%% product states for hold/void/split. Guards in [square brackets].
+stateDiagram-v2
+    [*] --> Draft : cart opened
+    Draft --> Placed : submit()<br>[guests ≥ 1 · items ≥ 1]
+    Placed --> InProgress : KOT fired<br>/ emit OrderPlaced
+
+    InProgress --> OnHold : hold()<br>[staff role]
+    OnHold --> InProgress : resume()
+    InProgress --> Ready : all station KOTs bumped
+    Ready --> Served : staff confirm serve
+
+    state Billing {
+        [*] --> BillOpen
+        BillOpen --> Discounted : coupon/staff disc<br>[role ≤ Manager]
+        BillOpen --> Split : n-way split request
+        Split --> BillOpen : merge back
+        Discounted --> AwaitingPayment
+        Split --> AwaitingPayment
+    }
+
+    Served --> Billing : guest asks for bill
+    Billing --> Paid : payment verified<br>[HMAC-SHA256 ✔]
+    Billing --> PayFailed : signature invalid<br>/ fraud flag
+    PayFailed --> Billing : retry / switch mode
+
+    Paid --> Closed : table released<br>/ analytics event
+    Closed --> [*]
+
+    InProgress --> Voided : void request<br>[Manager + reason]
+    Billing --> Refunded : refund to source<br>[captured payment]
+    Draft --> Cancelled : guest leaves
+    Voided --> [*]
+    Cancelled --> [*]
+    Refunded --> [*]
+
+    note right of Paid
+        MVP today: InProgress → Ready →
+        Served → Paid (orderModel orderStatus).
+        Product adds hold/void/split.
+    end note

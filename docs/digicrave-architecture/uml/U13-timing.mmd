@@ -1,0 +1,25 @@
+%% U13 — TIMING DIAGRAM (UML 2.5 · Behavioural)
+%% Real constraints on lifelines over a time axis. Rendered via Mermaid's
+%% closest analog (gantt = value/duration on a shared clock):
+%% order o1047 must finish service within the restaurant's 22-minute SLA.
+gantt
+    title Timing — order o1047 vs 22-minute SLA (clock starts at order placement)
+    dateFormat HH:mm
+    axisFormat %H:%M
+
+    section Order lifeline
+    Draft → Placed                    :active, 18:00, 18:02
+    KOT fired per station  {t ≤ 3}    :crit, 18:02, 18:03
+    section Tandoor lifeline
+    Queued (station load)             :18:03, 18:06
+    Cooking naan ×3                   :18:06, 18:12
+    section Main-station lifeline
+    Queued                            :18:03, 18:05
+    Cooking Butter Chicken  {t ≤ 10}  :crit, 18:05, 18:13
+    section Assembly lifeline
+    Plating & QC                      :18:13, 18:15
+    READY (SLA checkpoint)            :milestone, 18:15, 18:15
+    section Billing lifeline
+    Serve guest                       :18:15, 18:17
+    Bill + UPI verify {HMAC ≤ 60 s}   :crit, 18:17, 18:22
+    Table released (SLA met)          :milestone, 18:22, 18:22

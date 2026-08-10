@@ -1,0 +1,64 @@
+%% U02 — ACTIVITY DIAGRAM (UML 2.5 · Behavioural)
+%% Primary flow: order-to-cash with swimlanes.
+%% Lane = vertical partition of responsibility. Endpoint names map 1:1 to the MVP repo.
+flowchart TB
+    subgraph L1["👤 Guest / Floor"]
+        A1([start]) --> A2["Scan table QR and browse menu"]
+        A2 --> A3["Add items · notes to cart"]
+        A3 --> A4["Submit order"]
+        A9["Food served 🍽️"] --> A10["Scan QR to get bill"]
+        A10 --> A11["Pay by UPI / card"]
+    end
+
+    subgraph L2["🧑‍💼 POS / Staff"]
+        B1["Open table session<br>(Table.status = Occupied)"]
+        B2{"hold / resume<br>request?"}
+        B3["Apply coupon / discount<br>(role-limited)"]
+        B4["Print GST invoice"]
+        B5["Close table · cash-up handover"]
+    end
+
+    subgraph L3["⚙️ Order Service — pos-api"]
+        C1["Validate items · price · guests"]
+        C2["POST /api/order → persist Order<br>+ upsert Customer (by phone)"]
+        C3["Emit OrderPlaced → KOTs per station"]
+        C4["PUT /api/order/:id<br>(status roll-up: Ready → Served)"]
+        C5["Recipe-based stock deduction<br>(FIFO batches) — roadmap"]
+    end
+
+    subgraph L4["🍳 Kitchen / KDS"]
+        D1["Ticket queued on station"]
+        D2["Start prep → ETA predicted"]
+        D3{"all station items done?"}
+        D4["Bump ticket → Order Ready"]
+    end
+
+    subgraph L5["💳 Billing & Payments"]
+        E1["Compute bill: subtotal · CGST + SGST<br>· discount · round-off"]
+        E2{"online payment?"}
+        E3["POST /api/payment/create-order<br>→ Razorpay order (paise)"]
+        E4{"signature valid?<br>HMAC-SHA256"}
+        E5["Mark Order = Paid · emit PaymentCaptured"]
+        E6["Record cash / card slip"]
+    end
+
+    %% --- flow across lanes ---
+    A4 --> B1
+    B1 --> C1
+    B2 -->|"yes"| B1
+    C1 --> C2 --> C3 --> D1
+    C2 -.->|"roadmap hook"| C5
+    D1 --> D2 --> D3
+    D3 -->|"no — keep cooking"| D1
+    D3 -->|"yes"| D4 --> C4 --> A9
+    C4 --> E1
+    B3 --> E1
+    E1 --> E2
+    E2 -->|"yes"| E3 --> A11
+    A11 --> E4
+    E4 -->|"no — retry / flag"| E2
+    E4 -->|"yes"| E5
+    E2 -->|"no — cash"| E6
+    E5 --> B4
+    E6 --> B4
+    B4 --> B5 --> A12([end — analytics event to ML service])

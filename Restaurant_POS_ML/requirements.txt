@@ -1,0 +1,8 @@
+# Dependency-light stack (all ship prebuilt wheels; installs in seconds).
+# ML math is implemented directly on NumPy so the service stays small and
+# starts fast in constrained environments.
+fastapi
+uvicorn[standard]
+pymongo
+python-dotenv
+numpy
