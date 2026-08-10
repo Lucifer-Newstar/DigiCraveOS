@@ -1,6 +1,6 @@
 # DigiCraveOS frontend
 
-This folder contains the React and Vite frontend for DigiCraveOS. It is maintained as part of the project by **Lucifer-Newstar / Navin Jairam**.
+This folder contains the React and Vite frontend for DigiCraveOS.
 
 ## Run it
 

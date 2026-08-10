@@ -43,6 +43,6 @@ For bugs or ideas, add a clear note describing:
 
 ## Ownership and license
 
-DigiCraveOS is an independent project maintained by **Lucifer-Newstar / Navin Jairam**. The repository documentation and project-specific material are kept here for this project.
+DigiCraveOS is an independent project. The repository documentation and project-specific material are kept here for this project.
 
 The code is released under the project license in `LICENSE`. Libraries and services used by the app remain subject to their own licenses and terms.

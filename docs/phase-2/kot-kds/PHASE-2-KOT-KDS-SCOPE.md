@@ -1,7 +1,5 @@
 # DigiCraveOS — Phase 2 KOT/KDS scope
 
-DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
-
 This note defines the first Phase 2 development slice: expanding the existing Kitchen Display System-lite into a clearer kitchen ticket workflow.
 
 ## Why this comes first

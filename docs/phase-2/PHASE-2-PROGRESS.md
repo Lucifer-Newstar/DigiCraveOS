@@ -1,7 +1,5 @@
 # DigiCraveOS — Phase 2 progress
 
-DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
-
 Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature folders so each step has its own scope, implementation notes, tests, and verification record.
 
 ## Feature progress
