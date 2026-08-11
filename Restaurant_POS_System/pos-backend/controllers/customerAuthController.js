@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Customer = require("../models/customerModel");
 const Order = require("../models/orderModel");
 const config = require("../config/config");
+const Table = require("../models/tableModel");
 
 // Customer (Guest) authentication — separate from staff (User) auth.
 // Uses its own cookie ("customerToken") and a JWT tagged type:"customer" so a
@@ -145,7 +146,13 @@ const placeMyOrder = async (req, res, next) => {
     const customer = await Customer.findById(req.customer._id);
     if (!customer) return next(createHttpError(404, "Customer not found"));
 
-    const { items, guests, orderType } = req.body;
+    const { items, guests, orderType, table } = req.body;
+    if (table && !require("mongoose").Types.ObjectId.isValid(table)) {
+      return next(createHttpError(400, "Invalid table reference."));
+    }
+    if (table && !(await Table.exists({ _id: table }))) {
+      return next(createHttpError(404, "QR table was not found."));
+    }
     if (!Array.isArray(items) || items.length === 0) {
       return next(createHttpError(400, "Your order has no items."));
     }
@@ -178,6 +185,7 @@ const placeMyOrder = async (req, res, next) => {
       paymentMethod: "Online", // guest self-orders settle online; cash = at counter
       orderType: orderType || "Pickup",
       placedBy: "customer",
+      table: table || undefined,
     });
     await order.save();
     await Customer.upsertFromOrder(order);

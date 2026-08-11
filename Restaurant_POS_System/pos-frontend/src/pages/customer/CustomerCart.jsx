@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { FiTrash2 } from "react-icons/fi";
@@ -19,6 +19,8 @@ const GST = 0.05;
 const CustomerCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const tableId = searchParams.get("table") || "";
   const cart = useSelector((s) => s.guestCart);
   const subtotal = useSelector(guestCartTotal);
   const [orderType, setOrderType] = useState("Pickup");
@@ -37,7 +39,8 @@ const CustomerCart = () => {
           quantity: i.quantity,
         })),
         guests,
-        orderType,
+        orderType: tableId ? "Dine In" : orderType,
+        table: tableId || undefined,
       }),
     onSuccess: () => {
       dispatch(clearGuestCart());
@@ -91,7 +94,8 @@ const CustomerCart = () => {
 
       {/* Order options */}
       <div className="bg-white rounded-2xl p-4 mt-4 space-y-3">
-        <div>
+        {tableId && <p className="text-sm font-semibold text-orange-700 bg-orange-50 rounded-lg px-3 py-2">Table QR order · table reference attached</p>}
+        {!tableId && <div>
           <label className="text-sm font-medium text-slate-700">Order type</label>
           <div className="flex gap-2 mt-1">
             {["Pickup", "Delivery"].map((t) => (
@@ -106,7 +110,7 @@ const CustomerCart = () => {
               </button>
             ))}
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Bill */}

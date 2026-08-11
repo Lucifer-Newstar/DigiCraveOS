@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 import { getCustomerMenu } from "../../https";
 import { toArray } from "../../utils";
@@ -12,6 +12,8 @@ const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
 const CustomerMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const tableId = searchParams.get("table") || "";
   const cartCount = useSelector(guestCartCount);
   const cartTotal = useSelector(guestCartTotal);
   const [activeCat, setActiveCat] = useState(null);
@@ -39,6 +41,7 @@ const CustomerMenu = () => {
       <div className="mb-6">
         <h1 className="text-2xl font-extrabold text-slate-900">Our Menu</h1>
         <p className="text-slate-500 text-sm">Pick your favourites and order in a tap.</p>
+        {tableId && <p className="text-orange-700 text-sm mt-1">Ordering for table QR reference</p>}
       </div>
 
       {isLoading ? (
@@ -105,7 +108,7 @@ const CustomerMenu = () => {
       {/* Sticky cart bar */}
       {cartCount > 0 && (
         <button
-          onClick={() => navigate("/customer/cart")}
+          onClick={() => navigate(tableId ? `/customer/cart?table=${encodeURIComponent(tableId)}` : "/customer/cart")}
           className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-orange-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-700"
         >
           <span className="font-semibold">{cartCount} item{cartCount > 1 ? "s" : ""}</span>

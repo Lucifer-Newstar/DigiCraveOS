@@ -58,7 +58,8 @@ const CustomerOrders = () => {
                         timeStyle: "short",
                       })}
                     </p>
-                    <p className="text-sm text-slate-500">{o.orderType || "Dine In"}</p>
+                    <p className="text-sm text-slate-500">{o.table?.tableNo ? `Table ${o.table.tableNo}` : o.orderType || "Dine In"}</p>
+                    <p className="text-xs text-slate-400">Payment: {o.orderStatus === "Paid" || o.orderStatus === "Completed" ? "Paid" : "Pending"}</p>
                   </div>
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusStyle(o.orderStatus)}`}>
                     {o.orderStatus}
