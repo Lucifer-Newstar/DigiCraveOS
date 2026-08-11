@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { FiTrash2 } from "react-icons/fi";
-import { placeCustomerOrder } from "../../https";
+import { createCustomerPaymentOrder, placeCustomerOrder, verifyCustomerPayment } from "../../https";
 import {
   incGuestItem,
   decGuestItem,
@@ -15,6 +15,7 @@ import {
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 const GST = 0.05;
+const loadScript = (src) => new Promise((resolve) => { const script = document.createElement("script"); script.src = src; script.onload = () => resolve(true); script.onerror = () => resolve(false); document.body.appendChild(script); });
 
 const CustomerCart = () => {
   const dispatch = useDispatch();
@@ -42,10 +43,36 @@ const CustomerCart = () => {
         orderType: tableId ? "Dine In" : orderType,
         table: tableId || undefined,
       }),
-    onSuccess: () => {
-      dispatch(clearGuestCart());
-      enqueueSnackbar("Order placed! 🎉", { variant: "success" });
-      navigate("/customer/orders");
+    onSuccess: async (response) => {
+      const order = response.data.data;
+      const sdkLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+      if (!sdkLoaded) {
+        enqueueSnackbar("Payment checkout could not load. Your order is saved as pending.", { variant: "warning" });
+        navigate("/customer/orders");
+        return;
+      }
+      try {
+        const payment = await createCustomerPaymentOrder({ amount: total, orderId: order._id });
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+          amount: payment.data.data.amount,
+          currency: payment.data.data.currency,
+          name: "DigiCrave",
+          description: "Table order payment",
+          order_id: payment.data.data.id,
+          handler: async (paymentResponse) => {
+            await verifyCustomerPayment({ ...paymentResponse, orderId: order._id, amount: total });
+            dispatch(clearGuestCart());
+            enqueueSnackbar("Order placed and payment confirmed! 🎉", { variant: "success" });
+            navigate("/customer/orders");
+          },
+          prefill: { name: order.customerDetails?.name },
+          theme: { color: "#f97316" },
+        };
+        new window.Razorpay(options).open();
+      } catch (error) {
+        enqueueSnackbar(error?.response?.data?.message || "Payment could not be started", { variant: "error" });
+      }
     },
     onError: (err) =>
       enqueueSnackbar(err?.response?.data?.message || "Could not place order", {

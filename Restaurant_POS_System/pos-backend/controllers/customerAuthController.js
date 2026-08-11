@@ -4,6 +4,9 @@ const Customer = require("../models/customerModel");
 const Order = require("../models/orderModel");
 const config = require("../config/config");
 const Table = require("../models/tableModel");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const Payment = require("../models/paymentModel");
 
 // Customer (Guest) authentication — separate from staff (User) auth.
 // Uses its own cookie ("customerToken") and a JWT tagged type:"customer" so a
@@ -182,7 +185,7 @@ const placeMyOrder = async (req, res, next) => {
       orderStatus: "In Progress",
       bills,
       items: cleanItems,
-      paymentMethod: "Online", // guest self-orders settle online; cash = at counter
+      paymentMethod: "Pending", // customer payment is verified after the order is created
       orderType: orderType || "Pickup",
       placedBy: "customer",
       table: table || undefined,
@@ -196,4 +199,33 @@ const placeMyOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, me, logout, myOrders, placeMyOrder };
+const createCustomerPaymentOrder = async (req, res, next) => {
+  try {
+    const { amount, orderId } = req.body;
+    const order = await Order.findOne({ _id: orderId, "customerDetails.phone": req.customer.phone });
+    if (!order) return next(createHttpError(404, "Customer order not found."));
+    if (!config.razorpayKeyId || !config.razorpaySecretKey) return next(createHttpError(503, "Payment gateway is not configured."));
+    const razorpay = new Razorpay({ key_id: config.razorpayKeyId, key_secret: config.razorpaySecretKey });
+    const paymentOrder = await razorpay.orders.create({ amount: Math.round(Number(amount) * 100), currency: "INR", receipt: `customer_${order._id}` });
+    res.json({ success: true, data: paymentOrder });
+  } catch (error) { next(error); }
+};
+
+const verifyCustomerPayment = async (req, res, next) => {
+  try {
+    const { orderId, razorpay_order_id, razorpay_payment_id, razorpay_signature, amount } = req.body;
+    const order = await Order.findOne({ _id: orderId, "customerDetails.phone": req.customer.phone });
+    if (!order) return next(createHttpError(404, "Customer order not found."));
+    if (!config.razorpaySecretKey) return next(createHttpError(503, "Payment gateway is not configured."));
+    const expected = crypto.createHmac("sha256", config.razorpaySecretKey).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
+    if (expected !== razorpay_signature) return next(createHttpError(400, "Payment verification failed."));
+    order.orderStatus = "Paid";
+    order.paymentMethod = "Online";
+    order.paymentData = { razorpay_order_id, razorpay_payment_id };
+    await order.save();
+    await Payment.findOneAndUpdate({ paymentId: razorpay_payment_id }, { paymentId: razorpay_payment_id, orderId, amount: Number(amount) || order.bills.totalWithTax, currency: "INR", status: "captured", method: "Online" }, { upsert: true, new: true, setDefaultsOnInsert: true });
+    res.json({ success: true, message: "Payment verified successfully!", data: order });
+  } catch (error) { next(error); }
+};
+
+module.exports = { register, login, me, logout, myOrders, placeMyOrder, createCustomerPaymentOrder, verifyCustomerPayment };

@@ -6,6 +6,8 @@ const {
   logout,
   myOrders,
   placeMyOrder,
+  createCustomerPaymentOrder,
+  verifyCustomerPayment,
 } = require("../controllers/customerAuthController");
 const { getMenu } = require("../controllers/menuController");
 const { isVerifiedCustomer } = require("../middlewares/tokenVerification");
@@ -24,5 +26,7 @@ router.route("/menu").get(getMenu);
 // A logged-in guest's own orders.
 router.route("/orders").get(isVerifiedCustomer, myOrders);
 router.route("/orders").post(isVerifiedCustomer, placeMyOrder);
+router.route("/payment/create-order").post(isVerifiedCustomer, createCustomerPaymentOrder);
+router.route("/payment/verify").post(isVerifiedCustomer, verifyCustomerPayment);
 
 module.exports = router;

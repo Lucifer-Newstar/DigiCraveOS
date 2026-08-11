@@ -80,6 +80,10 @@ export const getCustomerOrders = () =>
   axiosWrapper.get("/api/customer/auth/orders");
 export const placeCustomerOrder = (data) =>
   axiosWrapper.post("/api/customer/auth/orders", data);
+export const createCustomerPaymentOrder = (data) =>
+  axiosWrapper.post("/api/customer/auth/payment/create-order", data);
+export const verifyCustomerPayment = (data) =>
+  axiosWrapper.post("/api/customer/auth/payment/verify", data);
 
 // Menu Endpoints (categories + dishes, DB-backed)
 export const getMenu = () => axiosWrapper.get("/api/menu");

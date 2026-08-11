@@ -25,4 +25,4 @@ This extends the existing customer ordering and Razorpay payment flow.
 
 ## Status
 
-QR ordering implementation complete; QR payment implementation pending.
+Implementation complete; runtime and browser verification pending.

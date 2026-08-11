@@ -11,8 +11,12 @@
 
 ## Payment status
 
-The existing Razorpay flow remains available for authenticated staff POS payments. Customer QR payment checkout still needs a customer-scoped payment session and is intentionally not marked complete yet.
+- Added customer-scoped Razorpay create-payment endpoint.
+- Added customer-scoped HMAC verification endpoint.
+- Verified customer payments update the matching customer order to `Paid`.
+- Payment records are persisted in the existing `Payment` collection.
+- Customer checkout opens the existing Razorpay checkout script after the order is created.
 
 ## Status
 
-QR ordering implementation complete; QR payment implementation pending.
+Implementation complete; runtime and browser verification pending.
