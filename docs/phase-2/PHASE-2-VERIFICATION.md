@@ -8,6 +8,10 @@
 - Phase 2 backend coverage was added in `tests/backend/kitchen.test.js` and `tests/backend/phase2.test.js`.
 - `git diff --check` passes.
 
+## Developer-machine test result
+
+The first Phase 2 test run reached all seven backend suites: 38 tests passed and one reservation assertion failed because the test expected the first reservation request to return `409`. The test setup was corrected so the first request expects `201` and the duplicate request expects `409`.
+
 ## Runtime checks still pending
 
 The backend integration tests require MongoDB on `localhost:27017`. They have not been run in the sandbox because no MongoDB, Docker, or Podman executable is available.
