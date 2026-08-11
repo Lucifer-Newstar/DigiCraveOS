@@ -1,15 +1,18 @@
 const createHttpError = require("http-errors");
 const mongoose = require("mongoose");
 const Dish = require("../models/dishModel");
-const { Ingredient, Recipe } = require("../models/inventoryModel");
+const { Ingredient, Recipe, Supplier, Purchase } = require("../models/inventoryModel");
 
 const getInventory = async (req, res, next) => {
   try {
-    const [ingredients, recipes] = await Promise.all([
+    const [ingredients, recipes, suppliers, purchases] = await Promise.all([
       Ingredient.find().sort({ name: 1 }),
       Recipe.find().populate("dish", "name").populate("ingredients.ingredient", "name unit"),
+      Supplier.find().sort({ name: 1 }),
+      Purchase.find().populate("supplier", "name").populate("lines.ingredient", "name unit").sort({ receivedAt: -1 }).limit(50),
     ]);
-    res.json({ success: true, data: { ingredients, recipes } });
+    const valuation = ingredients.reduce((total, item) => total + (item.batches || []).reduce((sum, batch) => sum + batch.quantity * batch.unitCost, 0), 0);
+    res.json({ success: true, data: { ingredients, recipes, suppliers, purchases, valuation: +valuation.toFixed(2) } });
   } catch (error) { next(error); }
 };
 
@@ -64,10 +67,52 @@ const deductInventoryForOrder = async (order) => {
     if (!ingredient || ingredient.stock < quantity) throw createHttpError(409, `Insufficient stock for ${ingredient?.name || ingredientId}.`);
   }
   for (const [ingredientId, quantity] of required) {
-    await Ingredient.findByIdAndUpdate(ingredientId, { $inc: { stock: -quantity } });
+    const ingredient = await Ingredient.findById(ingredientId);
+    let remaining = quantity;
+    const batches = [...(ingredient.batches || [])].sort((a, b) => new Date(a.receivedAt) - new Date(b.receivedAt));
+    for (const batch of batches) {
+      if (remaining <= 0) break;
+      const used = Math.min(batch.quantity, remaining);
+      batch.quantity -= used;
+      remaining -= used;
+      ingredient.movements.push({ type: "CONSUMPTION", quantity: used, unitCost: batch.unitCost, reference: String(order._id) });
+    }
+    ingredient.batches = batches.filter((batch) => batch.quantity > 0);
+    ingredient.stock = Math.max(0, ingredient.stock - quantity);
+    await ingredient.save();
   }
   order.inventoryDeducted = true;
   await order.save();
 };
 
-module.exports = { getInventory, addIngredient, updateIngredient, upsertRecipe, deductInventoryForOrder };
+const addSupplier = async (req, res, next) => {
+  try {
+    if (!req.body.name?.trim()) return next(createHttpError(400, "Supplier name is required."));
+    const supplier = await Supplier.create(req.body);
+    res.status(201).json({ success: true, data: supplier });
+  } catch (error) { next(error); }
+};
+
+const addPurchase = async (req, res, next) => {
+  try {
+    const { supplier, lines, receivedAt } = req.body;
+    if (!Array.isArray(lines) || !lines.length) return next(createHttpError(400, "At least one purchase line is required."));
+    let totalCost = 0;
+    for (const line of lines) {
+      if (!mongoose.Types.ObjectId.isValid(line.ingredient) || Number(line.quantity) <= 0 || Number(line.unitCost) < 0) return next(createHttpError(400, "Invalid purchase line."));
+      const ingredient = await Ingredient.findById(line.ingredient);
+      if (!ingredient) return next(createHttpError(404, "Ingredient not found."));
+      const quantity = Number(line.quantity);
+      const unitCost = Number(line.unitCost);
+      ingredient.stock += quantity;
+      ingredient.batches.push({ quantity, unitCost, receivedAt: receivedAt || new Date() });
+      ingredient.movements.push({ type: "PURCHASE", quantity, unitCost, reference: "purchase" });
+      await ingredient.save();
+      totalCost += quantity * unitCost;
+    }
+    const purchase = await Purchase.create({ supplier: supplier || undefined, lines, receivedAt, totalCost });
+    res.status(201).json({ success: true, data: purchase });
+  } catch (error) { next(error); }
+};
+
+module.exports = { getInventory, addIngredient, updateIngredient, upsertRecipe, addSupplier, addPurchase, deductInventoryForOrder };

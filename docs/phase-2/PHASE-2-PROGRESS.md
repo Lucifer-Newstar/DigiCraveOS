@@ -7,7 +7,7 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 | Feature | Scope | Status |
 |---|---|---|
 | KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | Implementation complete; verification pending |
-| Inventory and recipes | [`inventory/PHASE-2-INVENTORY-SCOPE.md`](./inventory/PHASE-2-INVENTORY-SCOPE.md) | Basic implementation complete; purchasing/FIFO in progress |
+| Inventory and recipes | [`inventory/PHASE-2-INVENTORY-SCOPE.md`](./inventory/PHASE-2-INVENTORY-SCOPE.md) | Implementation complete; verification pending |
 | Reservations and waitlist | [`reservations/PHASE-2-RESERVATIONS-SCOPE.md`](./reservations/PHASE-2-RESERVATIONS-SCOPE.md) | Implementation complete; verification pending |
 | Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Implementation complete; verification pending |
 

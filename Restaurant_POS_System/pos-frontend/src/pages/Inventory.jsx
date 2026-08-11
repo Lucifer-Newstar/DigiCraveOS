@@ -10,7 +10,7 @@ const Inventory = () => {
   const { data, isLoading } = useQuery({ queryKey: ["inventory"], queryFn: getInventory });
   const add = useMutation({ mutationFn: addIngredient, onSuccess: () => { setForm({ name: "", unit: "kg", stock: "", reorderLevel: "" }); client.invalidateQueries({ queryKey: ["inventory"] }); } });
   const ingredients = toArray(data?.data?.ingredients || data?.ingredients);
-  return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients and low-stock levels</p></div></div>
+  return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients, batches, and low-stock levels</p></div><span className="pos-chip pos-chip-active">Value: ₹{Number(data?.data?.valuation || 0).toFixed(2)}</span></div>
     <div className="pos-card p-4 mb-4"><form className="grid grid-cols-2 md:grid-cols-5 gap-2" onSubmit={(e) => { e.preventDefault(); add.mutate({ ...form, stock: Number(form.stock), reorderLevel: Number(form.reorderLevel) }); }}>
       {[["name","Ingredient"],["unit","Unit"],["stock","Stock"],["reorderLevel","Reorder level"]].map(([key, label]) => <input key={key} className="pos-input" required={key !== "reorderLevel"} placeholder={label} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
       <button className="pos-btn-primary" disabled={add.isPending}>Add ingredient</button></form></div>

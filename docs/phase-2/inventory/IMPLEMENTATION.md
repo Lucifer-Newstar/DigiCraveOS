@@ -25,6 +25,15 @@ Implemented the minimal inventory slice in the existing Express/MongoDB applicat
 
 Suppliers, purchase orders, batches, expiry, waste, and multi-outlet stock remain outside this Phase 2 slice.
 
+## Purchasing and FIFO extension
+
+- Added suppliers and purchase receipt models.
+- Added purchase receipt endpoint and supplier endpoint.
+- Received purchases add stock batches and purchase movement history.
+- Inventory valuation is calculated from remaining batch value.
+- Order consumption now uses oldest batches first and records consumption movements.
+- Added purchase/FIFO API coverage to the Phase 2 backend tests.
+
 ## Status
 
 Implementation complete; runtime verification pending.

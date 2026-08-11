@@ -54,6 +54,8 @@ export const getInventory = () => axiosWrapper.get("/api/inventory");
 export const addIngredient = (data) => axiosWrapper.post("/api/inventory/ingredient", data);
 export const updateIngredient = ({ id, ...data }) => axiosWrapper.patch(`/api/inventory/ingredient/${id}`, data);
 export const saveRecipe = (data) => axiosWrapper.put("/api/inventory/recipe", data);
+export const addSupplier = (data) => axiosWrapper.post("/api/inventory/supplier", data);
+export const addPurchase = (data) => axiosWrapper.post("/api/inventory/purchase", data);
 export const getReservations = () => axiosWrapper.get("/api/reservations");
 export const addReservation = (data) => axiosWrapper.post("/api/reservations", data);
 export const updateReservation = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/${id}`, data);

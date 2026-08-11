@@ -1,10 +1,12 @@
 const express = require("express");
 const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
-const { getInventory, addIngredient, updateIngredient, upsertRecipe } = require("../controllers/inventoryController");
+const { getInventory, addIngredient, updateIngredient, upsertRecipe, addSupplier, addPurchase } = require("../controllers/inventoryController");
 const router = express.Router();
 router.use(isVerifiedUser, restrictTo("Admin"));
 router.get("/", getInventory);
 router.post("/ingredient", addIngredient);
 router.patch("/ingredient/:id", updateIngredient);
 router.put("/recipe", upsertRecipe);
+router.post("/supplier", addSupplier);
+router.post("/purchase", addPurchase);
 module.exports = router;

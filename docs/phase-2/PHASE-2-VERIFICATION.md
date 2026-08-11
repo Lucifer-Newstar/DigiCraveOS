@@ -3,7 +3,7 @@
 ## Implementation checks
 
 - Backend syntax checks pass for the new inventory and reservation models, controllers, and routes.
-- Frontend production build passes after adding Inventory, Reservations, and offline order queue behavior.
+- Frontend production build passed earlier for the Phase 2 screens; the current sandbox session does not have `node_modules`, so a repeat build is pending after dependency installation.
 - Targeted frontend lint passes for Inventory, Reservations, and offline queue files.
 - Phase 2 backend coverage was added in `tests/backend/kitchen.test.js` and `tests/backend/phase2.test.js`.
 - `git diff --check` passes.

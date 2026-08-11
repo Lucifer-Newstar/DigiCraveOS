@@ -24,4 +24,4 @@ This extends the existing inventory foundation and completes the purchasing/FIFO
 
 ## Status
 
-In progress — implementation started.
+Implementation complete — runtime verification pending.

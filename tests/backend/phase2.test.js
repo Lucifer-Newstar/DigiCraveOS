@@ -15,6 +15,21 @@ describe("Phase 2 inventory and reservations", () => {
     expect(list.body.data.ingredients.length).toBeGreaterThan(0);
   });
 
+  test("Admin can receive a purchase and expose inventory valuation", async () => {
+    const { cookie } = await loginAsAdmin();
+    const ingredient = await request(app)
+      .post("/api/inventory/ingredient")
+      .set("Cookie", cookie)
+      .send({ name: `FIFO Flour ${Date.now()}`, unit: "kg", stock: 0, reorderLevel: 1 });
+    const purchase = await request(app)
+      .post("/api/inventory/purchase")
+      .set("Cookie", cookie)
+      .send({ lines: [{ ingredient: ingredient.body.data._id, quantity: 5, unitCost: 40 }] });
+    expect(purchase.status).toBe(201);
+    const inventory = await request(app).get("/api/inventory").set("Cookie", cookie);
+    expect(inventory.body.data.valuation).toBeGreaterThanOrEqual(200);
+  });
+
   test("Admin can create a reservation", async () => {
     const { cookie } = await loginAsAdmin();
     const response = await request(app)
