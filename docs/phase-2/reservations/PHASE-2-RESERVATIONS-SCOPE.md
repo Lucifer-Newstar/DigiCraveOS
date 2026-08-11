@@ -23,4 +23,4 @@ This is the minimal reservations slice for DigiCraveOS Phase 2.
 
 ## Status
 
-Planned — implementation follows the inventory slice.
+Implementation complete — runtime verification pending.

@@ -1,0 +1,12 @@
+const express = require("express");
+const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
+const { listReservations, addReservation, updateReservation, listWaitlist, addWaitlist, updateWaitlist } = require("../controllers/reservationController");
+const router = express.Router();
+router.use(isVerifiedUser, restrictTo("Admin", "Cashier", "Waiter"));
+router.get("/", listReservations);
+router.post("/", addReservation);
+router.patch("/:id", updateReservation);
+router.get("/waitlist", listWaitlist);
+router.post("/waitlist", addWaitlist);
+router.patch("/waitlist/:id", updateWaitlist);
+module.exports = router;

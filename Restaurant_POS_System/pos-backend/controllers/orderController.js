@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 const Order = require("../models/orderModel");
 const Customer = require("../models/customerModel");
 const Table = require("../models/tableModel");
+const { deductInventoryForOrder } = require("./inventoryController");
 const { default: mongoose } = require("mongoose");
 
 // Thin wrapper around Customer.upsertFromOrder (UML U03 static). Failures here
@@ -16,6 +17,10 @@ const upsertCustomerFromOrder = async (order) => {
 
 const addOrder = async (req, res, next) => {
   try {
+    if (req.body?.idempotencyKey) {
+      const existing = await Order.findOne({ idempotencyKey: req.body.idempotencyKey });
+      if (existing) return res.status(200).json({ success: true, queued: false, data: existing });
+    }
     const order = new Order(req.body);
 
     // An order paid online arrives with Razorpay paymentData already verified,
@@ -188,6 +193,7 @@ const updateOrder = async (req, res, next) => {
     }
 
     order.orderStatus = orderStatus;
+    if (orderStatus === "Completed") await deductInventoryForOrder(order);
     await order.save();
 
     res

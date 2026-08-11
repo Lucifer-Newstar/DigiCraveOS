@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { FiHome, FiClipboard, FiGrid, FiPieChart, FiLogOut } from "react-icons/fi";
+import { FiHome, FiClipboard, FiGrid, FiPieChart, FiLogOut, FiBox, FiCalendar } from "react-icons/fi";
 import logo from "../../assets/images/logo.png";
 import { logout } from "../../https";
 import { removeUser } from "../../redux/slices/userSlice";
@@ -27,8 +27,10 @@ const Sidebar = () => {
       { label: "Orders", icon: FiClipboard, path: "/orders" },
       { label: "Tables", icon: FiGrid, path: "/tables" },
     ];
+    navItems.push({ label: "Reservations", icon: FiCalendar, path: "/reservations" });
     if (role === "Admin") {
       navItems.push({ label: "Dashboard", icon: FiPieChart, path: "/dashboard" });
+      navItems.push({ label: "Inventory", icon: FiBox, path: "/inventory" });
     }
   }
 
