@@ -66,6 +66,10 @@ export const getShifts = () => axiosWrapper.get("/api/workforce");
 export const getWorkforceSummary = () => axiosWrapper.get("/api/workforce/summary");
 export const startShift = (data) => axiosWrapper.post("/api/workforce", data);
 export const closeShift = ({ id, ...data }) => axiosWrapper.patch(`/api/workforce/${id}/close`, data);
+export const getFinanceReport = (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  return axiosWrapper.get(`/api/reports/finance${query ? `?${query}` : ""}`);
+};
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
