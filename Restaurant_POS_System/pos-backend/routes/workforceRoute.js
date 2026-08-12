@@ -1,0 +1,10 @@
+const express = require("express");
+const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
+const { listShifts, startShift, closeShift, getSummary } = require("../controllers/workforceController");
+const router = express.Router();
+router.use(isVerifiedUser, restrictTo("Admin"));
+router.get("/", listShifts);
+router.get("/summary", getSummary);
+router.post("/", startShift);
+router.patch("/:id/close", closeShift);
+module.exports = router;
