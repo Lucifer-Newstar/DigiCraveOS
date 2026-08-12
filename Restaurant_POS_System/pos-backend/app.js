@@ -35,6 +35,7 @@ app.use("/api/ml", require("./routes/mlRoute"));
 app.use("/api/inventory", require("./routes/inventoryRoute"));
 app.use("/api/reservations", require("./routes/reservationRoute"));
 app.use("/api/workforce", require("./routes/workforceRoute"));
+app.use("/api/reports", require("./routes/reportRoute"));
 
 // Global Error Handler
 app.use(globalErrorHandler);
