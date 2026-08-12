@@ -12,7 +12,7 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 | Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Implementation complete; verification pending |
 | QR ordering and payments | [`qr-ordering/PHASE-2-QR-SCOPE.md`](./qr-ordering/PHASE-2-QR-SCOPE.md) | Implementation complete; verification pending |
 | Shifts and payroll | [`workforce/PHASE-2-WORKFORCE-SCOPE.md`](./workforce/PHASE-2-WORKFORCE-SCOPE.md) | Implementation complete; verification pending |
-| Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | In progress |
+| Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | Implementation complete; verification pending |
 
 ## Development rule
 

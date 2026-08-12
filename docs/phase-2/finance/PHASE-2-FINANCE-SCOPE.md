@@ -22,4 +22,4 @@ This is the minimal finance/reporting slice for the Phase 2 roadmap.
 
 ## Status
 
-In progress — implementation started.
+Implementation complete; runtime verification pending.
