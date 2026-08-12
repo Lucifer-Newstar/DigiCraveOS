@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   addOrder,
+  syncOrders,
   getOrders,
   getOrderById,
   updateOrder,
@@ -24,6 +25,7 @@ router.route("/popular").get(isVerifiedUser, getPopularDishes);
 router.route("/payments").get(isVerifiedUser, getPayments);
 router.route("/kitchen").get(isVerifiedUser, restrictTo("Kitchen", "Admin"), getKitchenTickets);
 router.route("/merge").post(isVerifiedUser, mergeOrders);
+router.route("/sync").post(isVerifiedUser, syncOrders);
 
 router.route("/").post(isVerifiedUser, addOrder);
 router.route("/").get(isVerifiedUser, getOrders);

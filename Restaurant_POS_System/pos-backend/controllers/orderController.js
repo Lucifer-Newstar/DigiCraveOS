@@ -128,6 +128,24 @@ const updateKitchenItem = async (req, res, next) => {
   }
 };
 
+const syncOrders = async (req, res, next) => {
+  try {
+    if (!Array.isArray(req.body.orders)) return next(createHttpError(400, "orders must be an array."));
+    const results = [];
+    for (const payload of req.body.orders) {
+      if (payload?.idempotencyKey) {
+        const existing = await Order.findOne({ idempotencyKey: payload.idempotencyKey });
+        if (existing) { results.push({ idempotencyKey: payload.idempotencyKey, status: "already_synced", orderId: existing._id }); continue; }
+      }
+      const order = new Order(payload);
+      await order.save();
+      await upsertCustomerFromOrder(order);
+      results.push({ idempotencyKey: payload.idempotencyKey, status: "synced", orderId: order._id });
+    }
+    res.status(200).json({ success: true, data: results });
+  } catch (error) { next(error); }
+};
+
 const getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -442,6 +460,7 @@ const mergeOrders = async (req, res, next) => {
 
 module.exports = {
   addOrder,
+  syncOrders,
   getOrderById,
   getOrders,
   updateOrder,
