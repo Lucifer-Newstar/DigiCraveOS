@@ -27,5 +27,6 @@ The frontend full lint command still reports older project-wide errors. Targeted
 | Reservations and waitlist | Complete | Pending MongoDB-backed tests |
 | Offline synchronization foundation | Complete | Pending browser/API verification |
 | QR ordering and QR payments | Complete | Pending browser/API verification |
+| Shifts and payroll | Complete | Pending MongoDB-backed tests |
 
 Phase 2 is implementation-complete but should not be marked fully verified until the developer-machine test run is completed.

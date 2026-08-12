@@ -24,4 +24,4 @@ This is the minimal workforce slice for the Phase 2 operations roadmap.
 
 ## Status
 
-In progress — implementation starts after QR ordering and payment.
+Implementation complete; runtime verification pending.
