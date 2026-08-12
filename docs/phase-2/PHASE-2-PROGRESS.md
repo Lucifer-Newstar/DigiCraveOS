@@ -9,7 +9,7 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 | KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | Implementation complete; verification pending |
 | Inventory and recipes | [`inventory/PHASE-2-INVENTORY-SCOPE.md`](./inventory/PHASE-2-INVENTORY-SCOPE.md) | Implementation complete; verification pending |
 | Reservations and waitlist | [`reservations/PHASE-2-RESERVATIONS-SCOPE.md`](./reservations/PHASE-2-RESERVATIONS-SCOPE.md) | Implementation complete; verification pending |
-| Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Implementation complete; verification pending |
+| Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Local queue complete; cloud replay in progress |
 | QR ordering and payments | [`qr-ordering/PHASE-2-QR-SCOPE.md`](./qr-ordering/PHASE-2-QR-SCOPE.md) | Implementation complete; verification pending |
 | Shifts and payroll | [`workforce/PHASE-2-WORKFORCE-SCOPE.md`](./workforce/PHASE-2-WORKFORCE-SCOPE.md) | Implementation complete; verification pending |
 | Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | Implementation complete; verification pending |
