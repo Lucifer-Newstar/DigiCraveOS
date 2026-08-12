@@ -6,7 +6,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { Home, Auth, Orders, Tables, Menu, Dashboard, Kitchen, Inventory, Reservations } from "./pages";
+import { Home, Auth, Orders, Tables, Menu, Dashboard, Kitchen, Inventory, Reservations, Workforce } from "./pages";
 import Header from "./components/shared/Header";
 import Sidebar from "./components/shared/Sidebar";
 import { useSelector } from "react-redux";
@@ -78,6 +78,7 @@ function Layout() {
       />
       <Route path="/inventory" element={<ProtectedRoutes roles={["Admin"]}><Inventory /></ProtectedRoutes>} />
       <Route path="/reservations" element={<ProtectedRoutes roles={["Admin", "Cashier", "Waiter"]}><Reservations /></ProtectedRoutes>} />
+      <Route path="/workforce" element={<ProtectedRoutes roles={["Admin"]}><Workforce /></ProtectedRoutes>} />
       <Route path="*" element={<div className="p-8 text-slate-500">Not Found</div>} />
     </Routes>
   );

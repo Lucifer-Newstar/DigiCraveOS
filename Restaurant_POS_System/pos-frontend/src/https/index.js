@@ -62,6 +62,10 @@ export const updateReservation = ({ id, ...data }) => axiosWrapper.patch(`/api/r
 export const getWaitlist = () => axiosWrapper.get("/api/reservations/waitlist");
 export const addWaitlist = (data) => axiosWrapper.post("/api/reservations/waitlist", data);
 export const updateWaitlist = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/waitlist/${id}`, data);
+export const getShifts = () => axiosWrapper.get("/api/workforce");
+export const getWorkforceSummary = () => axiosWrapper.get("/api/workforce/summary");
+export const startShift = (data) => axiosWrapper.post("/api/workforce", data);
+export const closeShift = ({ id, ...data }) => axiosWrapper.patch(`/api/workforce/${id}/close`, data);
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");

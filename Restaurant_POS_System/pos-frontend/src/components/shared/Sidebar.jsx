@@ -31,6 +31,7 @@ const Sidebar = () => {
     if (role === "Admin") {
       navItems.push({ label: "Dashboard", icon: FiPieChart, path: "/dashboard" });
       navItems.push({ label: "Inventory", icon: FiBox, path: "/inventory" });
+      navItems.push({ label: "Workforce", icon: FiCalendar, path: "/workforce" });
     }
   }
 
