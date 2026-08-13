@@ -34,6 +34,15 @@ async function createOrder(overrides) {
 }
 
 describe("Order status lifecycle (UML U10)", () => {
+  test("Admin can void an order only with a reason", async () => {
+    const orderResponse = await createOrder();
+    const order = orderResponse.body.data;
+    const missingReason = await request(app).post(`/api/order/${order._id}/void`).set("Cookie", cookie).send({});
+    expect(missingReason.status).toBe(400);
+    const response = await request(app).post(`/api/order/${order._id}/void`).set("Cookie", cookie).send({ reason: "Customer cancelled" });
+    expect(response.status).toBe(200);
+    expect(response.body.data.orderStatus).toBe("Voided");
+  });
   test("cash order starts In Progress", async () => {
     const res = await createOrder();
     expect(res.status).toBe(201);
