@@ -146,6 +146,20 @@ const syncOrders = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+const voidOrder = async (req, res, next) => {
+  try {
+    if (!req.body.reason?.trim()) return next(createHttpError(400, "A void reason is required."));
+    const order = await Order.findById(req.params.id);
+    if (!order) return next(createHttpError(404, "Order not found!"));
+    if (!Order.canTransition(order.orderStatus, "Voided")) return next(createHttpError(409, `Cannot void order from "${order.orderStatus}".`));
+    order.orderStatus = "Voided";
+    order.voidReason = req.body.reason.trim();
+    order.voidedBy = req.user._id;
+    await order.save();
+    res.json({ success: true, message: "Order voided", data: order });
+  } catch (error) { next(error); }
+};
+
 const getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -186,6 +200,7 @@ const updateOrder = async (req, res, next) => {
       return next(error);
     }
 
+    if (orderStatus === "Voided") return next(createHttpError(403, "Use the Admin void action with a reason."));
     if (!Order.ORDER_STATUSES.includes(orderStatus)) {
       return next(
         createHttpError(
@@ -461,6 +476,7 @@ const mergeOrders = async (req, res, next) => {
 module.exports = {
   addOrder,
   syncOrders,
+  voidOrder,
   getOrderById,
   getOrders,
   updateOrder,

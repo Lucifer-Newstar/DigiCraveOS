@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addOrder,
   syncOrders,
+  voidOrder,
   getOrders,
   getOrderById,
   updateOrder,
@@ -32,6 +33,7 @@ router.route("/").get(isVerifiedUser, getOrders);
 
 // Bill/lifecycle operations on a specific order (UML U03 methods).
 router.route("/:id/kitchen").patch(isVerifiedUser, restrictTo("Kitchen", "Admin"), updateKitchenItem);
+router.route("/:id/void").post(isVerifiedUser, restrictTo("Admin"), voidOrder);
 router.route("/:id/hold").post(isVerifiedUser, holdOrder);
 router.route("/:id/resume").post(isVerifiedUser, resumeOrder);
 router.route("/:id/split").get(isVerifiedUser, splitOrder);

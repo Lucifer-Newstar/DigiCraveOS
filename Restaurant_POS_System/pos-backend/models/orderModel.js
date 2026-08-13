@@ -90,6 +90,8 @@ const orderSchema = new mongoose.Schema(
     // can return it to where it was.
     _statusBeforeHold: { type: String },
     inventoryDeducted: { type: Boolean, default: false },
+    voidReason: { type: String, default: "" },
+    voidedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     idempotencyKey: { type: String, unique: true, sparse: true },
   },
   { timestamps: true }
