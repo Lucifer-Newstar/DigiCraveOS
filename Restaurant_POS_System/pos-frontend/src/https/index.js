@@ -71,6 +71,10 @@ export const getFinanceReport = (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return axiosWrapper.get(`/api/reports/finance${query ? `?${query}` : ""}`);
 };
+export const getProfitReport = (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  return axiosWrapper.get(`/api/reports/profit${query ? `?${query}` : ""}`);
+};
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
