@@ -20,4 +20,4 @@ This completes the cloud-replay part of the existing offline order queue.
 
 ## Status
 
-In progress — implementation started.
+Implementation complete; runtime and browser verification pending.

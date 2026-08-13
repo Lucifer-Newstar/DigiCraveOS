@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import useLoadData from "./hooks/useLoadData";
 import FullScreenLoader from "./components/shared/FullScreenLoader";
 import CustomerApp from "./CustomerApp";
-import { axiosWrapper } from "./https/axiosWrapper";
+import { syncOrders } from "./https";
 import { syncQueuedOrders } from "./utils/offlineQueue";
 
 function Layout() {
@@ -135,7 +135,7 @@ function Root() {
 
 function App() {
   useEffect(() => {
-    const sync = () => syncQueuedOrders((order) => axiosWrapper.post("/api/order/", order));
+    const sync = () => syncQueuedOrders((order) => syncOrders([order]));
     window.addEventListener("online", sync);
     sync();
     return () => window.removeEventListener("online", sync);

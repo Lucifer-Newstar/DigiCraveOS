@@ -1,6 +1,14 @@
 const { app, request, loginAsAdmin } = require("./helpers");
 
 describe("Phase 2 inventory and reservations", () => {
+  test("Staff can replay idempotent offline orders through the sync endpoint", async () => {
+    const { cookie } = await loginAsAdmin();
+    const payload = { idempotencyKey: `offline-${Date.now()}`, customerDetails: { name: "Offline Guest", phone: "4444444444", guests: 1 }, items: [{ name: "Tea", price: 20, quantity: 1 }], bills: { total: 20, tax: 1, totalWithTax: 21 } };
+    const first = await request(app).post("/api/order/sync").set("Cookie", cookie).send({ orders: [payload] });
+    const second = await request(app).post("/api/order/sync").set("Cookie", cookie).send({ orders: [payload] });
+    expect(first.status).toBe(200);
+    expect(second.body.data[0].status).toBe("already_synced");
+  });
   test("Admin can create and read an ingredient", async () => {
     const { cookie } = await loginAsAdmin();
     const created = await request(app)

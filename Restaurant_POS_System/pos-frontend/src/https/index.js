@@ -44,6 +44,7 @@ export const updateKitchenItem = ({ orderId, itemIndex, kitchenStatus }) =>
   axiosWrapper.patch(`/api/order/${orderId}/kitchen`, { itemIndex, kitchenStatus });
 export const updateOrderStatus = ({ orderId, orderStatus }) =>
   axiosWrapper.put(`/api/order/${orderId}`, { orderStatus });
+export const syncOrders = (orders) => axiosWrapper.post("/api/order/sync", { orders });
 export const getMetrics = () => axiosWrapper.get("/api/order/metrics");
 export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
 export const getPayments = (limit = 25) =>

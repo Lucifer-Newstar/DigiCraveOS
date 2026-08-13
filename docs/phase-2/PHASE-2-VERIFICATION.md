@@ -25,7 +25,7 @@ The frontend full lint command still reports older project-wide errors. Targeted
 | KOT/KDS workflow | Complete | Pending MongoDB-backed tests |
 | Inventory and recipes | Complete | Pending MongoDB-backed tests |
 | Reservations and waitlist | Complete | Pending MongoDB-backed tests |
-| Offline synchronization foundation | Complete | Pending browser/API verification |
+| Offline synchronization and cloud replay | Complete | Pending browser/API verification |
 | QR ordering and QR payments | Complete | Pending browser/API verification |
 | Shifts and payroll | Complete | Pending MongoDB-backed tests |
 | Finance and GST reports | Complete | Pending MongoDB-backed tests |
