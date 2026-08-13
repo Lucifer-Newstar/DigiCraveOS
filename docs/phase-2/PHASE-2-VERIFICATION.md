@@ -30,4 +30,4 @@ The frontend full lint command still reports older project-wide errors. Targeted
 | Shifts and payroll | Complete | Pending MongoDB-backed tests |
 | Finance and GST reports | Complete | Pending MongoDB-backed tests |
 
-Phase 2 is implementation-complete but should not be marked fully verified until the developer-machine test run is completed.
+Phase 2 implementation is complete but should not be marked fully verified until the developer-machine test run is completed. The final implementation summary is in [`PHASE-2-COMPLETION.md`](./PHASE-2-COMPLETION.md).

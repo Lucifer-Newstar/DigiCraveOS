@@ -14,6 +14,10 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 | Shifts and payroll | [`workforce/PHASE-2-WORKFORCE-SCOPE.md`](./workforce/PHASE-2-WORKFORCE-SCOPE.md) | Implementation complete; verification pending |
 | Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | Implementation complete; verification pending |
 
+## Phase 2 completion
+
+All approved Phase 2 implementation slices are complete. See [`PHASE-2-COMPLETION.md`](./PHASE-2-COMPLETION.md). Final testing is deferred until the implementation pass is finished.
+
 ## Development rule
 
 A feature moves from **Planned** to **In progress** only after its scope is written down. It moves to **Complete** only after implementation, tests, verification, and a commit are recorded in its feature folder.
