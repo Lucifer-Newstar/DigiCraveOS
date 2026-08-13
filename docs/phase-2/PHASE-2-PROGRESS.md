@@ -6,29 +6,19 @@ Phase 2 follows the completed Phase 1 MVP. Work is kept in separate feature fold
 
 | Feature | Scope | Status |
 |---|---|---|
-| KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | Implementation complete; verification pending |
-| Inventory and recipes | [`inventory/PHASE-2-INVENTORY-SCOPE.md`](./inventory/PHASE-2-INVENTORY-SCOPE.md) | Implementation complete; verification pending |
-| Reservations and waitlist | [`reservations/PHASE-2-RESERVATIONS-SCOPE.md`](./reservations/PHASE-2-RESERVATIONS-SCOPE.md) | Implementation complete; verification pending |
-| Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Implementation complete; verification pending |
-| QR ordering and payments | [`qr-ordering/PHASE-2-QR-SCOPE.md`](./qr-ordering/PHASE-2-QR-SCOPE.md) | Implementation complete; verification pending |
-| Shifts and payroll | [`workforce/PHASE-2-WORKFORCE-SCOPE.md`](./workforce/PHASE-2-WORKFORCE-SCOPE.md) | Implementation complete; verification pending |
-| Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | Implementation complete; verification pending |
+| KOT/KDS workflow | [`kot-kds/PHASE-2-KOT-KDS-SCOPE.md`](./kot-kds/PHASE-2-KOT-KDS-SCOPE.md) | Implementation complete; MongoDB runtime verification pending |
+| Inventory, recipes, purchasing, and FIFO | [`inventory/PHASE-2-INVENTORY-SCOPE.md`](./inventory/PHASE-2-INVENTORY-SCOPE.md) | Implementation complete; MongoDB runtime verification pending |
+| Reservations and waitlist | [`reservations/PHASE-2-RESERVATIONS-SCOPE.md`](./reservations/PHASE-2-RESERVATIONS-SCOPE.md) | Implementation complete; MongoDB runtime verification pending |
+| Offline synchronization | [`offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md`](./offline-sync/PHASE-2-OFFLINE-SYNC-SCOPE.md) | Implementation complete; browser/API verification pending |
+| QR ordering and payments | [`qr-ordering/PHASE-2-QR-SCOPE.md`](./qr-ordering/PHASE-2-QR-SCOPE.md) | Implementation complete; browser/API verification pending |
+| Shifts and payroll | [`workforce/PHASE-2-WORKFORCE-SCOPE.md`](./workforce/PHASE-2-WORKFORCE-SCOPE.md) | Implementation complete; MongoDB runtime verification pending |
+| Finance and GST reports | [`finance/PHASE-2-FINANCE-SCOPE.md`](./finance/PHASE-2-FINANCE-SCOPE.md) | Implementation complete; MongoDB runtime verification pending |
+| Admin order void workflow | Order lifecycle and audit fields | Implementation complete; MongoDB runtime verification pending |
 
 ## Phase 2 completion
 
-All approved Phase 2 implementation slices are complete. See [`PHASE-2-COMPLETION.md`](./PHASE-2-COMPLETION.md). Final testing is deferred until the implementation pass is finished.
+All approved Phase 2 implementation slices are complete. See [`PHASE-2-COMPLETION.md`](./PHASE-2-COMPLETION.md) and [`FINAL-TEST-REPORT.md`](./FINAL-TEST-REPORT.md).
 
-## Development rule
+## Current verification gate
 
-A feature moves from **Planned** to **In progress** only after its scope is written down. It moves to **Complete** only after implementation, tests, verification, and a commit are recorded in its feature folder.
-
-## Current step
-
-All four approved Phase 2 MVP slices are implementation-complete:
-
-- KOT/KDS workflow
-- Inventory and recipes
-- Reservations and waitlist
-- Offline synchronization foundation
-
-Runtime verification remains pending until MongoDB-backed tests and browser/API checks are run.
+Frontend compilation and targeted Phase 2 lint pass. Backend and ML database-backed suites are blocked until MongoDB is available at `localhost:27017`. Phase 3 must not begin until those suites pass or the user explicitly accepts the environment limitation.
