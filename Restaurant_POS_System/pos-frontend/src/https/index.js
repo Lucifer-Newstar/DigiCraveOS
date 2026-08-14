@@ -79,6 +79,10 @@ export const getPricingRecommendations = (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return axiosWrapper.get(`/api/reports/pricing-recommendations${query ? `?${query}` : ""}`);
 };
+export const getOwnerBriefing = (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  return axiosWrapper.get(`/api/reports/owner-briefing${query ? `?${query}` : ""}`);
+};
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");

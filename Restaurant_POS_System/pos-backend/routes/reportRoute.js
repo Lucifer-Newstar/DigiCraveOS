@@ -3,8 +3,10 @@ const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification
 const { getFinanceReport } = require("../controllers/reportController");
 const { getProfitReport } = require("../controllers/profitController");
 const { getPricingRecommendations } = require("../controllers/pricingController");
+const { getOwnerBriefing } = require("../controllers/copilotController");
 const router = express.Router();
 router.get("/finance", isVerifiedUser, restrictTo("Admin"), getFinanceReport);
 router.get("/profit", isVerifiedUser, restrictTo("Admin"), getProfitReport);
 router.get("/pricing-recommendations", isVerifiedUser, restrictTo("Admin"), getPricingRecommendations);
+router.get("/owner-briefing", isVerifiedUser, restrictTo("Admin"), getOwnerBriefing);
 module.exports = router;
