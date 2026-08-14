@@ -21,5 +21,10 @@ describe("Phase 3 profit engine", () => {
     expect(response.body.data.summary.grossProfit).toBe(60);
     expect(response.body.data.items).toHaveLength(1);
     expect(response.body.data.items[0].status).toBe("high_margin");
+
+    const pricing = await request(app).get("/api/reports/pricing-recommendations?targetMargin=70").set("Cookie", cookie);
+    expect(pricing.status).toBe(200);
+    expect(pricing.body.data.items[0].status).toBe("review_price");
+    expect(pricing.body.data.items[0].suggestedPrice).toBeCloseTo(133.33, 2);
   });
 });
