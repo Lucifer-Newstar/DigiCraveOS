@@ -25,7 +25,7 @@ const CustomerCart = () => {
   const cart = useSelector((s) => s.guestCart);
   const subtotal = useSelector(guestCartTotal);
   const [orderType, setOrderType] = useState("Pickup");
-  const [guests, setGuests] = useState(1);
+  const [guests] = useState(1);
 
   const tax = subtotal * GST;
   const total = subtotal + tax;

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { getAvatarName, getBgColor } from "../../utils"
+import { getAvatarName } from "../../utils"
 import { useDispatch } from "react-redux";
 import { updateTable } from "../../redux/slices/customerSlice";
 import { FaLongArrowAltRight } from "react-icons/fa";

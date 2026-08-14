@@ -2,7 +2,7 @@ import { FaCheckDouble, FaLongArrowAltRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import { getAvatarName } from "../../utils/index";
 
-const OrderList = ({ key, order }) => {
+const OrderList = ({ order }) => {
   return (
     <div className="flex items-center gap-4 px-2 py-3 rounded-xl hover:bg-slate-50 transition-colors">
       <div className="h-11 w-11 shrink-0 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-xl flex items-center justify-center">

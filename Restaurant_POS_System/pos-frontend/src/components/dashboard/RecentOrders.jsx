@@ -1,4 +1,3 @@
-import { GrUpdate } from "react-icons/gr";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getOrders, updateOrderStatus } from "../../https/index";
@@ -12,7 +11,7 @@ const RecentOrders = () => {
 
   const orderStatusUpdateMutation = useMutation({
     mutationFn: ({orderId, orderStatus}) => updateOrderStatus({orderId, orderStatus}),
-    onSuccess: (data) => {
+    onSuccess: () => {
       enqueueSnackbar("Order status updated successfully!", { variant: "success" });
       queryClient.invalidateQueries(["orders"]); // Refresh order list
     },

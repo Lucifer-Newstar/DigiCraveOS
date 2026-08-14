@@ -1,4 +1,3 @@
-import React from 'react'
 
 const MiniCard = ({ title, icon, number, footerNum }) => {
   const isEarnings = title === "Total Earnings";

@@ -24,8 +24,8 @@ const Auth = () => {
 
         {/* Quote at bottom */}
         <blockquote className="absolute bottom-10 px-10 mb-6 text-2xl italic text-white leading-relaxed">
-          "Serve customers the best food with prompt and friendly service in a
-          welcoming atmosphere, and they’ll keep coming back."
+          &quot;Serve customers the best food with prompt and friendly service in a
+          welcoming atmosphere, and they’ll keep coming back.&quot;
           <br />
           <span className="block mt-4 text-base not-italic font-medium text-white/80">- Founder of Restro</span>
         </blockquote>

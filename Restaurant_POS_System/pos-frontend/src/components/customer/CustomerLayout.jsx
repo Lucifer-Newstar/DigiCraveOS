@@ -9,7 +9,6 @@ import { clearGuestCart, guestCartCount } from "../../redux/slices/guestCartSlic
 const CustomerLayout = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const customer = useSelector((s) => s.customerAuth);
   const cartCount = useSelector(guestCartCount);
 
   const logoutMutation = useMutation({

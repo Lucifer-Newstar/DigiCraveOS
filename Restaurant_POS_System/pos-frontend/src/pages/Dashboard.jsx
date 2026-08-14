@@ -41,6 +41,7 @@ const Dashboard = () => {
           {buttons.map(({ label, icon, action }) => {
             return (
               <button
+                key={action}
                 onClick={() => handleOpenModal(action)}
                 className="pos-btn-ghost"
               >
@@ -54,6 +55,7 @@ const Dashboard = () => {
           {tabs.map((tab) => {
             return (
               <button
+                key={tab}
                 className={`pos-chip ${activeTab === tab ? "pos-chip-active" : ""}`}
                 onClick={() => setActiveTab(tab)}
               >

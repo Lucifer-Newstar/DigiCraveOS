@@ -37,7 +37,7 @@ const cartSlice = createSlice({
             if (item) item.notes = notes;
         },
 
-        removeAllItems: (state) => {
+        removeAllItems: () => {
             return [];
         }
     }

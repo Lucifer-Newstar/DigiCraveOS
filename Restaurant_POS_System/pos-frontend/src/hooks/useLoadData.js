@@ -27,7 +27,7 @@ const useLoadData = () => {
         if (!active) return;
         const { _id, name, email, phone, role } = data.data;
         dispatch(setUser({ _id, name, email, phone, role }));
-      } catch (error) {
+      } catch {
         if (!active) return;
         dispatch(removeUser());
       } finally {
