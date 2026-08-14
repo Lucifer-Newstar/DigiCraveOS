@@ -7,6 +7,7 @@
 - Summarizes paid orders, revenue, tax, low-stock ingredients, and open shifts.
 - Produces deterministic prioritized insights from finance, inventory, and workforce data.
 - Added frontend API client support.
+- Added the Owner briefing section to the admin Reports screen.
 - Kept the first slice read-only and explainable; no LLM or automated action is used.
 
 ## Verification
