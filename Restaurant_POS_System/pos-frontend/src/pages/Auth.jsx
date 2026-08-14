@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import restaurant from "../assets/images/restaurant-img.jpg"
 import logo from "../assets/images/logo.png"
 import Register from "../components/auth/Register";

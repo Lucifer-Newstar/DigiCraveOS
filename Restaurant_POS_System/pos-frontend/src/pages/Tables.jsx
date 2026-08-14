@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TableCard from "../components/tables/TableCard";
 import { tables } from "../constants";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

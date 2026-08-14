@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getPopularDishes } from "../../https";

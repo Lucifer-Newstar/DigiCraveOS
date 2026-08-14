@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { menus as fallbackMenus } from "../../constants";
 import { getMenu } from "../../https";

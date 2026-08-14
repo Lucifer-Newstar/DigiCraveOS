@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { getAvatarName, getBgColor } from "../../utils"
 import { useDispatch } from "react-redux";
