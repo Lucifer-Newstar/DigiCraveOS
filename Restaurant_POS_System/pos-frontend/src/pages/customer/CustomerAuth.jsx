@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -130,5 +131,9 @@ const Field = ({ label, ...props }) => (
     />
   </div>
 );
+
+Field.propTypes = {
+  label: PropTypes.string.isRequired,
+};
 
 export default CustomerAuth;

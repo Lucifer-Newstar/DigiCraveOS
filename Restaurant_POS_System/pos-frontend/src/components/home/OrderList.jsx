@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { FaCheckDouble, FaLongArrowAltRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import { getAvatarName } from "../../utils/index";
@@ -35,6 +36,15 @@ const OrderList = ({ order }) => {
       </div>
     </div>
   );
+};
+
+OrderList.propTypes = {
+  order: PropTypes.shape({
+    customerDetails: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    table: PropTypes.shape({ tableNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) }),
+    orderStatus: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default OrderList;

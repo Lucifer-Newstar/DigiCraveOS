@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTotalPrice } from "../../redux/slices/cartSlice";
@@ -217,6 +218,12 @@ const Bill = () => {
       </h1>
     </div>
   );
+  Row.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+    strong: PropTypes.bool,
+    negative: PropTypes.bool,
+  };
 
   return (
     <>

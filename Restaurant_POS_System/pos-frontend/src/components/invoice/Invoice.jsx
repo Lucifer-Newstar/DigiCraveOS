@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa6";
@@ -167,6 +168,29 @@ const Invoice = ({ orderInfo, setShowInvoice }) => {
       </div>
     </div>
   );
+};
+
+Invoice.propTypes = {
+  orderInfo: PropTypes.shape({
+    orderDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
+    customerDetails: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+      guests: PropTypes.number.isRequired,
+    }).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired, quantity: PropTypes.number.isRequired, price: PropTypes.number.isRequired })).isRequired,
+    bills: PropTypes.shape({
+      total: PropTypes.number.isRequired,
+      discount: PropTypes.number,
+      tax: PropTypes.number.isRequired,
+      cgst: PropTypes.number,
+      sgst: PropTypes.number,
+      totalWithTax: PropTypes.number.isRequired,
+    }).isRequired,
+    paymentMethod: PropTypes.string,
+    paymentData: PropTypes.shape({ razorpay_order_id: PropTypes.string, razorpay_payment_id: PropTypes.string }),
+  }).isRequired,
+  setShowInvoice: PropTypes.func.isRequired,
 };
 
 export default Invoice;

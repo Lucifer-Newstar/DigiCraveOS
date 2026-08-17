@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getMetrics } from "../../https";
@@ -62,6 +63,10 @@ const RevenueTrend = ({ trend }) => {
   );
 };
 
+RevenueTrend.propTypes = {
+  trend: PropTypes.arrayOf(PropTypes.object),
+};
+
 /* ----------------------------- Status donut ----------------------------- */
 const COLORS = ["#10b981", "#6366f1", "#f59e0b", "#ef4444", "#0ea5e9", "#a855f7"];
 const StatusDonut = ({ breakdown }) => {
@@ -120,6 +125,10 @@ const StatusDonut = ({ breakdown }) => {
   );
 };
 
+StatusDonut.propTypes = {
+  breakdown: PropTypes.arrayOf(PropTypes.object),
+};
+
 const Metrics = () => {
   const { data: resData, isError } = useQuery({
     queryKey: ["metrics"],
@@ -163,6 +172,11 @@ const Metrics = () => {
       </p>
     </div>
   );
+  Card.propTypes = {
+    title: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    dot: PropTypes.string.isRequired,
+  };
 
   return (
     <div className="container mx-auto">
