@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
@@ -105,6 +106,10 @@ const CustomerLayout = ({ children }) => {
       </nav>
     </div>
   );
+};
+
+CustomerLayout.propTypes = {
+  children: PropTypes.node,
 };
 
 export default CustomerLayout;

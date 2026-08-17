@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useCustomerAuth from "./hooks/useCustomerAuth";
@@ -15,6 +16,10 @@ function CustomerProtected({ children }) {
   if (!isAuth) return <Navigate to="/customer/login" replace />;
   return <CustomerLayout>{children}</CustomerLayout>;
 }
+
+CustomerProtected.propTypes = {
+  children: PropTypes.node,
+};
 
 // The entire Guest storefront, mounted under /customer/*.
 export default function CustomerApp() {

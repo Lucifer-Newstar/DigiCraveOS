@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { register } from "../../https";
 import { useMutation } from "@tanstack/react-query";
@@ -142,6 +143,10 @@ const Register = ({setIsRegister}) => {
       </form>
     </div>
   );
+};
+
+Register.propTypes = {
+  setIsRegister: PropTypes.func.isRequired,
 };
 
 export default Register;

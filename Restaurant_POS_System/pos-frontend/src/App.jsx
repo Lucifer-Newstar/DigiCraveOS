@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -118,6 +119,11 @@ function ProtectedRoutes({ children, roles }) {
 
   return children;
 }
+
+ProtectedRoutes.propTypes = {
+  children: PropTypes.node,
+  roles: PropTypes.arrayOf(PropTypes.string),
+};
 
 // Decides which "app" to render based on the URL, so the staff session loader
 // (useLoadData) never runs on the customer storefront and vice versa.
