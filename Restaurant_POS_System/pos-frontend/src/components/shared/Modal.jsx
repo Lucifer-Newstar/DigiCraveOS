@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 
@@ -36,6 +37,13 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       )}
     </AnimatePresence>
   );
+};
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 export default Modal;

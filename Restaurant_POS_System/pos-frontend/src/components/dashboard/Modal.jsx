@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
@@ -101,6 +102,10 @@ const Modal = ({ setIsTableModalOpen }) => {
       </motion.div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  setIsTableModalOpen: PropTypes.func.isRequired,
 };
 
 export default Modal;

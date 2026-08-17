@@ -1,4 +1,6 @@
 
+import PropTypes from "prop-types";
+
 const MiniCard = ({ title, icon, number, footerNum }) => {
   const isEarnings = title === "Total Earnings";
   return (
@@ -28,5 +30,12 @@ const MiniCard = ({ title, icon, number, footerNum }) => {
     </div>
   )
 }
+
+MiniCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.node,
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  footerNum: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 export default MiniCard

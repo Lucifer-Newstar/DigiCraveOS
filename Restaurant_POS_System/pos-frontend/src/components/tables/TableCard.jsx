@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { getAvatarName } from "../../utils"
 import { useDispatch } from "react-redux";
@@ -29,6 +30,14 @@ const TableCard = ({id, name, status, initials, seats}) => {
       <p className="text-slate-500 text-xs">Seats: <span className="text-slate-900 font-medium">{seats}</span></p>
     </div>
   );
+};
+
+TableCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  status: PropTypes.string.isRequired,
+  initials: PropTypes.string,
+  seats: PropTypes.number,
 };
 
 export default TableCard;
