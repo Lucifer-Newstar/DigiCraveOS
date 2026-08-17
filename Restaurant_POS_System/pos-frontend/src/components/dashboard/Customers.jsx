@@ -22,6 +22,7 @@ const Customers = () => {
   const customers = toArray(data);
   const intelligence = intelligenceData?.data?.data || {};
   const segments = intelligence.segments || {};
+  const segmentById = new Map((intelligence.customers || []).map((customer) => [customer._id, customer.segment]));
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     if (!t) return customers;
@@ -78,13 +79,14 @@ const Customers = () => {
                 <th className="p-3 font-medium">Total Spent</th>
                 <th className="p-3 font-medium">Last Visit</th>
                 <th className="p-3 font-medium">Account</th>
+                <th className="p-3 font-medium">Segment</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
-                <tr><td colSpan={6} className="p-4 text-slate-400">Loading…</td></tr>
+                <tr><td colSpan={7} className="p-4 text-slate-400">Loading…</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={6} className="p-4 text-slate-400">No customers found.</td></tr>
+                <tr><td colSpan={7} className="p-4 text-slate-400">No customers found.</td></tr>
               ) : (
                 filtered.map((c) => (
                   <tr key={c._id} className="border-b border-slate-50 hover:bg-slate-50/50">
@@ -102,6 +104,7 @@ const Customers = () => {
                         <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">Walk-in</span>
                       )}
                     </td>
+                    <td className="p-3 capitalize text-slate-600">{(segmentById.get(c._id) || "regular").replace("_", " ")}</td>
                   </tr>
                 ))
               )}
