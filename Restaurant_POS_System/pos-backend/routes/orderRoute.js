@@ -16,6 +16,7 @@ const {
   getKitchenTickets,
   updateKitchenItem,
 } = require("../controllers/orderController");
+const { getKitchenIntelligence } = require("../controllers/kitchenIntelligenceController");
 const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
 const router = express.Router();
 
@@ -25,6 +26,7 @@ router.route("/metrics").get(isVerifiedUser, getMetrics);
 router.route("/popular").get(isVerifiedUser, getPopularDishes);
 router.route("/payments").get(isVerifiedUser, getPayments);
 router.route("/kitchen").get(isVerifiedUser, restrictTo("Kitchen", "Admin"), getKitchenTickets);
+router.route("/kitchen/intelligence").get(isVerifiedUser, restrictTo("Kitchen", "Admin"), getKitchenIntelligence);
 router.route("/merge").post(isVerifiedUser, mergeOrders);
 router.route("/sync").post(isVerifiedUser, syncOrders);
 
