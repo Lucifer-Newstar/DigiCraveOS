@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
@@ -98,12 +99,22 @@ const ForecastChart = ({ history, forecast }) => {
   );
 };
 
+ForecastChart.propTypes = {
+  history: PropTypes.arrayOf(PropTypes.object),
+  forecast: PropTypes.arrayOf(PropTypes.object),
+};
+
 const SectionTitle = ({ title, subtitle }) => (
   <div>
     <h2 className="pos-title">{title}</h2>
     {subtitle && <p className="pos-subtitle">{subtitle}</p>}
   </div>
 );
+
+SectionTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+};
 
 const AiInsights = () => {
   // --- Forecast ---

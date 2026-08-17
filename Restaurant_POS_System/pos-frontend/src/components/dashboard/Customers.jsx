@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCustomers } from "../../https";
@@ -108,5 +109,11 @@ const Stat = ({ label, value, dot }) => (
     <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900">{value}</p>
   </div>
 );
+
+Stat.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  dot: PropTypes.string.isRequired,
+};
 
 export default Customers;

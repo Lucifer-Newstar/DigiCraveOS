@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
 import { getPayments } from "../../https";
 
@@ -26,6 +27,10 @@ const StatusBadge = ({ status }) => {
       {status || "—"}
     </span>
   );
+};
+
+StatusBadge.propTypes = {
+  status: PropTypes.string,
 };
 
 const Payments = () => {

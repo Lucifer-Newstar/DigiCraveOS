@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
@@ -252,6 +253,11 @@ const MenuModal = ({ mode = "category", onClose }) => {
       </motion.div>
     </div>
   );
+};
+
+MenuModal.propTypes = {
+  mode: PropTypes.oneOf(["category", "dishes"]),
+  onClose: PropTypes.func.isRequired,
 };
 
 export default MenuModal;
