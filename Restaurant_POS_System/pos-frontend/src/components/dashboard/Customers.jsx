@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCustomers } from "../../https";
+import { getCustomerIntelligence, getCustomers } from "../../https";
 import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
@@ -14,8 +14,14 @@ const Customers = () => {
     queryKey: ["customers"],
     queryFn: getCustomers,
   });
+  const { data: intelligenceData } = useQuery({
+    queryKey: ["customer-intelligence"],
+    queryFn: getCustomerIntelligence,
+  });
 
   const customers = toArray(data);
+  const intelligence = intelligenceData?.data?.data || {};
+  const segments = intelligence.segments || {};
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     if (!t) return customers;
@@ -42,6 +48,13 @@ const Customers = () => {
           value={customers.filter((c) => c.hasAccount).length}
           dot="bg-indigo-500"
         />
+      </div>
+
+      <div className="pos-card p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div><h2 className="font-semibold">Customer segments</h2><p className="text-xs text-slate-500">Deterministic retention groups from orders and visit recency.</p></div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">{["vip", "loyal", "new", "at_risk", "regular"].map((segment) => <div className="rounded-lg bg-slate-50 p-3" key={segment}><p className="text-xs text-slate-500 capitalize">{segment.replace("_", " ")}</p><p className="text-xl font-bold text-slate-900">{segments[segment] || 0}</p></div>)}</div>
       </div>
 
       <div>
