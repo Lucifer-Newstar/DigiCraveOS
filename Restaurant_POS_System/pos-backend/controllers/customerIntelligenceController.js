@@ -40,4 +40,20 @@ const getRetentionRecommendations = async (req, res, next) => {
   }
 };
 
-module.exports = { getCustomerIntelligence, getRetentionRecommendations };
+const getCampaignDrafts = async (req, res, next) => {
+  try {
+    const customers = await Customer.find({}).select("-password").lean();
+    const now = Date.now();
+    const atRisk = customers.filter((customer) => customer.totalOrders > 0 && customer.lastVisit && (now - new Date(customer.lastVisit).getTime()) / 86400000 > 30);
+    const vip = customers.filter((customer) => customer.totalOrders >= 5 || customer.totalSpent >= 5000);
+    const safe = (customer) => ({ _id: customer._id, name: customer.name, phone: customer.phone, email: customer.email });
+    const campaigns = [];
+    if (atRisk.length) campaigns.push({ id: "win-back", name: "Win-back customers", audienceCount: atRisk.length, channel: "email_or_sms", subject: "We saved a table for you", message: "We miss you. Come back and enjoy a special welcome on your next visit.", audience: atRisk.map(safe) });
+    if (vip.length) campaigns.push({ id: "vip-appreciation", name: "VIP appreciation", audienceCount: vip.length, channel: "in_app_or_staff", subject: "Thank you for being a regular", message: "Thank you for dining with us. Ask our team about your VIP appreciation benefit.", audience: vip.map(safe) });
+    res.json({ success: true, data: { total: campaigns.length, campaigns } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getCustomerIntelligence, getRetentionRecommendations, getCampaignDrafts };
