@@ -22,4 +22,22 @@ const getCustomerIntelligence = async (req, res, next) => {
   }
 };
 
-module.exports = { getCustomerIntelligence };
+const getRetentionRecommendations = async (req, res, next) => {
+  try {
+    const customers = await Customer.find({}).select("-password").lean();
+    const now = Date.now();
+    const recommendations = customers.map((customer) => {
+      const orders = Number(customer.totalOrders || 0);
+      const spent = Number(customer.totalSpent || 0);
+      const daysSinceVisit = customer.lastVisit ? Math.max(0, Math.floor((now - new Date(customer.lastVisit).getTime()) / 86400000)) : null;
+      if (daysSinceVisit !== null && daysSinceVisit > 30 && orders > 0) return { customer: { _id: customer._id, name: customer.name, phone: customer.phone, email: customer.email }, priority: daysSinceVisit > 60 ? "high" : "medium", reason: `${daysSinceVisit} days since last visit`, action: "Send a win-back offer", channel: customer.hasAccount ? "email_or_in_app" : "phone_or_sms", daysSinceVisit };
+      if (orders >= 5 || spent >= 5000) return { customer: { _id: customer._id, name: customer.name, phone: customer.phone, email: customer.email }, priority: "low", reason: "High-value customer", action: "Offer loyalty recognition", channel: customer.hasAccount ? "in_app" : "staff_prompt", daysSinceVisit };
+      return null;
+    }).filter(Boolean).sort((a, b) => ({ high: 0, medium: 1, low: 2 }[a.priority] - { high: 0, medium: 1, low: 2 }[b.priority] || (b.daysSinceVisit || 0) - (a.daysSinceVisit || 0)));
+    res.json({ success: true, data: { total: recommendations.length, recommendations } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getCustomerIntelligence, getRetentionRecommendations };
