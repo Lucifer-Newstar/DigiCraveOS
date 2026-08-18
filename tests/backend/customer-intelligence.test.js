@@ -18,5 +18,10 @@ describe("Phase 3 customer intelligence", () => {
     expect(retention.status).toBe(200);
     expect(retention.body.data.recommendations[0].priority).toBe("high");
     expect(retention.body.data.recommendations[0].customer.name).toBe("At Risk Guest");
+
+    const campaigns = await request(app).get("/api/customer/campaign-drafts").set("Cookie", cookie);
+    expect(campaigns.status).toBe(200);
+    expect(campaigns.body.data.campaigns.map((campaign) => campaign.id)).toEqual(expect.arrayContaining(["win-back", "vip-appreciation"]));
+    expect(campaigns.body.data.campaigns[0].audience[0].password).toBeUndefined();
   });
 });
