@@ -88,6 +88,7 @@ export const getOwnerBriefing = (params = {}) => {
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
 export const getCustomerIntelligence = () => axiosWrapper.get("/api/customer/intelligence");
+export const getRetentionRecommendations = () => axiosWrapper.get("/api/customer/retention");
 
 // Customer (Guest) portal Endpoints — separate auth from staff.
 export const customerRegister = (data) =>

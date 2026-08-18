@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCustomerIntelligence, getCustomers } from "../../https";
+import { getCustomerIntelligence, getCustomers, getRetentionRecommendations } from "../../https";
 import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
@@ -18,11 +18,16 @@ const Customers = () => {
     queryKey: ["customer-intelligence"],
     queryFn: getCustomerIntelligence,
   });
+  const { data: retentionData } = useQuery({
+    queryKey: ["customer-retention"],
+    queryFn: getRetentionRecommendations,
+  });
 
   const customers = toArray(data);
   const intelligence = intelligenceData?.data?.data || {};
   const segments = intelligence.segments || {};
   const segmentById = new Map((intelligence.customers || []).map((customer) => [customer._id, customer.segment]));
+  const retention = retentionData?.data?.data?.recommendations || [];
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     if (!t) return customers;
@@ -57,6 +62,8 @@ const Customers = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">{["vip", "loyal", "new", "at_risk", "regular"].map((segment) => <div className="rounded-lg bg-slate-50 p-3" key={segment}><p className="text-xs text-slate-500 capitalize">{segment.replace("_", " ")}</p><p className="text-xl font-bold text-slate-900">{segments[segment] || 0}</p></div>)}</div>
       </div>
+
+      {retention.length > 0 && <div className="pos-card p-4"><h2 className="font-semibold">Retention actions</h2><p className="text-xs text-slate-500 mt-1">Advisory follow-ups only. No messages are sent automatically.</p><div className="mt-3 space-y-2">{retention.slice(0, 5).map((item) => <div className="flex items-center justify-between gap-3 rounded-lg bg-slate-50 p-3" key={String(item.customer._id)}><div><p className="font-medium text-slate-800">{item.customer.name}</p><p className="text-xs text-slate-500">{item.reason} · {item.channel.replaceAll("_", " ")}</p></div><span className="text-xs font-semibold uppercase text-amber-700">{item.action}</span></div>)}</div></div>}
 
       <div>
         <div className="flex items-center justify-between mb-3">
