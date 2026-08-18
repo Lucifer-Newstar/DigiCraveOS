@@ -40,6 +40,7 @@ export const addOrder = async (data) => {
 };
 export const getOrders = () => axiosWrapper.get("/api/order");
 export const getKitchenTickets = () => axiosWrapper.get("/api/order/kitchen");
+export const getKitchenIntelligence = () => axiosWrapper.get("/api/order/kitchen/intelligence");
 export const updateKitchenItem = ({ orderId, itemIndex, kitchenStatus }) =>
   axiosWrapper.patch(`/api/order/${orderId}/kitchen`, { itemIndex, kitchenStatus });
 export const updateOrderStatus = ({ orderId, orderStatus }) =>
