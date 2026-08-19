@@ -84,6 +84,7 @@ export const getOwnerBriefing = (params = {}) => {
   const query = new URLSearchParams(params).toString();
   return axiosWrapper.get(`/api/reports/owner-briefing${query ? `?${query}` : ""}`);
 };
+export const getPaymentReconciliation = () => axiosWrapper.get("/api/reports/payment-reconciliation");
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
