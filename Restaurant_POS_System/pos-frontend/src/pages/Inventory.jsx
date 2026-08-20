@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addIngredient, getInventory } from "../https";
+import { addIngredient, getInventory, getInventoryIntelligence } from "../https";
 import { toArray } from "../utils/index";
 
 const Inventory = () => {
@@ -8,9 +8,12 @@ const Inventory = () => {
   const [form, setForm] = useState({ name: "", unit: "kg", stock: "", reorderLevel: "" });
   useEffect(() => { document.title = "POS | Inventory"; }, []);
   const { data, isLoading } = useQuery({ queryKey: ["inventory"], queryFn: getInventory });
+  const { data: intelligenceData } = useQuery({ queryKey: ["inventory-intelligence"], queryFn: getInventoryIntelligence });
+  const intelligence = intelligenceData?.data?.data || {};
   const add = useMutation({ mutationFn: addIngredient, onSuccess: () => { setForm({ name: "", unit: "kg", stock: "", reorderLevel: "" }); client.invalidateQueries({ queryKey: ["inventory"] }); } });
   const ingredients = toArray(data?.data?.ingredients || data?.ingredients);
   return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients, batches, and low-stock levels</p></div><span className="pos-chip pos-chip-active">Value: ₹{Number(data?.data?.valuation || 0).toFixed(2)}</span></div>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">{[["Ingredients", intelligence.totalIngredients || 0], ["Low stock", intelligence.lowStockCount || 0], ["Stock value", `₹${Number(intelligence.stockValue || 0).toFixed(2)}`]].map(([label, value]) => <div className="pos-card p-4" key={label}><p className="text-xs text-slate-500">{label}</p><p className="text-xl font-bold mt-1">{value}</p></div>)}</div>
     <div className="pos-card p-4 mb-4"><form className="grid grid-cols-2 md:grid-cols-5 gap-2" onSubmit={(e) => { e.preventDefault(); add.mutate({ ...form, stock: Number(form.stock), reorderLevel: Number(form.reorderLevel) }); }}>
       {[["name","Ingredient"],["unit","Unit"],["stock","Stock"],["reorderLevel","Reorder level"]].map(([key, label]) => <input key={key} className="pos-input" required={key !== "reorderLevel"} placeholder={label} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
       <button className="pos-btn-primary" disabled={add.isPending}>Add ingredient</button></form></div>
