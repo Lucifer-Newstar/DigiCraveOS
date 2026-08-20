@@ -35,4 +35,4 @@ Restaurant_POS_ML/.venv/bin/python -m pytest tests/ml -v
   run directly (`require.main === module`), so Supertest mounts it in-process.
 - Tests connect using the **backend's** mongoose instance so models and the
   test connection share one client.
-- Current test set: **48 backend tests + 7 ML tests = 55 tests.**
+- Current test set: **60 backend tests + 7 ML tests = 67 tests.**
