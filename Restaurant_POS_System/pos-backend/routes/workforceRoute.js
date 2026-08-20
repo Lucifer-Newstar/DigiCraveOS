@@ -1,10 +1,12 @@
 const express = require("express");
 const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
 const { listShifts, startShift, closeShift, getSummary } = require("../controllers/workforceController");
+const { getWorkforceIntelligence } = require("../controllers/workforceIntelligenceController");
 const router = express.Router();
 router.use(isVerifiedUser, restrictTo("Admin"));
 router.get("/", listShifts);
 router.get("/summary", getSummary);
+router.get("/intelligence", getWorkforceIntelligence);
 router.post("/", startShift);
 router.patch("/:id/close", closeShift);
 module.exports = router;
