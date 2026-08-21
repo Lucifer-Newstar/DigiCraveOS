@@ -14,12 +14,15 @@ Phase 3 is being delivered in documented, tested slices. Each slice has scope, i
 8. Payment Reconciliation — missing, mismatched, and orphan payment findings.
 9. Fraud Detection — explainable payment anomaly signals.
 10. Frontend quality — full ESLint cleanup completed; build remains passing.
+11. Inventory Intelligence — low-stock and purchase suggestions.
+12. Workforce Intelligence — open-shift liability and role coverage.
+13. Payment/Fraud hardening — admin access coverage across intelligence endpoints.
 
 ## Verification baseline
 
-- Backend: 60 tests passed, including 8 Phase 3 access-control checks.
+- Backend: 62 tests passed, including 11 Phase 3 access-control checks.
 - ML: 7 tests passed.
-- Total automated tests: 67 passed.
+- Total automated tests: 69 passed.
 - Frontend full ESLint: passed.
 - Frontend production build: passed.
 - MongoDB-backed services are run separately during verification.
