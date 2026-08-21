@@ -20,9 +20,9 @@ Phase 3 is being delivered in documented, tested slices. Each slice has scope, i
 
 ## Verification baseline
 
-- Backend: 62 tests passed, including 11 Phase 3 access-control checks.
+- Backend: 65 tests passed, including 11 Phase 3 access-control checks.
 - ML: 7 tests passed.
-- Total automated tests: 69 passed.
+- Total automated tests: 72 passed.
 - Frontend full ESLint: passed.
 - Frontend production build: passed.
 - MongoDB-backed services are run separately during verification.

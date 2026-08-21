@@ -6,7 +6,7 @@ The one-command verifier is `scripts/verify-all.sh`.
 
 | Area | Result |
 |---|---|
-| Backend | 62 passed, 0 failed across 18 suites |
+| Backend | 65 passed, 0 failed across 18 suites |
 | ML | 7 passed, 0 failed |
 | Frontend ESLint | Passed with 0 errors |
 | Frontend production build | Passed |
