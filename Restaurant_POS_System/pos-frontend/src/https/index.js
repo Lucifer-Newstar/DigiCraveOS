@@ -67,6 +67,7 @@ export const addWaitlist = (data) => axiosWrapper.post("/api/reservations/waitli
 export const updateWaitlist = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/waitlist/${id}`, data);
 export const getShifts = () => axiosWrapper.get("/api/workforce");
 export const getWorkforceSummary = () => axiosWrapper.get("/api/workforce/summary");
+export const getWorkforceIntelligence = () => axiosWrapper.get("/api/workforce/intelligence");
 export const startShift = (data) => axiosWrapper.post("/api/workforce", data);
 export const closeShift = ({ id, ...data }) => axiosWrapper.patch(`/api/workforce/${id}/close`, data);
 export const getFinanceReport = (params = {}) => {
