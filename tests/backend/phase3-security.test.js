@@ -10,6 +10,9 @@ describe("Phase 3 admin endpoint security", () => {
     "/api/customer/intelligence",
     "/api/customer/retention",
     "/api/customer/campaign-drafts",
+    "/api/order/kitchen/intelligence",
+    "/api/inventory/intelligence",
+    "/api/workforce/intelligence",
   ])("rejects unauthenticated access to %s", async (path) => {
     const response = await request(app).get(path);
     expect(response.status).toBe(401);
