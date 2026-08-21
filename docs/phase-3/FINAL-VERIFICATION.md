@@ -6,7 +6,7 @@ The one-command verifier is `scripts/verify-all.sh`.
 
 | Area | Result |
 |---|---|
-| Backend | 60 passed, 0 failed across 16 suites |
+| Backend | 62 passed, 0 failed across 18 suites |
 | ML | 7 passed, 0 failed |
 | Frontend ESLint | Passed with 0 errors |
 | Frontend production build | Passed |
@@ -18,4 +18,4 @@ Known non-failing warnings:
 - ML dependency/deprecation warnings.
 - Frontend JavaScript bundle exceeds the Vite 500 kB advisory threshold.
 
-No test was skipped because of the MongoDB environment; the local MongoDB service was running during this verification pass.
+No test was skipped because of the MongoDB environment; the local MongoDB service was running during this verification pass. The one-command verifier now covers the complete 62-test backend suite.
