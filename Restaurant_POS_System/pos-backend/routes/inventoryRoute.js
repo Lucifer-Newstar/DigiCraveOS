@@ -3,11 +3,13 @@ const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification
 const { getInventory, addIngredient, updateIngredient, upsertRecipe, addSupplier, addPurchase } = require("../controllers/inventoryController");
 const { getInventoryIntelligence } = require("../controllers/inventoryIntelligenceController");
 const { getSupplierIntelligence } = require("../controllers/supplierIntelligenceController");
+const { getRecipeCostVariance } = require("../controllers/recipeVarianceController");
 const router = express.Router();
 router.use(isVerifiedUser, restrictTo("Admin"));
 router.get("/", getInventory);
 router.get("/intelligence", getInventoryIntelligence);
 router.get("/supplier-intelligence", getSupplierIntelligence);
+router.get("/recipe-variance", getRecipeCostVariance);
 router.post("/ingredient", addIngredient);
 router.patch("/ingredient/:id", updateIngredient);
 router.put("/recipe", upsertRecipe);
