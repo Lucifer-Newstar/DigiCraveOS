@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addIngredient, getInventory, getInventoryIntelligence } from "../https";
+import { addIngredient, getInventory, getInventoryIntelligence, getSupplierIntelligence } from "../https";
 import { toArray } from "../utils/index";
 
 const Inventory = () => {
@@ -9,7 +9,9 @@ const Inventory = () => {
   useEffect(() => { document.title = "POS | Inventory"; }, []);
   const { data, isLoading } = useQuery({ queryKey: ["inventory"], queryFn: getInventory });
   const { data: intelligenceData } = useQuery({ queryKey: ["inventory-intelligence"], queryFn: getInventoryIntelligence });
+  const { data: supplierData, isLoading: suppliersLoading } = useQuery({ queryKey: ["supplier-intelligence"], queryFn: getSupplierIntelligence });
   const intelligence = intelligenceData?.data?.data || {};
+  const supplierIntelligence = supplierData?.data?.data || { items: [], suppliers: 0, purchases: 0 };
   const add = useMutation({ mutationFn: addIngredient, onSuccess: () => { setForm({ name: "", unit: "kg", stock: "", reorderLevel: "" }); client.invalidateQueries({ queryKey: ["inventory"] }); } });
   const ingredients = toArray(data?.data?.ingredients || data?.ingredients);
   return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients, batches, and low-stock levels</p></div><span className="pos-chip pos-chip-active">Value: ₹{Number(data?.data?.valuation || 0).toFixed(2)}</span></div>
@@ -18,6 +20,7 @@ const Inventory = () => {
       {[["name","Ingredient"],["unit","Unit"],["stock","Stock"],["reorderLevel","Reorder level"]].map(([key, label]) => <input key={key} className="pos-input" required={key !== "reorderLevel"} placeholder={label} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
       <button className="pos-btn-primary" disabled={add.isPending}>Add ingredient</button></form></div>
     <div className="pos-card overflow-hidden">{isLoading ? <p className="p-6">Loading...</p> : <table className="w-full text-sm"><thead><tr className="text-left bg-slate-50"><th className="p-3">Ingredient</th><th>Unit</th><th>Stock</th><th>Reorder level</th><th>Status</th></tr></thead><tbody>{ingredients.map((item) => <tr key={item._id} className="border-t"><td className="p-3 font-medium">{item.name}</td><td>{item.unit}</td><td>{item.stock}</td><td>{item.reorderLevel}</td><td className={item.stock <= item.reorderLevel ? "text-red-600 font-semibold" : "text-green-600"}>{item.stock <= item.reorderLevel ? "Low" : "OK"}</td></tr>)}</tbody></table>}</div>
+    <div className="pos-card p-4 mt-4"><div className="flex flex-wrap items-start justify-between gap-3 mb-3"><div><h2 className="font-bold">Supplier price comparison</h2><p className="text-sm text-slate-500">Compare observed purchase quotes before placing the next order.</p></div><div className="text-right text-xs text-slate-500"><span>{supplierIntelligence.suppliers} suppliers</span><span className="mx-2">•</span><span>{supplierIntelligence.purchases} purchases</span></div></div>{suppliersLoading ? <p className="py-4 text-sm text-slate-500">Loading supplier quotes...</p> : supplierIntelligence.items.length === 0 ? <p className="py-4 text-sm text-slate-500">No supplier quotes recorded yet.</p> : <div className="overflow-x-auto"><table className="w-full text-sm"><thead><tr className="text-left bg-slate-50"><th className="p-3">Ingredient</th><th>Unit</th><th>Lowest observed</th><th>Latest quote</th><th>Quote history</th></tr></thead><tbody>{supplierIntelligence.items.map((item) => <tr key={item.ingredientId} className="border-t"><td className="p-3 font-medium">{item.ingredientName}</td><td>{item.unit || "—"}</td><td className="text-emerald-700 font-semibold">{item.lowestCost == null ? "—" : `₹${Number(item.lowestCost).toFixed(2)}`}</td><td>{item.latestCost == null ? "—" : `₹${Number(item.latestCost).toFixed(2)}`}</td><td>{item.quotes.length === 0 ? <span className="text-slate-400">No quotes</span> : <div className="space-y-1">{item.quotes.slice(-3).reverse().map((quote, index) => <div key={`${quote.receivedAt}-${index}`} className="text-xs"><span className="font-medium">{quote.supplier}</span><span className="text-slate-500"> · ₹{Number(quote.unitCost).toFixed(2)} · {quote.receivedAt ? new Date(quote.receivedAt).toLocaleDateString("en-IN") : "date unavailable"}</span></div>)}</div>}</td></tr>)}</tbody></table></div>}</div>
   </section>;
 };
 export default Inventory;
