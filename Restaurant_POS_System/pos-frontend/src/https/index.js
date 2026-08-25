@@ -96,6 +96,7 @@ export const getFraudSignals = () => axiosWrapper.get("/api/reports/fraud-signal
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
 export const getCustomerIntelligence = () => axiosWrapper.get("/api/customer/intelligence");
+export const getCustomerCohorts = () => axiosWrapper.get("/api/customer/cohorts");
 export const getRetentionRecommendations = () => axiosWrapper.get("/api/customer/retention");
 export const getCampaignDrafts = () => axiosWrapper.get("/api/customer/campaign-drafts");
 
