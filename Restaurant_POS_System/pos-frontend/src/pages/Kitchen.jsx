@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
-import { getKitchenIntelligence, getKitchenTickets, updateKitchenItem } from "../https";
+import { getKitchenDelayRisk, getKitchenIntelligence, getKitchenTickets, updateKitchenItem } from "../https";
 import { toArray } from "../utils/index";
 
 const NEXT_STATUS = {
@@ -46,6 +46,8 @@ const Kitchen = () => {
   });
   const intelligence = intelligenceResponse?.data?.data || {};
   const statusCounts = intelligence.statusCounts || {};
+  const { data: delayResponse } = useQuery({ queryKey: ["kitchen-delay-risk"], queryFn: getKitchenDelayRisk, refetchInterval: 10000 });
+  const delayRisk = delayResponse?.data?.data || { atRisk: 0, items: [] };
 
   return (
     <section className="pos-page">
@@ -56,8 +58,8 @@ const Kitchen = () => {
         </div>
         <span className="pos-chip pos-chip-active">{activeCount} active</span>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-        {[["Active items", intelligence.activeItems || 0], ["Pending", statusCounts.Pending || 0], ["Preparing", statusCounts.Preparing || 0], ["Ready", statusCounts.Ready || 0]].map(([label, value]) => <div className="pos-card p-4" key={label}><p className="text-xs text-slate-500">{label}</p><p className="text-2xl font-bold mt-1">{value}</p></div>)}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+        {[["Active items", intelligence.activeItems || 0], ["Pending", statusCounts.Pending || 0], ["Preparing", statusCounts.Preparing || 0], ["Ready", statusCounts.Ready || 0], ["Delay risk", delayRisk.atRisk || 0]].map(([label, value]) => <div className="pos-card p-4" key={label}><p className="text-xs text-slate-500">{label}</p><p className={`text-2xl font-bold mt-1 ${label === "Delay risk" && value ? "text-red-600" : ""}`}>{value}</p></div>)}
       </div>
 
       {isLoading ? (
