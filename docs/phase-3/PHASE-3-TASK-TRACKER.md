@@ -23,9 +23,9 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 14. Recipe cost variance analysis
 - [x] 15. Recipe variance UI
 - [x] 16. Recipe variance tests
-- [ ] 17. Waste and consumption anomaly API
-- [ ] 18. Waste anomaly UI
-- [ ] 19. Waste anomaly tests
+- [x] 17. Waste and consumption anomaly API
+- [x] 18. Waste anomaly UI
+- [x] 19. Waste anomaly tests
 - [ ] 20. KDS delay-risk rules
 - [ ] 21. KDS delay-risk UI
 - [ ] 22. KDS delay-risk tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 110 commits. Tasks 12–16 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 113 commits. Tasks 12–19 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
