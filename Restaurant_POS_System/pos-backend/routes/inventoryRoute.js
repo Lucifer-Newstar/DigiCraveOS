@@ -4,12 +4,14 @@ const { getInventory, addIngredient, updateIngredient, upsertRecipe, addSupplier
 const { getInventoryIntelligence } = require("../controllers/inventoryIntelligenceController");
 const { getSupplierIntelligence } = require("../controllers/supplierIntelligenceController");
 const { getRecipeCostVariance } = require("../controllers/recipeVarianceController");
+const { getWasteAnomalies } = require("../controllers/wasteAnomalyController");
 const router = express.Router();
 router.use(isVerifiedUser, restrictTo("Admin"));
 router.get("/", getInventory);
 router.get("/intelligence", getInventoryIntelligence);
 router.get("/supplier-intelligence", getSupplierIntelligence);
 router.get("/recipe-variance", getRecipeCostVariance);
+router.get("/waste-anomalies", getWasteAnomalies);
 router.post("/ingredient", addIngredient);
 router.patch("/ingredient/:id", updateIngredient);
 router.put("/recipe", upsertRecipe);
