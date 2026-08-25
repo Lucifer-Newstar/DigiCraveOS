@@ -20,9 +20,9 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 11. Supplier price intelligence
 - [x] 12. Supplier price comparison UI
 - [x] 13. Supplier intelligence integration tests
-- [ ] 14. Recipe cost variance analysis
-- [ ] 15. Recipe variance UI
-- [ ] 16. Recipe variance tests
+- [x] 14. Recipe cost variance analysis
+- [x] 15. Recipe variance UI
+- [x] 16. Recipe variance tests
 - [ ] 17. Waste and consumption anomaly API
 - [ ] 18. Waste anomaly UI
 - [ ] 19. Waste anomaly tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 106 commits. Tasks 12 and 13 were verified with frontend lint/build and three supplier integration tests. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 110 commits. Tasks 12–16 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
