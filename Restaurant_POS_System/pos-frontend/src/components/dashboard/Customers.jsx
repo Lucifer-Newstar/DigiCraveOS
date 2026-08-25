@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCampaignDrafts, getCustomerIntelligence, getCustomers, getRetentionRecommendations } from "../../https";
+import { getCampaignDrafts, getCustomerCohorts, getCustomerIntelligence, getCustomers, getRetentionRecommendations } from "../../https";
 import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
@@ -18,6 +18,7 @@ const Customers = () => {
     queryKey: ["customer-intelligence"],
     queryFn: getCustomerIntelligence,
   });
+  const { data: cohortData } = useQuery({ queryKey: ["customer-cohorts"], queryFn: getCustomerCohorts });
   const { data: retentionData } = useQuery({
     queryKey: ["customer-retention"],
     queryFn: getRetentionRecommendations,
@@ -31,6 +32,7 @@ const Customers = () => {
   const intelligence = intelligenceData?.data?.data || {};
   const segments = intelligence.segments || {};
   const segmentById = new Map((intelligence.customers || []).map((customer) => [customer._id, customer.segment]));
+  const cohorts = cohortData?.data?.data?.cohorts || [];
   const retention = retentionData?.data?.data?.recommendations || [];
   const campaigns = campaignData?.data?.data?.campaigns || [];
   const filtered = useMemo(() => {
@@ -67,6 +69,8 @@ const Customers = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">{["vip", "loyal", "new", "at_risk", "regular"].map((segment) => <div className="rounded-lg bg-slate-50 p-3" key={segment}><p className="text-xs text-slate-500 capitalize">{segment.replace("_", " ")}</p><p className="text-xl font-bold text-slate-900">{segments[segment] || 0}</p></div>)}</div>
       </div>
+
+      {cohorts.length > 0 && <div className="pos-card p-4"><h2 className="font-semibold">Customer cohorts</h2><p className="text-xs text-slate-500 mt-1">Monthly acquisition groups with observed spend and order activity.</p><div className="overflow-x-auto mt-3"><table className="w-full text-sm"><thead><tr className="text-left bg-slate-50"><th className="p-3">Cohort</th><th>Customers</th><th>Orders</th><th>Revenue</th><th>Avg spend</th></tr></thead><tbody>{cohorts.slice(0, 6).map((cohort) => <tr className="border-t" key={cohort.cohort}><td className="p-3 font-medium">{cohort.cohort}</td><td>{cohort.customers}</td><td>{cohort.orders}</td><td>{inr(cohort.revenue)}</td><td>{inr(cohort.averageSpend)}</td></tr>)}</tbody></table></div></div>}
 
       {retention.length > 0 && <div className="pos-card p-4"><h2 className="font-semibold">Retention actions</h2><p className="text-xs text-slate-500 mt-1">Advisory follow-ups only. No messages are sent automatically.</p><div className="mt-3 space-y-2">{retention.slice(0, 5).map((item) => <div className="flex items-center justify-between gap-3 rounded-lg bg-slate-50 p-3" key={String(item.customer._id)}><div><p className="font-medium text-slate-800">{item.customer.name}</p><p className="text-xs text-slate-500">{item.reason} · {item.channel.replaceAll("_", " ")}</p></div><span className="text-xs font-semibold uppercase text-amber-700">{item.action}</span></div>)}</div></div>}
 
