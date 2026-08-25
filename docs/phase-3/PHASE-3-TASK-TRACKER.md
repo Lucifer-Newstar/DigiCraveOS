@@ -26,9 +26,9 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 17. Waste and consumption anomaly API
 - [x] 18. Waste anomaly UI
 - [x] 19. Waste anomaly tests
-- [ ] 20. KDS delay-risk rules
-- [ ] 21. KDS delay-risk UI
-- [ ] 22. KDS delay-risk tests
+- [x] 20. KDS delay-risk rules
+- [x] 21. KDS delay-risk UI
+- [x] 22. KDS delay-risk tests
 - [ ] 23. Customer cohort analysis API
 - [ ] 24. Customer cohort UI
 - [ ] 25. Customer cohort tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 113 commits. Tasks 12–19 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 116 commits. Tasks 12–22 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
