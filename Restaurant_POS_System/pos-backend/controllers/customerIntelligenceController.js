@@ -1,4 +1,6 @@
 const Customer = require("../models/customerModel");
+const CampaignDraft = require("../models/campaignDraftModel");
+const createHttpError = require("http-errors");
 
 const getCustomerIntelligence = async (req, res, next) => {
   try {
@@ -50,10 +52,22 @@ const getCampaignDrafts = async (req, res, next) => {
     const campaigns = [];
     if (atRisk.length) campaigns.push({ id: "win-back", name: "Win-back customers", audienceCount: atRisk.length, channel: "email_or_sms", subject: "We saved a table for you", message: "We miss you. Come back and enjoy a special welcome on your next visit.", audience: atRisk.map(safe) });
     if (vip.length) campaigns.push({ id: "vip-appreciation", name: "VIP appreciation", audienceCount: vip.length, channel: "in_app_or_staff", subject: "Thank you for being a regular", message: "Thank you for dining with us. Ask our team about your VIP appreciation benefit.", audience: vip.map(safe) });
-    res.json({ success: true, data: { total: campaigns.length, campaigns } });
+    const persisted = await Promise.all(campaigns.map((campaign) => CampaignDraft.findOneAndUpdate({ draftId: campaign.id }, campaign, { new: true, upsert: true, setDefaultsOnInsert: true })));
+    res.json({ success: true, data: { total: persisted.length, campaigns: persisted.map((draft) => ({ ...draft.toObject(), id: draft.draftId })) } });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getCustomerIntelligence, getRetentionRecommendations, getCampaignDrafts };
+const updateCampaignDraft = async (req, res, next) => {
+  try {
+    const allowed = ["name", "channel", "subject", "message"];
+    const updates = Object.fromEntries(Object.entries(req.body || {}).filter(([key, value]) => allowed.includes(key) && typeof value === "string" && value.trim()));
+    if (!Object.keys(updates).length) return next(createHttpError(400, "At least one editable campaign field is required."));
+    const draft = await CampaignDraft.findOneAndUpdate({ draftId: req.params.id }, { $set: updates }, { new: true, runValidators: true });
+    if (!draft) return next(createHttpError(404, "Campaign draft not found."));
+    res.json({ success: true, data: draft });
+  } catch (error) { next(error); }
+};
+
+module.exports = { getCustomerIntelligence, getRetentionRecommendations, getCampaignDrafts, updateCampaignDraft };

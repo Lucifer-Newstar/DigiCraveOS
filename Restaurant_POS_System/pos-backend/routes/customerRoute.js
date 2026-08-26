@@ -1,6 +1,6 @@
 const express = require("express");
 const { getCustomers } = require("../controllers/customerController");
-const { getCustomerIntelligence, getRetentionRecommendations, getCampaignDrafts } = require("../controllers/customerIntelligenceController");
+const { getCustomerIntelligence, getRetentionRecommendations, getCampaignDrafts, updateCampaignDraft } = require("../controllers/customerIntelligenceController");
 const { getCustomerCohorts } = require("../controllers/customerCohortController");
 const { getLoyaltyOpportunities } = require("../controllers/loyaltyOpportunityController");
 const { isVerifiedUser, restrictTo } = require("../middlewares/tokenVerification");
@@ -12,5 +12,6 @@ router.route("/cohorts").get(isVerifiedUser, restrictTo("Admin"), getCustomerCoh
 router.route("/retention").get(isVerifiedUser, restrictTo("Admin"), getRetentionRecommendations);
 router.route("/loyalty-opportunities").get(isVerifiedUser, restrictTo("Admin"), getLoyaltyOpportunities);
 router.route("/campaign-drafts").get(isVerifiedUser, restrictTo("Admin"), getCampaignDrafts);
+router.route("/campaign-drafts/:id").patch(isVerifiedUser, restrictTo("Admin"), updateCampaignDraft);
 
 module.exports = router;
