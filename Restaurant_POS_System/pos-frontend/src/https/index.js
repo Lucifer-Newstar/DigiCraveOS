@@ -98,6 +98,7 @@ export const getCustomers = () => axiosWrapper.get("/api/customer");
 export const getCustomerIntelligence = () => axiosWrapper.get("/api/customer/intelligence");
 export const getCustomerCohorts = () => axiosWrapper.get("/api/customer/cohorts");
 export const getRetentionRecommendations = () => axiosWrapper.get("/api/customer/retention");
+export const getLoyaltyOpportunities = () => axiosWrapper.get("/api/customer/loyalty-opportunities");
 export const getCampaignDrafts = () => axiosWrapper.get("/api/customer/campaign-drafts");
 
 // Customer (Guest) portal Endpoints — separate auth from staff.
