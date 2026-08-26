@@ -6,6 +6,7 @@ const { getPricingRecommendations } = require("../controllers/pricingController"
 const { getOwnerBriefing } = require("../controllers/copilotController");
 const { getPaymentReconciliation } = require("../controllers/paymentReconciliationController");
 const { getFraudSignals } = require("../controllers/fraudController");
+const { exportOrdersCsv } = require("../controllers/reportExportController");
 const router = express.Router();
 router.get("/finance", isVerifiedUser, restrictTo("Admin"), getFinanceReport);
 router.get("/profit", isVerifiedUser, restrictTo("Admin"), getProfitReport);
@@ -13,4 +14,5 @@ router.get("/pricing-recommendations", isVerifiedUser, restrictTo("Admin"), getP
 router.get("/owner-briefing", isVerifiedUser, restrictTo("Admin"), getOwnerBriefing);
 router.get("/payment-reconciliation", isVerifiedUser, restrictTo("Admin"), getPaymentReconciliation);
 router.get("/fraud-signals", isVerifiedUser, restrictTo("Admin"), getFraudSignals);
+router.get("/export/orders.csv", isVerifiedUser, restrictTo("Admin"), exportOrdersCsv);
 module.exports = router;
