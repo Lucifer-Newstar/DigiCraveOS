@@ -29,9 +29,9 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 20. KDS delay-risk rules
 - [x] 21. KDS delay-risk UI
 - [x] 22. KDS delay-risk tests
-- [ ] 23. Customer cohort analysis API
-- [ ] 24. Customer cohort UI
-- [ ] 25. Customer cohort tests
+- [x] 23. Customer cohort analysis API
+- [x] 24. Customer cohort UI
+- [x] 25. Customer cohort tests
 - [ ] 26. Loyalty opportunity recommendations
 - [ ] 27. Loyalty opportunity UI
 - [ ] 28. Loyalty opportunity tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 116 commits. Tasks 12–22 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 120 commits. Tasks 12–25 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
