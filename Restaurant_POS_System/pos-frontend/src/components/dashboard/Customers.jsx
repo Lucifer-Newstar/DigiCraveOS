@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCampaignDrafts, getCustomerCohorts, getCustomerIntelligence, getCustomers, getLoyaltyOpportunities, getRetentionRecommendations } from "../../https";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCampaignDrafts, getCustomerCohorts, getCustomerIntelligence, getCustomers, getLoyaltyOpportunities, getRetentionRecommendations, updateCampaignDraft } from "../../https";
 import { toArray } from "../../utils";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
@@ -9,7 +9,10 @@ const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractio
 // Auto-CRM view — customers are built automatically from orders (UML U03
 // Customer.upsertFromOrder). Shows who they are, spend and loyalty.
 const Customers = () => {
+  const queryClient = useQueryClient();
   const [q, setQ] = useState("");
+  const [editingDraft, setEditingDraft] = useState(null);
+  const saveDraft = useMutation({ mutationFn: updateCampaignDraft, onSuccess: () => { setEditingDraft(null); queryClient.invalidateQueries({ queryKey: ["customer-campaign-drafts"] }); } });
   const { data, isLoading, isError } = useQuery({
     queryKey: ["customers"],
     queryFn: getCustomers,
@@ -78,7 +81,7 @@ const Customers = () => {
 
       {retention.length > 0 && <div className="pos-card p-4"><h2 className="font-semibold">Retention actions</h2><p className="text-xs text-slate-500 mt-1">Advisory follow-ups only. No messages are sent automatically.</p><div className="mt-3 space-y-2">{retention.slice(0, 5).map((item) => <div className="flex items-center justify-between gap-3 rounded-lg bg-slate-50 p-3" key={String(item.customer._id)}><div><p className="font-medium text-slate-800">{item.customer.name}</p><p className="text-xs text-slate-500">{item.reason} · {item.channel.replaceAll("_", " ")}</p></div><span className="text-xs font-semibold uppercase text-amber-700">{item.action}</span></div>)}</div></div>}
 
-      {campaigns.length > 0 && <div className="pos-card p-4"><div className="flex items-center justify-between"><div><h2 className="font-semibold">Campaign drafts</h2><p className="text-xs text-slate-500 mt-1">Reviewable copy only. Nothing is sent automatically.</p></div><span className="text-xs text-slate-500">{campaigns.length} draft(s)</span></div><div className="grid md:grid-cols-2 gap-3 mt-3">{campaigns.map((campaign) => <div className="rounded-lg border border-slate-100 p-3" key={campaign.id}><p className="font-medium">{campaign.name}</p><p className="text-xs text-slate-500 mt-1">{campaign.audienceCount} people · {campaign.channel.replaceAll("_", " ")}</p><p className="text-sm font-medium mt-2">{campaign.subject}</p><p className="text-xs text-slate-600 mt-1">{campaign.message}</p></div>)}</div></div>}
+      {campaigns.length > 0 && <div className="pos-card p-4"><div className="flex items-center justify-between"><div><h2 className="font-semibold">Campaign drafts</h2><p className="text-xs text-slate-500 mt-1">Reviewable copy only. Nothing is sent automatically.</p></div><span className="text-xs text-slate-500">{campaigns.length} draft(s)</span></div><div className="grid md:grid-cols-2 gap-3 mt-3">{campaigns.map((campaign) => { const editing = editingDraft?.id === campaign.id; const draft = editing ? editingDraft : campaign; return <div className="rounded-lg border border-slate-100 p-3" key={campaign.id}>{editing ? <div className="space-y-2"><input className="pos-input" value={draft.subject} onChange={(e) => setEditingDraft({ ...draft, subject: e.target.value })} /><textarea className="pos-input" value={draft.message} onChange={(e) => setEditingDraft({ ...draft, message: e.target.value })} /><div className="flex gap-2"><button className="pos-btn-primary" onClick={() => saveDraft.mutate({ id: draft.id, subject: draft.subject, message: draft.message })} disabled={saveDraft.isPending}>Save</button><button className="pos-btn-ghost" onClick={() => setEditingDraft(null)}>Cancel</button></div></div> : <><div className="flex items-center justify-between gap-2"><p className="font-medium">{campaign.name}</p><button className="pos-btn-ghost text-xs" onClick={() => setEditingDraft({ ...campaign })}>Edit</button></div><p className="text-xs text-slate-500 mt-1">{campaign.audienceCount} people · {campaign.channel.replaceAll("_", " ")}</p><p className="text-sm font-medium mt-2">{campaign.subject}</p><p className="text-xs text-slate-600 mt-1">{campaign.message}</p></>}</div>; })}</div></div>}
 
       <div>
         <div className="flex items-center justify-between mb-3">

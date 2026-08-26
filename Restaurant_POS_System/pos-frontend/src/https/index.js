@@ -100,6 +100,7 @@ export const getCustomerCohorts = () => axiosWrapper.get("/api/customer/cohorts"
 export const getRetentionRecommendations = () => axiosWrapper.get("/api/customer/retention");
 export const getLoyaltyOpportunities = () => axiosWrapper.get("/api/customer/loyalty-opportunities");
 export const getCampaignDrafts = () => axiosWrapper.get("/api/customer/campaign-drafts");
+export const updateCampaignDraft = ({ id, ...data }) => axiosWrapper.patch(`/api/customer/campaign-drafts/${id}`, data);
 
 // Customer (Guest) portal Endpoints — separate auth from staff.
 export const customerRegister = (data) =>
