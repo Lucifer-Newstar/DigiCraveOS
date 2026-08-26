@@ -23,5 +23,11 @@ describe("Phase 3 customer intelligence", () => {
     expect(campaigns.status).toBe(200);
     expect(campaigns.body.data.campaigns.map((campaign) => campaign.id)).toEqual(expect.arrayContaining(["win-back", "vip-appreciation"]));
     expect(campaigns.body.data.campaigns[0].audience[0].password).toBeUndefined();
+
+    const draftId = campaigns.body.data.campaigns[0].id;
+    const edited = await request(app).patch(`/api/customer/campaign-drafts/${draftId}`).set("Cookie", cookie).send({ subject: "Edited subject", message: "Edited message" });
+    expect(edited.status).toBe(200);
+    expect(edited.body.data.subject).toBe("Edited subject");
+    expect(edited.body.data.message).toBe("Edited message");
   });
 });
