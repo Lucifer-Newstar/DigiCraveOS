@@ -32,12 +32,12 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 23. Customer cohort analysis API
 - [x] 24. Customer cohort UI
 - [x] 25. Customer cohort tests
-- [ ] 26. Loyalty opportunity recommendations
-- [ ] 27. Loyalty opportunity UI
-- [ ] 28. Loyalty opportunity tests
-- [ ] 29. Campaign draft editing model
-- [ ] 30. Campaign draft editing UI
-- [ ] 31. Campaign draft editing tests
+- [x] 26. Loyalty opportunity recommendations
+- [x] 27. Loyalty opportunity UI
+- [x] 28. Loyalty opportunity tests
+- [x] 29. Campaign draft editing model
+- [x] 30. Campaign draft editing UI
+- [x] 31. Campaign draft editing tests
 - [ ] 32. Report export API
 - [ ] 33. Report export UI
 - [ ] 34. Report export tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 120 commits. Tasks 12–25 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 127 commits. Tasks 12–31 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
