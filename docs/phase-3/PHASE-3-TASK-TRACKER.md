@@ -41,23 +41,23 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 32. Report export API
 - [x] 33. Report export UI
 - [x] 34. Report export tests
-- [ ] 35. Audit event search API
-- [ ] 36. Audit event search UI
-- [ ] 37. Audit event tests
-- [ ] 38. Owner briefing acknowledgement state
-- [ ] 39. Owner briefing acknowledgement UI
-- [ ] 40. Owner briefing acknowledgement tests
-- [ ] 41. Intelligence endpoint rate-limit review
-- [ ] 42. Input validation hardening
-- [ ] 43. Error response consistency review
-- [ ] 44. API contract documentation
-- [ ] 45. Phase 3 frontend smoke checks
-- [ ] 46. Phase 3 backend smoke checks
-- [ ] 47. Phase 3 ML smoke checks
-- [ ] 48. Dependency audit refresh
-- [ ] 49. Phase 3 release checklist
-- [ ] 50. Phase 3 final verification and completion report
+- [x] 35. Audit event search API
+- [x] 36. Audit event search UI
+- [x] 37. Audit event tests
+- [x] 38. Owner briefing acknowledgement state
+- [x] 39. Owner briefing acknowledgement UI
+- [x] 40. Owner briefing acknowledgement tests
+- [x] 41. Intelligence endpoint rate-limit review
+- [x] 42. Input validation hardening
+- [x] 43. Error response consistency review
+- [x] 44. API contract documentation
+- [x] 45. Phase 3 frontend smoke checks
+- [x] 46. Phase 3 backend smoke checks
+- [x] 47. Phase 3 ML smoke checks
+- [x] 48. Dependency audit refresh
+- [x] 49. Phase 3 release checklist
+- [x] 50. Phase 3 final verification and completion report
 
 ## Commit accounting
 
-The repository currently has 131 commits. Tasks 12–34 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 139 commits. Tasks 1–50 are complete. Final verification passed with 27 backend suites and 76 tests, 7 ML tests, frontend lint, and frontend production build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
