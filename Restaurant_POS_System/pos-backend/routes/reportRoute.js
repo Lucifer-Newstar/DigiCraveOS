@@ -8,6 +8,7 @@ const { getPaymentReconciliation } = require("../controllers/paymentReconciliati
 const { getFraudSignals } = require("../controllers/fraudController");
 const { exportOrdersCsv } = require("../controllers/reportExportController");
 const { getAuditEvents } = require("../controllers/auditEventController");
+const { getAcknowledgements, acknowledgeBriefing } = require("../controllers/briefingAcknowledgementController");
 const router = express.Router();
 router.get("/finance", isVerifiedUser, restrictTo("Admin"), getFinanceReport);
 router.get("/profit", isVerifiedUser, restrictTo("Admin"), getProfitReport);
@@ -17,4 +18,6 @@ router.get("/payment-reconciliation", isVerifiedUser, restrictTo("Admin"), getPa
 router.get("/fraud-signals", isVerifiedUser, restrictTo("Admin"), getFraudSignals);
 router.get("/export/orders.csv", isVerifiedUser, restrictTo("Admin"), exportOrdersCsv);
 router.get("/audit-events", isVerifiedUser, restrictTo("Admin"), getAuditEvents);
+router.get("/owner-briefing/acknowledgements", isVerifiedUser, restrictTo("Admin"), getAcknowledgements);
+router.post("/owner-briefing/acknowledgements", isVerifiedUser, restrictTo("Admin"), acknowledgeBriefing);
 module.exports = router;
