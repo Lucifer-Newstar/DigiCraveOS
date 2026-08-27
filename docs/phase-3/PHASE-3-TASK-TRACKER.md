@@ -38,9 +38,9 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 - [x] 29. Campaign draft editing model
 - [x] 30. Campaign draft editing UI
 - [x] 31. Campaign draft editing tests
-- [ ] 32. Report export API
-- [ ] 33. Report export UI
-- [ ] 34. Report export tests
+- [x] 32. Report export API
+- [x] 33. Report export UI
+- [x] 34. Report export tests
 - [ ] 35. Audit event search API
 - [ ] 36. Audit event search UI
 - [ ] 37. Audit event tests
@@ -60,4 +60,4 @@ Tasks are completed only when implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-The repository currently has 127 commits. Tasks 12–31 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
+The repository currently has 131 commits. Tasks 12–34 were verified with targeted backend tests and frontend lint/build. Each task may produce multiple meaningful commits for implementation, tests, documentation, and cleanup.
