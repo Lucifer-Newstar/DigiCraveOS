@@ -7,6 +7,7 @@ const { getOwnerBriefing } = require("../controllers/copilotController");
 const { getPaymentReconciliation } = require("../controllers/paymentReconciliationController");
 const { getFraudSignals } = require("../controllers/fraudController");
 const { exportOrdersCsv } = require("../controllers/reportExportController");
+const { getAuditEvents } = require("../controllers/auditEventController");
 const router = express.Router();
 router.get("/finance", isVerifiedUser, restrictTo("Admin"), getFinanceReport);
 router.get("/profit", isVerifiedUser, restrictTo("Admin"), getProfitReport);
@@ -15,4 +16,5 @@ router.get("/owner-briefing", isVerifiedUser, restrictTo("Admin"), getOwnerBrief
 router.get("/payment-reconciliation", isVerifiedUser, restrictTo("Admin"), getPaymentReconciliation);
 router.get("/fraud-signals", isVerifiedUser, restrictTo("Admin"), getFraudSignals);
 router.get("/export/orders.csv", isVerifiedUser, restrictTo("Admin"), exportOrdersCsv);
+router.get("/audit-events", isVerifiedUser, restrictTo("Admin"), getAuditEvents);
 module.exports = router;
