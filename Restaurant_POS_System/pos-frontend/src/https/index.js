@@ -93,6 +93,7 @@ export const getOwnerBriefing = (params = {}) => {
 export const getPaymentReconciliation = () => axiosWrapper.get("/api/reports/payment-reconciliation");
 export const getFraudSignals = () => axiosWrapper.get("/api/reports/fraud-signals");
 export const exportOrdersCsv = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/reports/export/orders.csv?${query}`, { responseType: "blob" }); };
+export const getAuditEvents = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/reports/audit-events${query ? `?${query}` : ""}`); };
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");
