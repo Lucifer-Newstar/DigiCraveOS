@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/database");
 const config = require("./config/config");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
+const requestCorrelation = require("./middlewares/requestCorrelation");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
@@ -10,6 +11,7 @@ const app = express();
 const PORT = config.port;
 
 // Middlewares
+app.use(requestCorrelation);
 app.use(cors({
     credentials: true,
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173'
