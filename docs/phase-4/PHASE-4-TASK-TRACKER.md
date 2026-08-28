@@ -7,8 +7,8 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 01. Liveness and readiness health endpoints
 - [x] 02. Health endpoint integration tests
 - [x] 03. Health endpoint documentation
-- [ ] 04. Configuration validation module
-- [ ] 05. Configuration validation tests
+- [x] 04. Configuration validation module
+- [x] 05. Configuration validation tests
 - [ ] 06. Structured request correlation IDs
 - [ ] 07. Correlation ID tests
 - [ ] 08. Request logging documentation
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 143. Tasks 1–3 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 147. Tasks 1–5 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
