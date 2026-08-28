@@ -24,6 +24,7 @@ app.get("/", (req,res) => {
 })
 
 // Other Endpoints
+app.use("/api/health", require("./routes/healthRoute"));
 app.use("/api/user", require("./routes/userRoute"));
 app.use("/api/order", require("./routes/orderRoute"));
 app.use("/api/table", require("./routes/tableRoute"));
