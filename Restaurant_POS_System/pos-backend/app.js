@@ -46,6 +46,8 @@ app.use(globalErrorHandler);
 // (e.g. `node app.js`). When imported by tests, the test harness controls
 // the database connection and mounts `app` via supertest without a listener.
 if (require.main === module) {
+    const configurationErrors = config.validateConfig();
+    if (configurationErrors.length) throw new Error(`Invalid configuration: ${configurationErrors.join(" ")}`);
     connectDB();
     app.listen(PORT, () => {
         console.log(`☑️  POS Server is listening on port ${PORT}`);
