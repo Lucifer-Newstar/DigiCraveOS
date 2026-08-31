@@ -15,9 +15,9 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 09. Inventory pagination API
 - [x] 10. Inventory pagination UI
 - [x] 11. Inventory pagination tests
-- [ ] 12. Order pagination API
-- [ ] 13. Order pagination UI
-- [ ] 14. Order pagination tests
+- [x] 12. Order pagination API
+- [x] 13. Order pagination UI
+- [x] 14. Order pagination tests
 - [ ] 15. Customer pagination API
 - [ ] 16. Customer pagination UI
 - [ ] 17. Customer pagination tests
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 155. Tasks 1–11 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 159. Tasks 1–14 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
