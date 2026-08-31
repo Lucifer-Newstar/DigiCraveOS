@@ -5,14 +5,18 @@ const { Ingredient, Recipe, Supplier, Purchase } = require("../models/inventoryM
 
 const getInventory = async (req, res, next) => {
   try {
-    const [ingredients, recipes, suppliers, purchases] = await Promise.all([
-      Ingredient.find().sort({ name: 1 }),
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const [ingredients, ingredientTotal, valuationRows, recipes, suppliers, purchases] = await Promise.all([
+      Ingredient.find().sort({ name: 1 }).skip((page - 1) * limit).limit(limit),
+      Ingredient.countDocuments(),
+      Ingredient.find().select("batches"),
       Recipe.find().populate("dish", "name").populate("ingredients.ingredient", "name unit"),
       Supplier.find().sort({ name: 1 }),
       Purchase.find().populate("supplier", "name").populate("lines.ingredient", "name unit").sort({ receivedAt: -1 }).limit(50),
     ]);
-    const valuation = ingredients.reduce((total, item) => total + (item.batches || []).reduce((sum, batch) => sum + batch.quantity * batch.unitCost, 0), 0);
-    res.json({ success: true, data: { ingredients, recipes, suppliers, purchases, valuation: +valuation.toFixed(2) } });
+    const valuation = valuationRows.reduce((total, item) => total + (item.batches || []).reduce((sum, batch) => sum + batch.quantity * batch.unitCost, 0), 0);
+    res.json({ success: true, data: { ingredients, recipes, suppliers, purchases, valuation: +valuation.toFixed(2), pagination: { page, limit, total: ingredientTotal, pages: Math.ceil(ingredientTotal / limit) } } });
   } catch (error) { next(error); }
 };
 

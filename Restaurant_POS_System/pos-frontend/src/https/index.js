@@ -53,7 +53,7 @@ export const getPayments = (limit = 25) =>
   axiosWrapper.get(`/api/order/payments?limit=${limit}`);
 
 // Phase 2 inventory and reservation endpoints
-export const getInventory = () => axiosWrapper.get("/api/inventory");
+export const getInventory = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/inventory${query ? `?${query}` : ""}`); };
 export const getInventoryIntelligence = () => axiosWrapper.get("/api/inventory/intelligence");
 export const getSupplierIntelligence = () => axiosWrapper.get("/api/inventory/supplier-intelligence");
 export const getRecipeCostVariance = () => axiosWrapper.get("/api/inventory/recipe-variance");
