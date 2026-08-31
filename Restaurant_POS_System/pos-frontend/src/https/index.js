@@ -38,7 +38,7 @@ export const addOrder = async (data) => {
     throw error;
   }
 };
-export const getOrders = () => axiosWrapper.get("/api/order");
+export const getOrders = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/order${query ? `?${query}` : ""}`); };
 export const getKitchenTickets = () => axiosWrapper.get("/api/order/kitchen");
 export const getKitchenIntelligence = () => axiosWrapper.get("/api/order/kitchen/intelligence");
 export const getKitchenDelayRisk = () => axiosWrapper.get("/api/order/kitchen/delay-risk");

@@ -183,8 +183,13 @@ const getOrderById = async (req, res, next) => {
 
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find().populate("table");
-    res.status(200).json({ success: true, data: orders });
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const [orders, total] = await Promise.all([
+      Order.find().sort({ orderDate: -1 }).skip((page - 1) * limit).limit(limit).populate("table"),
+      Order.countDocuments(),
+    ]);
+    res.status(200).json({ success: true, data: orders, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
   } catch (error) {
     next(error);
   }
