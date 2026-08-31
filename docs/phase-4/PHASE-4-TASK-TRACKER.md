@@ -12,9 +12,9 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 06. Structured request correlation IDs
 - [x] 07. Correlation ID tests
 - [x] 08. Request logging documentation
-- [ ] 09. Inventory pagination API
-- [ ] 10. Inventory pagination UI
-- [ ] 11. Inventory pagination tests
+- [x] 09. Inventory pagination API
+- [x] 10. Inventory pagination UI
+- [x] 11. Inventory pagination tests
 - [ ] 12. Order pagination API
 - [ ] 13. Order pagination UI
 - [ ] 14. Order pagination tests
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 151. Tasks 1–8 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 155. Tasks 1–11 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
