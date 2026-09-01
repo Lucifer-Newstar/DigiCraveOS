@@ -98,7 +98,7 @@ export const getBriefingAcknowledgements = () => axiosWrapper.get("/api/reports/
 export const acknowledgeBriefing = (insightKey) => axiosWrapper.post("/api/reports/owner-briefing/acknowledgements", { insightKey });
 
 // Customer (staff view) Endpoints
-export const getCustomers = () => axiosWrapper.get("/api/customer");
+export const getCustomers = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/customer${query ? `?${query}` : ""}`); };
 export const getCustomerIntelligence = () => axiosWrapper.get("/api/customer/intelligence");
 export const getCustomerCohorts = () => axiosWrapper.get("/api/customer/cohorts");
 export const getRetentionRecommendations = () => axiosWrapper.get("/api/customer/retention");

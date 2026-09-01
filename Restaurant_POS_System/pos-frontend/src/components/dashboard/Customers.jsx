@@ -11,11 +11,12 @@ const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN", { maximumFractio
 const Customers = () => {
   const queryClient = useQueryClient();
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
   const [editingDraft, setEditingDraft] = useState(null);
   const saveDraft = useMutation({ mutationFn: updateCampaignDraft, onSuccess: () => { setEditingDraft(null); queryClient.invalidateQueries({ queryKey: ["customer-campaign-drafts"] }); } });
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["customers"],
-    queryFn: getCustomers,
+    queryKey: ["customers", page],
+    queryFn: () => getCustomers({ page, limit: 25 }),
   });
   const { data: intelligenceData } = useQuery({
     queryKey: ["customer-intelligence"],
@@ -33,6 +34,7 @@ const Customers = () => {
   });
 
   const customers = toArray(data);
+  const pagination = data?.data?.pagination || { page: 1, pages: 1, total: customers.length };
   const intelligence = intelligenceData?.data?.data || {};
   const segments = intelligence.segments || {};
   const segmentById = new Map((intelligence.customers || []).map((customer) => [customer._id, customer.segment]));
@@ -136,6 +138,7 @@ const Customers = () => {
             </tbody>
           </table>
         </div>
+        <div className="flex items-center justify-between gap-3 mt-3 text-sm"><span className="text-slate-500">Page {pagination.page} of {pagination.pages} · {pagination.total} customers</span><div className="flex gap-2"><button className="pos-btn-ghost" disabled={page <= 1} onClick={() => setPage((current) => current - 1)}>Previous</button><button className="pos-btn-ghost" disabled={page >= pagination.pages} onClick={() => setPage((current) => current + 1)}>Next</button></div></div>
       </div>
     </div>
   );
