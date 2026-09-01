@@ -50,6 +50,9 @@ const purchaseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+purchaseSchema.index({ receivedAt: -1 });
+purchaseSchema.index({ "lines.ingredient": 1, receivedAt: -1 });
+
 module.exports = {
   Ingredient: mongoose.model("Ingredient", ingredientSchema),
   Recipe: mongoose.model("Recipe", recipeSchema),

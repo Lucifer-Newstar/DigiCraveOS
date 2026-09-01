@@ -78,4 +78,7 @@ customerSchema.statics.upsertFromOrder = async function (order) {
   );
 };
 
+customerSchema.index({ lastVisit: -1 });
+customerSchema.index({ totalOrders: -1, totalSpent: -1 });
+
 module.exports = mongoose.model("Customer", customerSchema);

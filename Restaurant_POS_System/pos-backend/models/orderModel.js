@@ -201,6 +201,9 @@ orderSchema.statics.KITCHEN_STATUSES = KITCHEN_STATUSES;
 orderSchema.statics.KITCHEN_TRANSITIONS = KITCHEN_TRANSITIONS;
 orderSchema.statics.TRANSITIONS = STATUS_TRANSITIONS;
 
+orderSchema.index({ orderDate: -1 });
+orderSchema.index({ orderStatus: 1, orderDate: -1 });
+
 const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
