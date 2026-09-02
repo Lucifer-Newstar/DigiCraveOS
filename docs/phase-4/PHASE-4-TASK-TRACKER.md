@@ -25,9 +25,9 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 19. Database index tests
 - [x] 20. API response metadata standard
 - [x] 21. Response metadata tests
-- [ ] 22. Background job boundary review
-- [ ] 23. Retry-safe export behavior
-- [ ] 24. Export retry tests
+- [x] 22. Background job boundary review
+- [x] 23. Retry-safe export behavior
+- [x] 24. Export retry tests
 - [ ] 25. Backup and restore runbook
 - [ ] 26. Deployment smoke script
 - [ ] 27. Deployment smoke tests
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 170. Tasks 1–21 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 174. Tasks 1–24 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
