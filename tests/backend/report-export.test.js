@@ -10,5 +10,8 @@ describe("Phase 3 report export", () => {
     expect(response.headers["content-type"]).toContain("text/csv");
     expect(response.text).toContain("\"Date\",\"Order status\"");
     expect(response.text).toContain("CSV Guest");
+    expect(response.headers.etag).toBeTruthy();
+    const retry = await request(app).get("/api/reports/export/orders.csv?from=2026-02-01&to=2026-02-28").set("Cookie", cookie).set("If-None-Match", response.headers.etag);
+    expect(retry.status).toBe(304);
   });
 });
