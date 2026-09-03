@@ -31,10 +31,10 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 25. Backup and restore runbook
 - [x] 26. Deployment smoke script
 - [x] 27. Deployment smoke tests
-- [ ] 28. Frontend error boundary
-- [ ] 29. Frontend error boundary tests
-- [ ] 30. Offline queue observability
-- [ ] 31. Offline queue tests
+- [x] 28. Frontend error boundary
+- [x] 29. Frontend error boundary tests
+- [x] 30. Offline queue observability
+- [x] 31. Offline queue tests
 - [ ] 32. Security header review
 - [ ] 33. Security header tests
 - [ ] 34. CORS configuration hardening
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 177. Tasks 1–27 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 184. Tasks 1–31 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
