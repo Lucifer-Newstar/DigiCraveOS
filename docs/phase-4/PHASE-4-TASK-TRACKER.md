@@ -35,10 +35,10 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 29. Frontend error boundary tests
 - [x] 30. Offline queue observability
 - [x] 31. Offline queue tests
-- [ ] 32. Security header review
-- [ ] 33. Security header tests
-- [ ] 34. CORS configuration hardening
-- [ ] 35. CORS tests
+- [x] 32. Security header review
+- [x] 33. Security header tests
+- [x] 34. CORS configuration hardening
+- [x] 35. CORS tests
 - [ ] 36. API route inventory documentation
 - [ ] 37. OpenAPI contract seed
 - [ ] 38. OpenAPI contract validation
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 184. Tasks 1–31 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 188. Tasks 1–35 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
