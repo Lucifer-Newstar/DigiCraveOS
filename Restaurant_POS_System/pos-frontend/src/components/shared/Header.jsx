@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiSearch, FiBell, FiPlus } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { setCustomer } from "../../redux/slices/customerSlice";
+import { getQueueStats } from "../../utils/offlineQueue";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,14 @@ const Header = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [guestCount, setGuestCount] = useState(1);
+  const [queuedOrders, setQueuedOrders] = useState(() => getQueueStats().queued);
+
+  useEffect(() => {
+    const refreshQueue = () => setQueuedOrders(getQueueStats().queued);
+    window.addEventListener("digicrave:queue-changed", refreshQueue);
+    window.addEventListener("online", refreshQueue);
+    return () => { window.removeEventListener("digicrave:queue-changed", refreshQueue); window.removeEventListener("online", refreshQueue); };
+  }, []);
 
   const increment = () => guestCount < 12 && setGuestCount((p) => p + 1);
   const decrement = () => guestCount > 1 && setGuestCount((p) => p - 1);
@@ -42,6 +51,7 @@ const Header = () => {
           <FiBell className="text-lg" />
           <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-emerald-500" />
         </button>
+        {queuedOrders > 0 && <span className="pos-chip text-amber-700 bg-amber-50" title="Orders waiting to sync">Offline queue: {queuedOrders}</span>}
         <button onClick={() => setIsModalOpen(true)} className="pos-btn-primary">
           <FiPlus className="text-lg" />
           <span className="hidden sm:inline">New Order</span>

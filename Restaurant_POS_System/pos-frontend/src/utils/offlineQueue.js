@@ -1,5 +1,7 @@
 const STORAGE_KEY = "digicrave-offline-orders";
 
+const notifyQueueChanged = () => { if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent("digicrave:queue-changed")); };
+
 const readQueue = () => {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
   catch { return []; }
@@ -8,11 +10,13 @@ const readQueue = () => {
 export const queueOrder = (order) => {
   const queued = { ...order, idempotencyKey: order.idempotencyKey || crypto.randomUUID(), queuedAt: new Date().toISOString() };
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...readQueue(), queued]));
+  notifyQueueChanged();
   return queued;
 };
 
 export const getQueuedOrders = () => readQueue();
-export const clearQueuedOrders = () => localStorage.removeItem(STORAGE_KEY);
+export const getQueueStats = () => ({ queued: readQueue().length });
+export const clearQueuedOrders = () => { localStorage.removeItem(STORAGE_KEY); notifyQueueChanged(); };
 
 export const syncQueuedOrders = async (postOrder) => {
   const queue = readQueue();
@@ -28,5 +32,6 @@ export const syncQueuedOrders = async (postOrder) => {
     }
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(remaining));
+  notifyQueueChanged();
   return { synced, failed: remaining.length };
 };
