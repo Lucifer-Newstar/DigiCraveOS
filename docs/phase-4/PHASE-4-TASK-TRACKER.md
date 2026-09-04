@@ -42,18 +42,18 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 36. API route inventory documentation
 - [x] 37. OpenAPI contract seed
 - [x] 38. OpenAPI contract validation
-- [ ] 39. Phase 4 frontend smoke checks
-- [ ] 40. Phase 4 backend smoke checks
-- [ ] 41. Phase 4 ML compatibility checks
-- [ ] 42. Dependency audit refresh
-- [ ] 43. Performance baseline
-- [ ] 44. Performance documentation
-- [ ] 45. Release checklist
-- [ ] 46. Rollback checklist
-- [ ] 47. Operational ownership matrix
-- [ ] 48. Phase 4 security verification
-- [ ] 49. Phase 4 full verification
-- [ ] 50. Phase 4 completion report
+- [x] 39. Phase 4 frontend smoke checks
+- [x] 40. Phase 4 backend smoke checks
+- [x] 41. Phase 4 ML compatibility checks
+- [x] 42. Dependency audit refresh
+- [x] 43. Performance baseline
+- [x] 44. Performance documentation
+- [x] 45. Release checklist
+- [x] 46. Rollback checklist
+- [x] 47. Operational ownership matrix
+- [x] 48. Phase 4 security verification
+- [x] 49. Phase 4 full verification
+- [x] 50. Phase 4 completion report
 
 ## Commit accounting
 
