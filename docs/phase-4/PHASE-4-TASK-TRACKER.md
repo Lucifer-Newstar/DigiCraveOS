@@ -39,9 +39,9 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 - [x] 33. Security header tests
 - [x] 34. CORS configuration hardening
 - [x] 35. CORS tests
-- [ ] 36. API route inventory documentation
-- [ ] 37. OpenAPI contract seed
-- [ ] 38. OpenAPI contract validation
+- [x] 36. API route inventory documentation
+- [x] 37. OpenAPI contract seed
+- [x] 38. OpenAPI contract validation
 - [ ] 39. Phase 4 frontend smoke checks
 - [ ] 40. Phase 4 backend smoke checks
 - [ ] 41. Phase 4 ML compatibility checks
@@ -57,4 +57,4 @@ Tasks are completed only with implementation, tests, documentation, and verifica
 
 ## Commit accounting
 
-Current repository commit count: 188. Tasks 1–35 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
+Current repository commit count: 191. Tasks 1–38 are complete with implementation, tests, and documentation. Commits must remain substantive and move the product toward the scale and reliability objective.
