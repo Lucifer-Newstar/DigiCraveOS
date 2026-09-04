@@ -1,5 +1,6 @@
 const { app, request, loginAsAdmin } = require("./helpers");
 const Customer = require("../../Restaurant_POS_System/pos-backend/models/customerModel");
+const AuditEvent = require("../../Restaurant_POS_System/pos-backend/models/auditEventModel");
 
 describe("Phase 3 customer intelligence", () => {
   test("Admin receives safe customer segments without passwords", async () => {
@@ -29,5 +30,7 @@ describe("Phase 3 customer intelligence", () => {
     expect(edited.status).toBe(200);
     expect(edited.body.data.subject).toBe("Edited subject");
     expect(edited.body.data.message).toBe("Edited message");
+    const auditEvent = await AuditEvent.findOne({ action: "UPDATE", resource: "campaign-draft" }).lean();
+    expect(auditEvent.metadata.fields).toEqual(expect.arrayContaining(["subject", "message"]));
   });
 });
