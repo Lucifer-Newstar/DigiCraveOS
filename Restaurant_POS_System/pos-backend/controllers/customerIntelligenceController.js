@@ -1,6 +1,7 @@
 const Customer = require("../models/customerModel");
 const CampaignDraft = require("../models/campaignDraftModel");
 const createHttpError = require("http-errors");
+const { writeAuditEvent } = require("../utils/auditEventWriter");
 
 const getCustomerIntelligence = async (req, res, next) => {
   try {
@@ -66,6 +67,7 @@ const updateCampaignDraft = async (req, res, next) => {
     if (!Object.keys(updates).length) return next(createHttpError(400, "At least one editable campaign field is required."));
     const draft = await CampaignDraft.findOneAndUpdate({ draftId: req.params.id }, { $set: updates }, { new: true, runValidators: true });
     if (!draft) return next(createHttpError(404, "Campaign draft not found."));
+    await writeAuditEvent({ req, action: "UPDATE", resource: "campaign-draft", resourceId: draft.draftId, metadata: { fields: Object.keys(updates) } });
     res.json({ success: true, data: draft });
   } catch (error) { next(error); }
 };
