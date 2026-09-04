@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: DigiCraveOS POS API
+  version: 4.0.0
+  description: Scale and reliability contract seed for the authenticated POS API.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/health/live:
+    get:
+      summary: Process liveness
+      responses:
+        '200': { description: Process is running }
+  /api/health/ready:
+    get:
+      summary: Database readiness
+      responses:
+        '200': { description: Ready }
+        '503': { description: Database is not ready }
+  /api/inventory:
+    get:
+      summary: Paginated inventory listing
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        '200': { description: Inventory page }
+        '401': { description: Authentication required }
+  /api/order:
+    get:
+      summary: Paginated order listing
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+      responses:
+        '200': { description: Order page }
+        '401': { description: Authentication required }
+  /api/reports/export/orders.csv:
+    get:
+      summary: Date-filtered order export
+      responses:
+        '200': { description: CSV export, content: { text/csv: {} } }
+        '304': { description: Content unchanged for supplied ETag }
+        '401': { description: Authentication required }
+components:
+  securitySchemes:
+    staffCookie:
+      type: apiKey
+      in: cookie
+      name: accessToken
