@@ -14,9 +14,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 08. Reservation pagination API
 - [x] 09. Reservation pagination UI
 - [x] 10. Reservation pagination tests
-- [ ] 11. Workforce pagination API
-- [ ] 12. Workforce pagination UI
-- [ ] 13. Workforce pagination tests
+- [x] 11. Workforce pagination API
+- [x] 12. Workforce pagination UI
+- [x] 13. Workforce pagination tests
 - [ ] 14. Kitchen ticket pagination API
 - [ ] 15. Kitchen ticket pagination UI
 - [ ] 16. Kitchen pagination tests
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 204. Tasks 1–10 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 208. Tasks 1–13 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
