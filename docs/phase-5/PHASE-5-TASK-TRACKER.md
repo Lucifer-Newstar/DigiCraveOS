@@ -11,9 +11,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 05. Audit writer tests
 - [x] 06. Campaign edit audit events
 - [x] 07. Campaign audit integration tests
-- [ ] 08. Reservation pagination API
-- [ ] 09. Reservation pagination UI
-- [ ] 10. Reservation pagination tests
+- [x] 08. Reservation pagination API
+- [x] 09. Reservation pagination UI
+- [x] 10. Reservation pagination tests
 - [ ] 11. Workforce pagination API
 - [ ] 12. Workforce pagination UI
 - [ ] 13. Workforce pagination tests
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 200. Tasks 1–7 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 204. Tasks 1–10 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
