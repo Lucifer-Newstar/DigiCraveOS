@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getKitchenDelayRisk, getKitchenIntelligence, getKitchenTickets, updateKitchenItem } from "../https";
@@ -12,14 +12,15 @@ const NEXT_STATUS = {
 
 const Kitchen = () => {
   const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     document.title = "POS | Kitchen Display";
   }, []);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["kitchen-tickets"],
-    queryFn: getKitchenTickets,
+    queryKey: ["kitchen-tickets", page],
+    queryFn: () => getKitchenTickets({ page, limit: 25 }),
     refetchInterval: 10000,
   });
 
@@ -77,6 +78,7 @@ const Kitchen = () => {
           ))}
         </div>
       )}
+      <div className="flex items-center justify-between gap-3 mt-4 text-sm"><span className="text-slate-500">Page {data?.pagination?.page || page} of {data?.pagination?.pages || 1} · {data?.pagination?.total || tickets.length} tickets</span><div className="flex gap-2"><button className="pos-btn-ghost" disabled={page <= 1} onClick={() => setPage((current) => current - 1)}>Previous</button><button className="pos-btn-ghost" disabled={page >= (data?.pagination?.pages || 1)} onClick={() => setPage((current) => current + 1)}>Next</button></div></div>
     </section>
   );
 };

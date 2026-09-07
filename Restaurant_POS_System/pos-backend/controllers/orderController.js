@@ -84,7 +84,10 @@ const getKitchenTickets = async (req, res, next) => {
       }));
     });
 
-    res.status(200).json({ success: true, data: tickets });
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const total = tickets.length;
+    res.status(200).json({ success: true, data: tickets.slice((page - 1) * limit, page * limit), pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
   } catch (error) {
     next(error);
   }
