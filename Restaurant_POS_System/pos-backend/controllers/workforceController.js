@@ -5,8 +5,13 @@ const User = require("../models/userModel");
 
 const listShifts = async (req, res, next) => {
   try {
-    const shifts = await Shift.find().populate("staff", "name email role").sort({ startedAt: -1 }).limit(100);
-    res.json({ success: true, data: shifts });
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const [shifts, total] = await Promise.all([
+      Shift.find().populate("staff", "name email role").sort({ startedAt: -1 }).skip((page - 1) * limit).limit(limit),
+      Shift.countDocuments(),
+    ]);
+    res.json({ success: true, data: shifts, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
   } catch (error) { next(error); }
 };
 

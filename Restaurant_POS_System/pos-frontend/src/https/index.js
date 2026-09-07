@@ -69,7 +69,7 @@ export const updateReservation = ({ id, ...data }) => axiosWrapper.patch(`/api/r
 export const getWaitlist = () => axiosWrapper.get("/api/reservations/waitlist");
 export const addWaitlist = (data) => axiosWrapper.post("/api/reservations/waitlist", data);
 export const updateWaitlist = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/waitlist/${id}`, data);
-export const getShifts = () => axiosWrapper.get("/api/workforce");
+export const getShifts = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/workforce${query ? `?${query}` : ""}`); };
 export const getWorkforceSummary = () => axiosWrapper.get("/api/workforce/summary");
 export const getWorkforceIntelligence = () => axiosWrapper.get("/api/workforce/intelligence");
 export const startShift = (data) => axiosWrapper.post("/api/workforce", data);
