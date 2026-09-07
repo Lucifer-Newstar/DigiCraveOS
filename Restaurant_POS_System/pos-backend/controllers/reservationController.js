@@ -4,7 +4,15 @@ const Table = require("../models/tableModel");
 const { Reservation, Waitlist, RESERVATION_STATUSES } = require("../models/reservationModel");
 
 const listReservations = async (req, res, next) => {
-  try { res.json({ success: true, data: await Reservation.find().populate("table").sort({ date: 1, time: 1 }) }); }
+  try {
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const [reservations, total] = await Promise.all([
+      Reservation.find().populate("table").sort({ date: 1, time: 1 }).skip((page - 1) * limit).limit(limit),
+      Reservation.countDocuments(),
+    ]);
+    res.json({ success: true, data: reservations, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
+  }
   catch (error) { next(error); }
 };
 
