@@ -6,9 +6,10 @@ import { toArray } from "../utils/index";
 const Inventory = () => {
   const client = useQueryClient();
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [form, setForm] = useState({ name: "", unit: "kg", stock: "", reorderLevel: "" });
   useEffect(() => { document.title = "POS | Inventory"; }, []);
-  const { data, isLoading } = useQuery({ queryKey: ["inventory", page], queryFn: () => getInventory({ page, limit: 25 }) });
+  const { data, isLoading } = useQuery({ queryKey: ["inventory", page, search], queryFn: () => getInventory({ page, limit: 25, ...(search ? { search } : {}) }) });
   const { data: intelligenceData } = useQuery({ queryKey: ["inventory-intelligence"], queryFn: getInventoryIntelligence });
   const { data: supplierData, isLoading: suppliersLoading } = useQuery({ queryKey: ["supplier-intelligence"], queryFn: getSupplierIntelligence });
   const { data: varianceData, isLoading: varianceLoading } = useQuery({ queryKey: ["recipe-cost-variance"], queryFn: getRecipeCostVariance });
@@ -20,7 +21,7 @@ const Inventory = () => {
   const add = useMutation({ mutationFn: addIngredient, onSuccess: () => { setForm({ name: "", unit: "kg", stock: "", reorderLevel: "" }); client.invalidateQueries({ queryKey: ["inventory"] }); } });
   const ingredients = toArray(data?.data?.ingredients || data?.ingredients);
   const pagination = data?.data?.pagination || { page: 1, pages: 1, total: ingredients.length };
-  return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients, batches, and low-stock levels</p></div><span className="pos-chip pos-chip-active">Value: ₹{Number(data?.data?.valuation || 0).toFixed(2)}</span></div>
+  return <section className="pos-page"><div className="pos-page-header"><div><h1 className="pos-title">Inventory</h1><p className="pos-subtitle">Ingredients, batches, and low-stock levels</p></div><div className="flex items-center gap-2"><input className="pos-input" aria-label="Search ingredients" placeholder="Search ingredients" value={search} onChange={(event) => { setPage(1); setSearch(event.target.value); }} /><span className="pos-chip pos-chip-active">Value: ₹{Number(data?.data?.valuation || 0).toFixed(2)}</span></div></div>
     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">{[["Ingredients", intelligence.totalIngredients || 0], ["Low stock", intelligence.lowStockCount || 0], ["Stock value", `₹${Number(intelligence.stockValue || 0).toFixed(2)}`]].map(([label, value]) => <div className="pos-card p-4" key={label}><p className="text-xs text-slate-500">{label}</p><p className="text-xl font-bold mt-1">{value}</p></div>)}</div>
     <div className="pos-card p-4 mb-4"><form className="grid grid-cols-2 md:grid-cols-5 gap-2" onSubmit={(e) => { e.preventDefault(); add.mutate({ ...form, stock: Number(form.stock), reorderLevel: Number(form.reorderLevel) }); }}>
       {[["name","Ingredient"],["unit","Unit"],["stock","Stock"],["reorderLevel","Reorder level"]].map(([key, label]) => <input key={key} className="pos-input" required={key !== "reorderLevel"} placeholder={label} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}

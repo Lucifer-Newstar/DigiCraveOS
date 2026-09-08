@@ -7,9 +7,11 @@ const getInventory = async (req, res, next) => {
   try {
     const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
     const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const search = String(req.query.search || "").trim().slice(0, 80);
+    const ingredientFilter = search ? { name: { $regex: search, $options: "i" } } : {};
     const [ingredients, ingredientTotal, valuationRows, recipes, suppliers, purchases] = await Promise.all([
-      Ingredient.find().sort({ name: 1 }).skip((page - 1) * limit).limit(limit),
-      Ingredient.countDocuments(),
+      Ingredient.find(ingredientFilter).sort({ name: 1 }).skip((page - 1) * limit).limit(limit),
+      Ingredient.countDocuments(ingredientFilter),
       Ingredient.find().select("batches"),
       Recipe.find().populate("dish", "name").populate("ingredients.ingredient", "name unit"),
       Supplier.find().sort({ name: 1 }),
