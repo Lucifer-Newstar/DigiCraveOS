@@ -13,13 +13,14 @@ const MenuContainer = () => {
   const [itemCount, setItemCount] = useState(0);
   const [itemId, setItemId] = useState();
   const [selectedId, setSelectedId] = useState(null);
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
 
   // Prefer DB-backed menu; fall back to the bundled constant when the DB
   // has no categories yet, so the POS always has something to show.
   const { data: menuRes } = useQuery({
-    queryKey: ["menu"],
-    queryFn: getMenu,
+    queryKey: ["menu", search],
+    queryFn: () => getMenu(search ? { search, available: "true" } : {}),
   });
 
   const menus = useMemo(() => {
@@ -56,6 +57,7 @@ const MenuContainer = () => {
 
   return (
     <>
+      <div className="mb-4"><input className="pos-input" aria-label="Search menu" placeholder="Search available dishes" value={search} onChange={(event) => { setSearch(event.target.value); setSelectedId(null); }} /></div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
         {menus.map((menu) => {
           const menuKey = menu.id || menu._id;

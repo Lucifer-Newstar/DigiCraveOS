@@ -126,7 +126,7 @@ export const verifyCustomerPayment = (data) =>
   axiosWrapper.post("/api/customer/auth/payment/verify", data);
 
 // Menu Endpoints (categories + dishes, DB-backed)
-export const getMenu = () => axiosWrapper.get("/api/menu");
+export const getMenu = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/menu${query ? `?${query}` : ""}`); };
 export const getCategories = () => axiosWrapper.get("/api/menu/category");
 export const addCategory = (data) => axiosWrapper.post("/api/menu/category", data);
 export const deleteCategory = (id) =>

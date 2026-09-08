@@ -88,9 +88,12 @@ const addDish = async (req, res, next) => {
 // the same shape it used for the hardcoded `menus` constant.
 const getMenu = async (req, res, next) => {
   try {
+    const search = String(req.query.search || "").trim().slice(0, 80);
+    const dishFilter = search ? { name: { $regex: search, $options: "i" } } : {};
+    if (req.query.available === "true") dishFilter.isAvailable = true;
     const [categories, dishes] = await Promise.all([
       Category.find().sort({ createdAt: 1 }),
-      Dish.find().sort({ createdAt: 1 }),
+      Dish.find(dishFilter).sort({ createdAt: 1 }),
     ]);
 
     const menu = categories.map((cat) => ({
