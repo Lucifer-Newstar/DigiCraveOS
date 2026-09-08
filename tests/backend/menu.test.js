@@ -54,4 +54,12 @@ describe("Menu management (categories & dishes)", () => {
     expect(cat).toBeDefined();
     expect(cat.items.some((i) => i.name === "Paneer Tikka")).toBe(true);
   });
+
+  test("grouped menu supports case-insensitive dish search", async () => {
+    const res = await request(app).get("/api/menu?search=paneer&available=true").set("Cookie", cookie);
+    expect(res.status).toBe(200);
+    const results = res.body.data.flatMap((category) => category.items);
+    expect(results.some((item) => item.name === "Paneer Tikka")).toBe(true);
+    expect(results.every((item) => item.isAvailable !== false)).toBe(true);
+  });
 });
