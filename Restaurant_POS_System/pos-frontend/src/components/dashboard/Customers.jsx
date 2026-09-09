@@ -34,7 +34,7 @@ const Customers = () => {
   });
 
   const customers = toArray(data);
-  const pagination = data?.data?.pagination || { page: 1, pages: 1, total: customers.length };
+  const pagination = data?.pagination || { page: 1, pages: 1, total: customers.length };
   const intelligence = intelligenceData?.data?.data || {};
   const segments = intelligence.segments || {};
   const segmentById = new Map((intelligence.customers || []).map((customer) => [customer._id, customer.segment]));

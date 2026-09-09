@@ -82,7 +82,7 @@ const Orders = () => {
           ) : <p className="col-span-full text-slate-500">No orders available</p>
         }
       </div>
-      <div className="flex items-center justify-between gap-3 mt-4 text-sm"><span className="text-slate-500">Page {resData?.data?.pagination?.page || page} of {resData?.data?.pagination?.pages || 1} · {resData?.data?.pagination?.total || orders.length} orders</span><div className="flex gap-2"><button className="pos-btn-ghost" disabled={page <= 1} onClick={() => setPage((current) => current - 1)}>Previous</button><button className="pos-btn-ghost" disabled={page >= (resData?.data?.pagination?.pages || 1)} onClick={() => setPage((current) => current + 1)}>Next</button></div></div>
+      <div className="flex items-center justify-between gap-3 mt-4 text-sm"><span className="text-slate-500">Page {resData?.pagination?.page || page} of {resData?.pagination?.pages || 1} · {resData?.pagination?.total || orders.length} orders</span><div className="flex gap-2"><button className="pos-btn-ghost" disabled={page <= 1} onClick={() => setPage((current) => current - 1)}>Previous</button><button className="pos-btn-ghost" disabled={page >= (resData?.pagination?.pages || 1)} onClick={() => setPage((current) => current + 1)}>Next</button></div></div>
     </section>
   );
 };
