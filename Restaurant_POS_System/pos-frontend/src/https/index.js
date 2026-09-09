@@ -94,6 +94,7 @@ export const getPaymentReconciliation = () => axiosWrapper.get("/api/reports/pay
 export const getFraudSignals = () => axiosWrapper.get("/api/reports/fraud-signals");
 export const exportOrdersCsv = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/reports/export/orders.csv?${query}`, { responseType: "blob" }); };
 export const getAuditEvents = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/reports/audit-events${query ? `?${query}` : ""}`); };
+export const getAdminActivitySummary = (params = {}) => { const query = new URLSearchParams(params).toString(); return axiosWrapper.get(`/api/reports/admin-activity${query ? `?${query}` : ""}`); };
 export const getBriefingAcknowledgements = () => axiosWrapper.get("/api/reports/owner-briefing/acknowledgements");
 export const acknowledgeBriefing = (insightKey) => axiosWrapper.post("/api/reports/owner-briefing/acknowledgements", { insightKey });
 

@@ -10,6 +10,7 @@ const { exportOrdersCsv } = require("../controllers/reportExportController");
 const { getAuditEvents } = require("../controllers/auditEventController");
 const { getAcknowledgements, acknowledgeBriefing } = require("../controllers/briefingAcknowledgementController");
 const rateLimit = require("../middlewares/rateLimit");
+const { getAdminActivitySummary } = require("../controllers/adminActivityController");
 const router = express.Router();
 router.get("/finance", isVerifiedUser, restrictTo("Admin"), getFinanceReport);
 router.get("/profit", isVerifiedUser, restrictTo("Admin"), getProfitReport);
@@ -19,6 +20,7 @@ router.get("/payment-reconciliation", isVerifiedUser, restrictTo("Admin"), getPa
 router.get("/fraud-signals", isVerifiedUser, restrictTo("Admin"), getFraudSignals);
 router.get("/export/orders.csv", rateLimit({ windowMs: 60_000, max: 30 }), isVerifiedUser, restrictTo("Admin"), exportOrdersCsv);
 router.get("/audit-events", isVerifiedUser, restrictTo("Admin"), getAuditEvents);
+router.get("/admin-activity", isVerifiedUser, restrictTo("Admin"), getAdminActivitySummary);
 router.get("/owner-briefing/acknowledgements", isVerifiedUser, restrictTo("Admin"), getAcknowledgements);
 router.post("/owner-briefing/acknowledgements", isVerifiedUser, restrictTo("Admin"), acknowledgeBriefing);
 module.exports = router;
