@@ -1,5 +1,6 @@
 const { app, request, loginAsAdmin } = require("./helpers");
 const Order = require("../../Restaurant_POS_System/pos-backend/models/orderModel");
+const AuditEvent = require("../../Restaurant_POS_System/pos-backend/models/auditEventModel");
 
 describe("Phase 3 report export", () => {
   test("Admin can export a date-filtered order CSV", async () => {
@@ -13,5 +14,6 @@ describe("Phase 3 report export", () => {
     expect(response.headers.etag).toBeTruthy();
     const retry = await request(app).get("/api/reports/export/orders.csv?from=2026-02-01&to=2026-02-28").set("Cookie", cookie).set("If-None-Match", response.headers.etag);
     expect(retry.status).toBe(304);
+    expect(await AuditEvent.countDocuments({ action: "EXPORT", resource: "orders-csv" })).toBe(1);
   });
 });
