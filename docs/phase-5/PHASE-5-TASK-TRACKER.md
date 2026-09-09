@@ -23,9 +23,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 17. Menu query filtering API
 - [x] 18. Menu query filtering UI
 - [x] 19. Menu filtering tests
-- [ ] 20. Inventory search API
-- [ ] 21. Inventory search UI
-- [ ] 22. Inventory search tests
+- [x] 20. Inventory search API
+- [x] 21. Inventory search UI
+- [x] 22. Inventory search tests
 - [ ] 23. Report export audit trail
 - [ ] 24. Export audit tests
 - [ ] 25. Admin activity summary API
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 216. Tasks 1–19 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 220. Tasks 1–22 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
