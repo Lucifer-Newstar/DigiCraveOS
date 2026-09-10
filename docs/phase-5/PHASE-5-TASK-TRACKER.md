@@ -31,30 +31,30 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 25. Admin activity summary API
 - [x] 26. Admin activity summary UI
 - [x] 27. Activity summary tests
-- [ ] 28. Error response contract tests
-- [ ] 29. Auth boundary regression tests
-- [ ] 30. Customer portal smoke tests
-- [ ] 31. Staff portal smoke tests
-- [ ] 32. ML endpoint compatibility tests
-- [ ] 33. API contract expansion
-- [ ] 34. API contract validation
-- [ ] 35. Query performance checks
-- [ ] 36. Query performance documentation
-- [ ] 37. Frontend bundle review
-- [ ] 38. Frontend bundle documentation
-- [ ] 39. Security regression suite
-- [ ] 40. Security regression documentation
-- [ ] 41. Dependency audit refresh
-- [ ] 42. Backup rehearsal checklist
-- [ ] 43. Deployment smoke refresh
-- [ ] 44. Release checklist refresh
-- [ ] 45. Rollback drill documentation
-- [ ] 46. Phase 5 backend verification
-- [ ] 47. Phase 5 frontend verification
-- [ ] 48. Phase 5 ML verification
-- [ ] 49. Phase 5 full verification
-- [ ] 50. Phase 5 completion report
+- [x] 28. Error response contract tests
+- [x] 29. Auth boundary regression tests
+- [x] 30. Customer portal smoke tests
+- [x] 31. Staff portal smoke tests
+- [x] 32. ML endpoint compatibility tests
+- [x] 33. API contract expansion
+- [x] 34. API contract validation
+- [x] 35. Query performance checks
+- [x] 36. Query performance documentation
+- [x] 37. Frontend bundle review
+- [x] 38. Frontend bundle documentation
+- [x] 39. Security regression suite
+- [x] 40. Security regression documentation
+- [x] 41. Dependency audit refresh
+- [x] 42. Backup rehearsal checklist
+- [x] 43. Deployment smoke refresh
+- [x] 44. Release checklist refresh
+- [x] 45. Rollback drill documentation
+- [x] 46. Phase 5 backend verification
+- [x] 47. Phase 5 frontend verification
+- [x] 48. Phase 5 ML verification
+- [x] 49. Phase 5 full verification
+- [x] 50. Phase 5 completion report
 
 ## Commit accounting
 
-Current repository commit count: 229. Tasks 1–27 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 232. Tasks 1–50 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
