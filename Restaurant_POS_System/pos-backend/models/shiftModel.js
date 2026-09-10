@@ -14,4 +14,6 @@ const shiftSchema = new mongoose.Schema(
 );
 
 shiftSchema.index({ staff: 1, status: 1 });
+shiftSchema.index({ startedAt: -1 });
+shiftSchema.index({ status: 1, startedAt: -1 });
 module.exports = mongoose.model("Shift", shiftSchema);

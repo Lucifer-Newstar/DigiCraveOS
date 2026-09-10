@@ -15,6 +15,9 @@ const reservationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+reservationSchema.index({ date: 1, time: 1, status: 1 });
+reservationSchema.index({ status: 1, date: 1 });
+
 const waitlistSchema = new mongoose.Schema(
   {
     guestName: { type: String, required: true, trim: true },

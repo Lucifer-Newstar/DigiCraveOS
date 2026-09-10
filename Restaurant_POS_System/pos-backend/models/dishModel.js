@@ -30,4 +30,7 @@ const dishSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+dishSchema.index({ name: 1 });
+dishSchema.index({ category: 1, isAvailable: 1 });
+
 module.exports = mongoose.model("Dish", dishSchema);
