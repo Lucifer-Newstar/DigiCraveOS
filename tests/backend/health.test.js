@@ -1,4 +1,4 @@
-const { app, request } = require("./helpers");
+const { app, request, loginAsAdmin } = require("./helpers");
 
 describe("Phase 4 health endpoints", () => {
   test("liveness is available without authentication", async () => {
@@ -17,6 +17,15 @@ describe("Phase 4 health endpoints", () => {
 
     const corsResponse = await request(app).get("/api/health/live").set("Origin", "http://localhost:5173");
     expect(corsResponse.headers["access-control-allow-origin"]).toBe("http://localhost:5173");
+  });
+
+  test("admin can read process and database metrics", async () => {
+    const { cookie } = await loginAsAdmin();
+    const response = await request(app).get("/api/health/metrics").set("Cookie", cookie);
+    expect(response.status).toBe(200);
+    expect(response.body.data.service).toBe("pos-backend");
+    expect(response.body.data.memory.heapUsedBytes).toBeGreaterThan(0);
+    expect(response.body.data.database.readyState).toBe(1);
   });
 
   test("readiness reports the connected test database", async () => {
