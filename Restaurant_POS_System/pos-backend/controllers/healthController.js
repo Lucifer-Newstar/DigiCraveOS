@@ -8,4 +8,9 @@ const getReadiness = (req, res) => {
   res.status(databaseReady ? 200 : 503).json({ success: databaseReady, data: { status, checks: { database: databaseReady ? "up" : "down" } } });
 };
 
-module.exports = { getLiveness, getReadiness };
+const getProcessMetrics = (req, res) => {
+  const memory = process.memoryUsage();
+  res.json({ success: true, data: { service: "pos-backend", uptimeSeconds: Math.floor(process.uptime()), nodeVersion: process.version, pid: process.pid, memory: { rssBytes: memory.rss, heapUsedBytes: memory.heapUsed, heapTotalBytes: memory.heapTotal, externalBytes: memory.external }, database: { readyState: mongoose.connection.readyState, host: mongoose.connection.host || null, name: mongoose.connection.name || null } } });
+};
+
+module.exports = { getLiveness, getReadiness, getProcessMetrics };
