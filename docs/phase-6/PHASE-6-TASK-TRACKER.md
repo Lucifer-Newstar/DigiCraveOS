@@ -7,10 +7,10 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 01. Admin process metrics endpoint
 - [x] 02. Process metrics integration tests
 - [x] 03. Process metrics documentation
-- [ ] 04. Database connection metrics
-- [ ] 05. Database metrics tests
-- [ ] 06. Metrics dashboard card
-- [ ] 07. Metrics dashboard smoke check
+- [x] 04. Database connection metrics
+- [x] 05. Database metrics tests
+- [x] 06. Metrics dashboard card
+- [x] 07. Metrics dashboard smoke check
 - [ ] 08. Slow-query threshold configuration
 - [ ] 09. Slow-query logging tests
 - [ ] 10. Slow-query operations documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 239. Tasks 1–3 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 242. Tasks 1–7 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
