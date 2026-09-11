@@ -18,4 +18,16 @@ const getAuditEvents = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
-module.exports = { getAuditEvents };
+const getAuditRetention = async (req, res, next) => {
+  try {
+    const retainDays = Math.min(Math.max(Number(req.query.retainDays) || 90, 1), 3650);
+    const cutoff = new Date(Date.now() - retainDays * 86400000);
+    const [eligibleCount, oldest] = await Promise.all([
+      AuditEvent.countDocuments({ createdAt: { $lt: cutoff } }),
+      AuditEvent.findOne({}).sort({ createdAt: 1 }).select("createdAt").lean(),
+    ]);
+    res.json({ success: true, data: { retainDays, cutoff, eligibleCount, oldestEventAt: oldest?.createdAt || null, deletionRequired: eligibleCount > 0 } });
+  } catch (error) { next(error); }
+};
+
+module.exports = { getAuditEvents, getAuditRetention };
