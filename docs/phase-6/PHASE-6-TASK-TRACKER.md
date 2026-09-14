@@ -17,9 +17,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 11. Audit event retention query
 - [x] 12. Audit retention tests
 - [x] 13. Audit retention documentation
-- [ ] 14. Pagination contract helper
-- [ ] 15. Pagination helper tests
-- [ ] 16. Pagination contract documentation
+- [x] 14. Pagination contract helper
+- [x] 15. Pagination helper tests
+- [x] 16. Pagination contract documentation
 - [ ] 17. Reservation conflict index
 - [ ] 18. Reservation conflict regression test
 - [ ] 19. Reservation conflict documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 250. Tasks 1–13 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 254. Tasks 1–16 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
