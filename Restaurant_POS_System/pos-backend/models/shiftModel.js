@@ -14,6 +14,7 @@ const shiftSchema = new mongoose.Schema(
 );
 
 shiftSchema.index({ staff: 1, status: 1 });
+shiftSchema.index({ staff: 1 }, { unique: true, partialFilterExpression: { status: "Open" } });
 shiftSchema.index({ startedAt: -1 });
 shiftSchema.index({ status: 1, startedAt: -1 });
 module.exports = mongoose.model("Shift", shiftSchema);

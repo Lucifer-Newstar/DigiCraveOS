@@ -18,6 +18,7 @@ describe("Phase 4 database indexes", () => {
     expect(purchaseIndexes).toContain("receivedAt");
     expect(reservationIndexes).toContain("date,time,status");
     expect(shiftIndexes).toContain("startedAt");
+    expect(Shift.schema.indexes().some(([fields, options]) => Object.keys(fields).join(",") === "staff" && options.unique && options.partialFilterExpression?.status === "Open")).toBe(true);
     expect(dishIndexes).toContain("category,isAvailable");
   });
 });
