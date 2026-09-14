@@ -2,15 +2,15 @@ const createHttpError = require("http-errors");
 const mongoose = require("mongoose");
 const Dish = require("../models/dishModel");
 const { Ingredient, Recipe, Supplier, Purchase } = require("../models/inventoryModel");
+const { parsePagination, paginationMeta } = require("../utils/pagination");
 
 const getInventory = async (req, res, next) => {
   try {
-    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
-    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 25, 1), 100);
+    const { page, limit, skip } = parsePagination(req.query);
     const search = String(req.query.search || "").trim().slice(0, 80);
     const ingredientFilter = search ? { name: { $regex: search, $options: "i" } } : {};
     const [ingredients, ingredientTotal, valuationRows, recipes, suppliers, purchases] = await Promise.all([
-      Ingredient.find(ingredientFilter).sort({ name: 1 }).skip((page - 1) * limit).limit(limit),
+      Ingredient.find(ingredientFilter).sort({ name: 1 }).skip(skip).limit(limit),
       Ingredient.countDocuments(ingredientFilter),
       Ingredient.find().select("batches"),
       Recipe.find().populate("dish", "name").populate("ingredients.ingredient", "name unit"),
@@ -18,7 +18,7 @@ const getInventory = async (req, res, next) => {
       Purchase.find().populate("supplier", "name").populate("lines.ingredient", "name unit").sort({ receivedAt: -1 }).limit(50),
     ]);
     const valuation = valuationRows.reduce((total, item) => total + (item.batches || []).reduce((sum, batch) => sum + batch.quantity * batch.unitCost, 0), 0);
-    res.json({ success: true, data: { ingredients, recipes, suppliers, purchases, valuation: +valuation.toFixed(2), pagination: { page, limit, total: ingredientTotal, pages: Math.ceil(ingredientTotal / limit) } } });
+    res.json({ success: true, data: { ingredients, recipes, suppliers, purchases, valuation: +valuation.toFixed(2), pagination: paginationMeta({ page, limit, total: ingredientTotal }) } });
   } catch (error) { next(error); }
 };
 
