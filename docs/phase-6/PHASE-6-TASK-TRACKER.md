@@ -20,9 +20,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 14. Pagination contract helper
 - [x] 15. Pagination helper tests
 - [x] 16. Pagination contract documentation
-- [ ] 17. Reservation conflict index
-- [ ] 18. Reservation conflict regression test
-- [ ] 19. Reservation conflict documentation
+- [x] 17. Reservation conflict index
+- [x] 18. Reservation conflict regression test
+- [x] 19. Reservation conflict documentation
 - [ ] 20. Shift open-state constraint review
 - [ ] 21. Shift concurrency regression test
 - [ ] 22. Shift constraint documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 254. Tasks 1–16 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 256. Tasks 1–19 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
