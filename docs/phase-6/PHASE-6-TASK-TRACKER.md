@@ -14,9 +14,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 08. Slow-query threshold configuration
 - [x] 09. Slow-query logging tests
 - [x] 10. Slow-query operations documentation
-- [ ] 11. Audit event retention query
-- [ ] 12. Audit retention tests
-- [ ] 13. Audit retention documentation
+- [x] 11. Audit event retention query
+- [x] 12. Audit retention tests
+- [x] 13. Audit retention documentation
 - [ ] 14. Pagination contract helper
 - [ ] 15. Pagination helper tests
 - [ ] 16. Pagination contract documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 246. Tasks 1–10 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 250. Tasks 1–13 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
