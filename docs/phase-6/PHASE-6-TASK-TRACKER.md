@@ -26,9 +26,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 20. Shift open-state constraint review
 - [x] 21. Shift concurrency regression test
 - [x] 22. Shift constraint documentation
-- [ ] 23. Export content-length metadata
-- [ ] 24. Export metadata tests
-- [ ] 25. Export metadata documentation
+- [x] 23. Export content-length metadata
+- [x] 24. Export metadata tests
+- [x] 25. Export metadata documentation
 - [ ] 26. Health smoke retry behavior
 - [ ] 27. Health retry tests
 - [ ] 28. Health retry documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 259. Tasks 1–22 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 262. Tasks 1–25 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
