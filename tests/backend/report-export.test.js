@@ -12,6 +12,7 @@ describe("Phase 3 report export", () => {
     expect(response.text).toContain("\"Date\",\"Order status\"");
     expect(response.text).toContain("CSV Guest");
     expect(response.headers.etag).toBeTruthy();
+    expect(Number(response.headers["content-length"])).toBe(Buffer.byteLength(response.text));
     const retry = await request(app).get("/api/reports/export/orders.csv?from=2026-02-01&to=2026-02-28").set("Cookie", cookie).set("If-None-Match", response.headers.etag);
     expect(retry.status).toBe(304);
     expect(await AuditEvent.countDocuments({ action: "EXPORT", resource: "orders-csv" })).toBe(1);
