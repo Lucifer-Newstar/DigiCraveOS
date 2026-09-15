@@ -29,9 +29,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 23. Export content-length metadata
 - [x] 24. Export metadata tests
 - [x] 25. Export metadata documentation
-- [ ] 26. Health smoke retry behavior
-- [ ] 27. Health retry tests
-- [ ] 28. Health retry documentation
+- [x] 26. Health smoke retry behavior
+- [x] 27. Health retry tests
+- [x] 28. Health retry documentation
 - [ ] 29. Frontend query error telemetry hook
 - [ ] 30. Query telemetry smoke check
 - [ ] 31. Frontend telemetry documentation
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 262. Tasks 1–25 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 266. Tasks 1–28 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
