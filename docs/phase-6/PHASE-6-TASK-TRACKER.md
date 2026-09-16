@@ -32,9 +32,9 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 26. Health smoke retry behavior
 - [x] 27. Health retry tests
 - [x] 28. Health retry documentation
-- [ ] 29. Frontend query error telemetry hook
-- [ ] 30. Query telemetry smoke check
-- [ ] 31. Frontend telemetry documentation
+- [x] 29. Frontend query error telemetry hook
+- [x] 30. Query telemetry smoke check
+- [x] 31. Frontend telemetry documentation
 - [ ] 32. API security header regression refresh
 - [ ] 33. CORS multi-origin regression test
 - [ ] 34. Dependency audit refresh
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 266. Tasks 1–28 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 270. Tasks 1–31 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
