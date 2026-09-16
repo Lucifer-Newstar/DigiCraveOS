@@ -17,6 +17,10 @@ describe("Phase 4 health endpoints", () => {
 
     const corsResponse = await request(app).get("/api/health/live").set("Origin", "http://localhost:5173");
     expect(corsResponse.headers["access-control-allow-origin"]).toBe("http://localhost:5173");
+
+    const forbiddenCors = await request(app).get("/api/health/live").set("Origin", "https://untrusted.example");
+    expect(forbiddenCors.headers["access-control-allow-origin"]).toBeUndefined();
+    expect(forbiddenCors.headers["x-content-type-options"]).toBe("nosniff");
   });
 
   test("admin can read process and database metrics", async () => {
