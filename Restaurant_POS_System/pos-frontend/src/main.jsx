@@ -5,10 +5,12 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { SnackbarProvider } from "notistack";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { reportQueryError } from "./observability/queryTelemetry.js";
 import ErrorBoundary from "./components/shared/ErrorBoundary.jsx";
 
 const queryClient = new QueryClient({
+  queryCache: new QueryCache({ onError: (error, query) => reportQueryError({ error, query }) }),
   defaultOptions: {
     queries: {
       staleTime : 30000,
