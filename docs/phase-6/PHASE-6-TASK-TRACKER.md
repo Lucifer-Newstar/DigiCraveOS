@@ -39,11 +39,11 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 33. CORS multi-origin regression test
 - [x] 34. Dependency audit refresh
 - [x] 35. Dependency audit documentation
-- [ ] 36. Backend full verification
-- [ ] 37. Frontend full verification
-- [ ] 38. ML full verification
-- [ ] 39. Deployment smoke verification
-- [ ] 40. OpenAPI verification
+- [x] 36. Backend full verification
+- [x] 37. Frontend full verification
+- [x] 38. ML full verification
+- [x] 39. Deployment smoke verification
+- [x] 40. OpenAPI verification
 - [ ] 41. Performance baseline refresh
 - [ ] 42. Backup runbook refresh
 - [ ] 43. Release checklist refresh
@@ -57,4 +57,4 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 
 ## Commit accounting
 
-Current repository commit count: 274. Tasks 1–35 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 276. Tasks 1–40 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
