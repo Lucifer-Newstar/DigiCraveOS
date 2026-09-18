@@ -1,7 +1,5 @@
 # ✅ DigiCraveOS — Phase 1 Completion Report
 
-DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
-
 
 **Phase 1 — MVP · LIVE** (per the Evolution Roadmap, Architecture 5).
 This document records everything delivered in Phase 1, how the codebase was

@@ -1,7 +1,7 @@
 # DigiCraveOS — Bugs Fixed
 
 **Date:** 2026-08-09  
-**Project:** DigiCraveOS — maintained by Lucifer-Newstar / Navin Jairam
+**Project:** DigiCraveOS
 **Scope:** All identified bugs in frontend (React + Vite + Redux + React Query) and backend (Node/Express + MongoDB + Mongoose + Razorpay).
 
 ## Summary of Fixes

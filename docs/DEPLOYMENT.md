@@ -1,6 +1,6 @@
 # 🚀 DigiCraveOS — Deployment Notes
 
-DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**. These notes describe the project setup in a simple, self-contained way.
+These notes describe the DigiCraveOS setup in a simple, self-contained way.
 
 
 DigiCraveOS has **three runtimes + a database**, each with different hosting

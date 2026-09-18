@@ -1,6 +1,6 @@
 # 🍽️ DigiCraveOS — Software Architecture & UML Blueprint
 
-**AI Restaurant Operating System** · repository: `Lucifer-Newstar/DigiCraveOS`
+**AI Restaurant Operating System** · DigiCraveOS project
 Kept as a practical reference for the DigiCraveOS project · renders natively in common Markdown and Mermaid viewers
 
 This document contains the **software architecture (5 views)** and **all 14 UML 2.5 diagrams** for the product,

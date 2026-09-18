@@ -1,7 +1,5 @@
 # 🧪 DigiCraveOS — Test Suite
 
-The test setup belongs to the DigiCraveOS project, maintained by **Lucifer-Newstar / Navin Jairam**.
-
 
 Automated tests for the POS API and the ML service.
 

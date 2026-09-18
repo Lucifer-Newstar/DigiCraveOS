@@ -1,7 +1,5 @@
 # KOT/KDS workflow — implementation notes
 
-DigiCraveOS is maintained by **Lucifer-Newstar / Navin Jairam**.
-
 ## Backend
 
 Implemented in the existing order module:

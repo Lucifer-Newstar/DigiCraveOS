@@ -38,7 +38,7 @@ A full-featured **Restaurant POS System** built using the **MERN Stack** to stre
 
 ## 🧭 **Project notes**
 
-DigiCraveOS is maintained as an independent project by **Lucifer-Newstar / Navin Jairam**. The source, documentation, and roadmap in this repository belong to this project.
+DigiCraveOS is an independent restaurant POS project. The source, documentation, and roadmap live in this repository.
 
 ## 🤖 **AI / ML Service (`Restaurant_POS_ML`)**
 
