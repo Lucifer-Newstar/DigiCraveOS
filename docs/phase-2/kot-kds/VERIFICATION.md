@@ -4,12 +4,14 @@
 
 - Node syntax check passed for the updated backend model, controller, route, and kitchen test.
 - `git diff --check` passed.
+- Frontend production build passed with Vite.
+- Targeted lint for the updated Kitchen page passed.
 - The implementation was reviewed against the Phase 2 scope.
 
-## Checks not run
+## Checks not complete
 
-- Backend integration tests were not run because backend `node_modules` is not installed in the sandbox.
-- Frontend lint/build was not run because frontend `node_modules` is not installed in the sandbox.
+- The full frontend lint command still reports 183 existing project lint errors across older files. The updated Kitchen page is clean in a targeted lint run.
+- Backend integration tests could not connect because MongoDB is not available on `localhost:27017` in the sandbox.
 - MongoDB-backed tests require MongoDB on `localhost:27017`.
 
 ## Test coverage added
