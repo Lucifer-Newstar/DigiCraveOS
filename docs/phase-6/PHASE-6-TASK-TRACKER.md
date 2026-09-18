@@ -1,6 +1,6 @@
 # Phase 6 — Observability and Reliability Operations
 
-**Status:** Active after completion of Phase 5.
+**Status:** Complete after completion of Phase 5.
 
 Tasks require implementation, tests, documentation, and verification. No filler commits.
 
@@ -44,17 +44,17 @@ Tasks require implementation, tests, documentation, and verification. No filler 
 - [x] 38. ML full verification
 - [x] 39. Deployment smoke verification
 - [x] 40. OpenAPI verification
-- [ ] 41. Performance baseline refresh
-- [ ] 42. Backup runbook refresh
-- [ ] 43. Release checklist refresh
-- [ ] 44. Rollback checklist refresh
-- [ ] 45. Security checklist refresh
-- [ ] 46. Operational ownership refresh
-- [ ] 47. Phase 6 API catalog update
-- [ ] 48. Phase 6 verification report
-- [ ] 49. Phase 6 completion checklist
-- [ ] 50. Phase 6 completion report
+- [x] 41. Performance baseline refresh
+- [x] 42. Backup runbook refresh
+- [x] 43. Release checklist refresh
+- [x] 44. Rollback checklist refresh
+- [x] 45. Security checklist refresh
+- [x] 46. Operational ownership refresh
+- [x] 47. Phase 6 API catalog update
+- [x] 48. Phase 6 verification report
+- [x] 49. Phase 6 completion checklist
+- [x] 50. Phase 6 completion report
 
 ## Commit accounting
 
-Current repository commit count: 276. Tasks 1–40 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 286. Tasks 1–50 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
