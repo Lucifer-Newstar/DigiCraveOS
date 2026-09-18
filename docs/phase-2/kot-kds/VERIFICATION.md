@@ -42,3 +42,5 @@ npm run build
 ## Status
 
 **Implementation complete; runtime verification pending.**
+
+Implementation commit: `7a52868` (`feat(kitchen): add station ticket workflow`)

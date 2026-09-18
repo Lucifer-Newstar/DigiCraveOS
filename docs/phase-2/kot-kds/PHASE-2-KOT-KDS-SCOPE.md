@@ -74,9 +74,11 @@ No separate service or external integration is planned for this step.
 - [x] Frontend implementation recorded
 - [x] Tests recorded
 - [x] Manual verification recorded
-- [ ] Commit recorded
+- [x] Commit recorded
 - [ ] Phase 2 progress index updated
 
 ## Status
 
 **Implementation complete — runtime verification pending.**
+
+Implementation commit: `7a52868` (`feat(kitchen): add station ticket workflow`)
