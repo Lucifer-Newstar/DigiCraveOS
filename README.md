@@ -65,7 +65,7 @@ seeding demo data, and the full API reference.
 ## 🧪 **Tests**
 
 Automated tests live in [`tests/`](./tests): **Jest + Supertest** for the POS API
-and **pytest** for the ML service (42 passing). Run everything with:
+and **pytest** for the ML service (46 passing). Run everything with:
 
 ```bash
 bash tests/run-all-tests.sh

@@ -25,11 +25,11 @@ describe("Phase 2 inventory and reservations", () => {
     expect(response.body.data.status).toBe("Pending");
   });
 
-  test("Reservations reject duplicate active slots for the same table", async () => {
+  test("Reservations reject duplicate active slots", async () => {
     const { cookie } = await loginAsAdmin();
     const payload = { guestName: "Slot Guest", phone: "5555555555", date: "2026-09-21", time: "20:00", partySize: 2 };
-    expect((await request(app).post("/api/reservations").set("Cookie", cookie).send(payload)).status).toBe(409);
     expect((await request(app).post("/api/reservations").set("Cookie", cookie).send(payload)).status).toBe(201);
+    expect((await request(app).post("/api/reservations").set("Cookie", cookie).send(payload)).status).toBe(409);
   });
 
   test("Unauthenticated users cannot access inventory", async () => {
