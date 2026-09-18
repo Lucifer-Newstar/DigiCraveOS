@@ -79,4 +79,4 @@ No separate service or external integration is planned for this step.
 
 ## Status
 
-**Planned — implementation not started.**
+**In progress — backend and frontend implementation started.**
