@@ -10,6 +10,13 @@ describe("Phase 7 structured global errors", () => {
     expect(json.mock.calls[0][0].timestamp).toEqual(expect.any(String));
   });
 
+  test("redacts sensitive values from error messages", () => {
+    const json = jest.fn();
+    const res = { status: jest.fn(() => ({ json })) };
+    globalErrorHandler({ statusCode: 400, message: "token=abc123 password=hunter2" }, { requestId: "req-789" }, res);
+    expect(json.mock.calls[0][0].message).toBe("token=[REDACTED] password=[REDACTED]");
+  });
+
   test("uses a safe default code for unknown errors", () => {
     const json = jest.fn();
     const res = { status: jest.fn(() => ({ json })) };
