@@ -7,9 +7,14 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 echo "════════════════════════════════════════════"
 echo " 1/2  Backend API tests (Jest + Supertest)"
 echo "════════════════════════════════════════════"
+echo "Installing backend runtime dependencies if needed..."
+cd "$ROOT/Restaurant_POS_System/pos-backend"
+[ -d node_modules ] || npm install
+
+echo "Installing test dependencies if needed..."
 cd "$ROOT/tests/backend"
 [ -d node_modules ] || npm install
-npx jest --runInBand --forceExit
+npm test
 
 echo ""
 echo "════════════════════════════════════════════"
