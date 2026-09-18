@@ -4,9 +4,9 @@
 
 Tasks require substantive implementation, tests, documentation, and verification. No filler commits.
 
-- [ ] 01. Structured global error response
-- [ ] 02. Global error response tests
-- [ ] 03. Error response documentation
+- [x] 01. Structured global error response
+- [x] 02. Global error response tests
+- [x] 03. Error response documentation
 - [ ] 04. Request error log redaction
 - [ ] 05. Redaction regression tests
 - [ ] 06. API error catalog
@@ -57,4 +57,4 @@ Tasks require substantive implementation, tests, documentation, and verification
 
 ## Commit accounting
 
-Current repository commit count: 286. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 290. Tasks 1–3 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
