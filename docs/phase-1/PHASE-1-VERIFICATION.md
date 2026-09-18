@@ -112,3 +112,17 @@ Run: `bash tests/run-all-tests.sh`
 | `/customer/profile` | Guest | Loyalty stats |
 
 **Phase 1 is complete and verified against the UML blueprint.**
+
+## 7. Phase 1 finish-up checks
+
+The dependency and build cleanup is recorded in [`DEPENDENCY-AUDIT.md`](./DEPENDENCY-AUDIT.md).
+
+- Backend deprecated `crypto` package removed.
+- Backend `bcrypt` updated to 6.x.
+- Backend `npm audit` reports 0 vulnerabilities.
+- Frontend direct Axios, React Router, and Vite versions refreshed.
+- Frontend production build passes.
+- Backend integration tests still need MongoDB on `localhost:27017`.
+- Full frontend lint still has older project-wide errors; the new Kitchen page passes targeted lint.
+
+Phase 1 application work is complete. The remaining items are environment verification and general cleanup, not new Phase 1 product scope.
