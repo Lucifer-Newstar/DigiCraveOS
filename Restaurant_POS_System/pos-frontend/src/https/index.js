@@ -1,4 +1,5 @@
 import { axiosWrapper } from "./axiosWrapper";
+import { queueOrder } from "../utils/offlineQueue";
 
 // API Endpoints
 
@@ -21,7 +22,22 @@ export const verifyPaymentRazorpay = (data) =>
   axiosWrapper.post("/api/payment/verify-payment", data);
 
 // Order Endpoints
-export const addOrder = (data) => axiosWrapper.post("/api/order/", data);
+const postOrderDirect = (data) => axiosWrapper.post("/api/order/", data);
+export const addOrder = async (data) => {
+  if (typeof navigator !== "undefined" && !navigator.onLine) {
+    const queued = queueOrder(data);
+    return { data: { success: true, queued: true, data: queued } };
+  }
+  try {
+    return await postOrderDirect(data);
+  } catch (error) {
+    if (!error.response) {
+      const queued = queueOrder(data);
+      return { data: { success: true, queued: true, data: queued } };
+    }
+    throw error;
+  }
+};
 export const getOrders = () => axiosWrapper.get("/api/order");
 export const getKitchenTickets = () => axiosWrapper.get("/api/order/kitchen");
 export const updateKitchenItem = ({ orderId, itemIndex, kitchenStatus }) =>
@@ -32,6 +48,18 @@ export const getMetrics = () => axiosWrapper.get("/api/order/metrics");
 export const getPopularDishes = () => axiosWrapper.get("/api/order/popular");
 export const getPayments = (limit = 25) =>
   axiosWrapper.get(`/api/order/payments?limit=${limit}`);
+
+// Phase 2 inventory and reservation endpoints
+export const getInventory = () => axiosWrapper.get("/api/inventory");
+export const addIngredient = (data) => axiosWrapper.post("/api/inventory/ingredient", data);
+export const updateIngredient = ({ id, ...data }) => axiosWrapper.patch(`/api/inventory/ingredient/${id}`, data);
+export const saveRecipe = (data) => axiosWrapper.put("/api/inventory/recipe", data);
+export const getReservations = () => axiosWrapper.get("/api/reservations");
+export const addReservation = (data) => axiosWrapper.post("/api/reservations", data);
+export const updateReservation = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/${id}`, data);
+export const getWaitlist = () => axiosWrapper.get("/api/reservations/waitlist");
+export const addWaitlist = (data) => axiosWrapper.post("/api/reservations/waitlist", data);
+export const updateWaitlist = ({ id, ...data }) => axiosWrapper.patch(`/api/reservations/waitlist/${id}`, data);
 
 // Customer (staff view) Endpoints
 export const getCustomers = () => axiosWrapper.get("/api/customer");

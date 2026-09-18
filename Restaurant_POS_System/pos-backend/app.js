@@ -32,6 +32,8 @@ app.use("/api/customer/auth", require("./routes/customerAuthRoute"));
 app.use("/api/customer", require("./routes/customerRoute"));
 app.use("/api/menu", require("./routes/menuRoute"));
 app.use("/api/ml", require("./routes/mlRoute"));
+app.use("/api/inventory", require("./routes/inventoryRoute"));
+app.use("/api/reservations", require("./routes/reservationRoute"));
 
 // Global Error Handler
 app.use(globalErrorHandler);

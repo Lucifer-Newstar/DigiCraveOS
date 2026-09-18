@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -5,13 +6,15 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { Home, Auth, Orders, Tables, Menu, Dashboard, Kitchen } from "./pages";
+import { Home, Auth, Orders, Tables, Menu, Dashboard, Kitchen, Inventory, Reservations } from "./pages";
 import Header from "./components/shared/Header";
 import Sidebar from "./components/shared/Sidebar";
 import { useSelector } from "react-redux";
 import useLoadData from "./hooks/useLoadData";
 import FullScreenLoader from "./components/shared/FullScreenLoader";
 import CustomerApp from "./CustomerApp";
+import { axiosWrapper } from "./https/axiosWrapper";
+import { syncQueuedOrders } from "./utils/offlineQueue";
 
 function Layout() {
   const isLoading = useLoadData();
@@ -73,6 +76,8 @@ function Layout() {
           </ProtectedRoutes>
         }
       />
+      <Route path="/inventory" element={<ProtectedRoutes roles={["Admin"]}><Inventory /></ProtectedRoutes>} />
+      <Route path="/reservations" element={<ProtectedRoutes roles={["Admin", "Cashier", "Waiter"]}><Reservations /></ProtectedRoutes>} />
       <Route path="*" element={<div className="p-8 text-slate-500">Not Found</div>} />
     </Routes>
   );
@@ -127,6 +132,13 @@ function Root() {
 }
 
 function App() {
+  useEffect(() => {
+    const sync = () => syncQueuedOrders((order) => axiosWrapper.post("/api/order/", order));
+    window.addEventListener("online", sync);
+    sync();
+    return () => window.removeEventListener("online", sync);
+  }, []);
+
   return (
     <Router>
       <Root />

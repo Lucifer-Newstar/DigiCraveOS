@@ -23,4 +23,4 @@ This is the minimal offline foundation for DigiCraveOS Phase 2.
 
 ## Status
 
-Planned — implementation follows the reservations slice.
+Implementation complete — runtime verification pending.

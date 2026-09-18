@@ -89,6 +89,8 @@ const orderSchema = new mongoose.Schema(
     // Set to the previous status when an order is put On Hold, so resume()
     // can return it to where it was.
     _statusBeforeHold: { type: String },
+    inventoryDeducted: { type: Boolean, default: false },
+    idempotencyKey: { type: String, unique: true, sparse: true },
   },
   { timestamps: true }
 );

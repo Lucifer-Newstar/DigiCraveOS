@@ -23,4 +23,4 @@ This is the minimal inventory slice for DigiCraveOS Phase 2.
 
 ## Status
 
-Planned — implementation follows the KOT/KDS slice.
+Implementation complete — runtime verification pending.
