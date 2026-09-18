@@ -532,6 +532,7 @@ classDiagram
         +Number qty
         +String notes
         +String station
+        +String kitchenStatus  «Pending|Preparing|Ready»
         +lineTotal()
     }
 
@@ -1116,12 +1117,12 @@ sequenceDiagram
     DB-->>OC: ok (atomic)
     OC-->>API: 201 {success, data}
     API-->>FE: order accepted
-    API->>KDS: WS emit "order:new" → KOT per station
-    KDS->>API: PUT /api/order/:id {status=Ready}
+    KDS->>API: GET /api/order/kitchen (poll every 10s)
+    KDS->>API: PATCH /api/order/:id/kitchen {itemIndex, kitchenStatus}
     API->>DB: update orderStatus
     DB-->>API: ok
-    API-->>KDS: ack
-    API-->>FE: WS "order:ready"
+    API-->>KDS: 200 {success, data}
+    FE-->>KDS: refresh ticket list
     FE-->>G: notify (served soon)
 
     Note over API,ML: passive analytics — no coupling

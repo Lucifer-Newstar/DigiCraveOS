@@ -95,7 +95,7 @@ Both sites are HTTPS on Vercel/Render, so this works.
 
 `.github/workflows/ci.yml` runs on every push to `main`/`navin` and every PR:
 
-- **backend-tests** — spins up MongoDB, runs Jest + Supertest (31 tests).
+- **backend-tests** — spins up MongoDB, runs Jest + Supertest (35 tests).
 - **ml-tests** — spins up MongoDB, runs pytest (7 tests).
 - **frontend-build** — eslint + production `vite build`.
 

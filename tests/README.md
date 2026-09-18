@@ -7,7 +7,7 @@ Automated tests for the POS API and the ML service.
 
 | Suite | Stack | Location | What it covers |
 |---|---|---|---|
-| Backend API | **Jest + Supertest** | `tests/backend/` | Auth, order lifecycle & state machine, hold/resume/split/merge, menu CRUD, payment verification, metrics & payments endpoints |
+| Backend API | **Jest + Supertest** | `tests/backend/` | Auth, order lifecycle & state machine, hold/resume/split/merge, menu CRUD, payment verification, metrics & payments endpoints, and kitchen tickets |
 | ML service | **pytest + FastAPI TestClient** | `tests/ml/` | health, forecast, demand, popular, recommend (association + popularity fallback) |
 
 ## Prerequisites
@@ -35,4 +35,4 @@ Restaurant_POS_ML/.venv/bin/python -m pytest tests/ml -v
   run directly (`require.main === module`), so Supertest mounts it in-process.
 - Tests connect using the **backend's** mongoose instance so models and the
   test connection share one client.
-- Current test set: **31 backend tests + 7 ML tests = 38 tests.**
+- Current test set: **35 backend tests + 7 ML tests = 42 tests.**
