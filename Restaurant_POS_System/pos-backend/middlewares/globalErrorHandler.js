@@ -1,4 +1,5 @@
 const config = require("../config/config");
+const { redactSensitiveText } = require("../utils/redactSensitive");
 
 const globalErrorHandler = (err, req, res, next) => {
     const statusCode = err.statusCode || 500;
@@ -7,7 +8,7 @@ const globalErrorHandler = (err, req, res, next) => {
     return res.status(statusCode).json({
         status: statusCode,
         code,
-        message: err.message || "Request failed",
+        message: redactSensitiveText(err.message || "Request failed"),
         errorStack: config.nodeEnv === "development" ? err.stack : "",
         requestId: req.requestId,
         timestamp: new Date().toISOString()
