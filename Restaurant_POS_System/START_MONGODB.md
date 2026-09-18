@@ -1,11 +1,14 @@
 # How to Run MongoDB with Docker for the POS System
 
+This is the local MongoDB setup note for DigiCraveOS, maintained by **Lucifer-Newstar / Navin Jairam**.
+
+
 ## Step 1: Start MongoDB using Docker Compose
 
 Make sure you're in the project root:
 
 ```bash
-cd /home/user/Restaurant_pos_AI/Restaurant_POS_System
+cd /home/user/DigiCraveOS/Restaurant_POS_System
 ```
 
 ### Option A: Using `docker compose` (Recommended)

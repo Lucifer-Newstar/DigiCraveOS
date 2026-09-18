@@ -36,47 +36,9 @@ A full-featured **Restaurant POS System** built using the **MERN Stack** to stre
 ---
 <br>
 
-## 📺 **YouTube Playlist**
+## 🧭 **Project notes**
 
-🎬 Follow the complete tutorial series on building this Restaurant POS System on YouTube:  
-👉 [Watch the Playlist](https://www.youtube.com/playlist?list=PL9OdiypqS7Nk0DHnSNFIi8RgEFJCIWB6X)  
-
-## 📁 **Assets**
-
-- 📦 **Project Assets:** [Google Drive](https://drive.google.com/drive/folders/193N-F1jpzyfPCRCLc9wCyaxjYu2K6PC_)
-
----
-
-## 📋 **Flow Chart for Project Structure**
-
-- 🗺️ **Visualize the Project Structure:** [View Flow Chart](https://app.eraser.io/workspace/IcU1b6EHu9ZyS9JKi0aY?origin=share)
-
----
-
-## 🎨 **Design Inspiration**
-
-- 💡 **UI/UX Design Reference:** [Behance Design](https://www.behance.net/gallery/210280099/Restaurant-POS-System-Point-of-Sale-UIUX-Design)
-
----
-
-## 🖼️ **Project Screenshots**
-
-<table>
-  <tr>
-    <td><img src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1740502772/ibjxvy5o1ikbsdebrjky.png" alt="Screenshot 1" width="300"/></td>
-    <td><img src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1740502773/ietao6dnw6yjsh4f71zn.png" alt="Screenshot 2" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1740502772/vesokdfpa1jb7ytm9abi.png" alt="Screenshot 3" width="300"/></td>
-    <td><img src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1740502772/setoqzhzbwbp9udpri1f.png" alt="Screenshot 4" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1740502772/fc4tiwzdoisqwac1j01y.png" alt="Screenshot 5" width="300"/></td>
-  </tr>
-</table>
-
-
----
+DigiCraveOS is maintained as an independent project by **Lucifer-Newstar / Navin Jairam**. The source, documentation, and roadmap in this repository belong to this project.
 
 ## 🤖 **AI / ML Service (`Restaurant_POS_ML`)**
 
@@ -103,7 +65,7 @@ seeding demo data, and the full API reference.
 ## 🧪 **Tests**
 
 Automated tests live in [`tests/`](./tests): **Jest + Supertest** for the POS API
-and **pytest** for the ML service (30 passing). Run everything with:
+and **pytest** for the ML service (38 passing). Run everything with:
 
 ```bash
 bash tests/run-all-tests.sh

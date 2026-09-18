@@ -1,5 +1,8 @@
 # 🧪 DigiCraveOS — Test Suite
 
+The test setup belongs to the DigiCraveOS project, maintained by **Lucifer-Newstar / Navin Jairam**.
+
+
 Automated tests for the POS API and the ML service.
 
 | Suite | Stack | Location | What it covers |
@@ -32,4 +35,4 @@ Restaurant_POS_ML/.venv/bin/python -m pytest tests/ml -v
   run directly (`require.main === module`), so Supertest mounts it in-process.
 - Tests connect using the **backend's** mongoose instance so models and the
   test connection share one client.
-- Latest run: **23 backend tests + 7 ML tests = 30 passing.**
+- Current test set: **31 backend tests + 7 ML tests = 38 tests.**

@@ -1,10 +1,10 @@
 # 🍽️ DigiCraveOS — Software Architecture & UML Blueprint
 
 **AI Restaurant Operating System** · repository: `Lucifer-Newstar/DigiCraveOS`
-Prepared for client review · renders natively on **GitHub / GitLab / VS Code / mermaid.live**
+Kept as a practical reference for the DigiCraveOS project · renders natively in common Markdown and Mermaid viewers
 
 This document contains the **software architecture (5 views)** and **all 14 UML 2.5 diagrams** for the product,
-written as **Mermaid** so the client can view them on the repo page and the team can edit them like code.
+written as **Mermaid** so the project can keep its architecture easy to read and edit.
 Diagrams are grounded in the **actual MVP source** (controllers, models, routes) — items marked
 **«MVP ✔»** or **green** already run in production; everything else is the roadmap described in this blueprint.
 
@@ -14,7 +14,7 @@ Diagrams are grounded in the **actual MVP source** (controllers, models, routes)
 | Structural UML (7) | U03 Class · U04 Object · U05 Component · U06 Deployment · U07 Package · U08 Composite Structure · U09 Profile |
 | Behavioural UML (7) | U01 Use Case · U02 Activity · U10 State Machine · U11 Sequence · U12 Communication · U13 Timing · U14 Interaction Overview |
 
-> ✏️ **To edit:** open any `.mmd` file (in `mermaid/` or `uml/`), or paste a code block below into <https://mermaid.live>.
+> ✏️ **To edit:** open any `.mmd` file in `mermaid/` or `uml/` and update it directly.
 > 🖼️ Previews: rendered PNGs of every diagram are in `rendered/`.
 
 ---
@@ -123,7 +123,7 @@ flowchart LR
 
 ## Architecture 3 · Product Module Landscape
 
-All 21 client requirement areas mapped onto 5 layers. Colour key = delivery phase (green = built in MVP, amber = phase 2, violet = phase 3, grey = phase 4).
+All 21 project requirement areas mapped onto 5 layers. Colour key = delivery phase (green = built in MVP, amber = phase 2, violet = phase 3, grey = phase 4).
 
 
 ![Architecture 3 · Product Module Landscape](rendered/A3-module-landscape.png)
@@ -131,7 +131,7 @@ All 21 client requirement areas mapped onto 5 layers. Colour key = delivery phas
 
 ```mermaid
 %% A3 — PRODUCT MODULE LANDSCAPE
-%% All 21 client requirement areas organised into five layers.
+%% All 21 project requirement areas organised into five layers.
 %% 🟢 built in MVP · 🟠 phase 2 (operations) · 🟣 phase 3 (intelligence) · ⚪ phase 4 (scale)
 flowchart TB
     subgraph L5["L5 · DATA & INFRA"]
@@ -288,7 +288,7 @@ flowchart LR
 
 ## U01 · Use Case Diagram (behavioural)
 
-System boundary, eight human/system actors, and use cases clustered by module mirroring the client requirements list. «include»/«extend» refinements shown on billing. A **✔** marks use cases already delivered in the MVP: fast billing, hold/resume, split & merge bills, GST invoicing with discounts, cash/online settlement, and menu (category & dish) management.
+System boundary, eight human/system actors, and use cases clustered by module mirroring the project requirements list. «include»/«extend» refinements shown on billing. A **✔** marks use cases already delivered in the MVP: fast billing, hold/resume, split & merge bills, GST invoicing with discounts, cash/online settlement, and menu (category & dish) management.
 
 
 ![U01 · Use Case Diagram (behavioural)](rendered/U01-use-case.png)
@@ -298,7 +298,7 @@ System boundary, eight human/system actors, and use cases clustered by module mi
 %% U01 — USE CASE DIAGRAM (UML 2.5 · Behavioural)
 %% DigiCraveOS — AI Restaurant Operating System
 %% Actors are grouped around the system boundary; use cases are clustered
-%% by module (mirrors the 21-area client requirements list).
+%% by module (mirrors the 21-area project requirements list).
 flowchart LR
     %% ================= ACTORS (left: people) =================
     C(["👤 Guest / Customer"])

@@ -1,104 +1,48 @@
-# 🤝 Contributing to Restaurant POS System
+# 🤝 Contributing to DigiCraveOS
 
-Thank you for considering contributing to the **Restaurant POS System**! Your help is essential for making this project even better. 💖
+Thanks for helping improve DigiCraveOS. Keep changes practical, clear, and easy to follow.
 
-## 🧾 Table of Contents
-- [How to Contribute](#-how-to-contribute)
-- [Contribution Guidelines](#-contribution-guidelines)
-- [Pull Request Process](#-pull-request-process)
-- [Reporting Issues](#-reporting-issues)
-- [License](#-license)
-- [Copyright Notice](#-copyright-notice)
+## Getting started
 
----
+1. Clone the repository and create a working branch from `main`.
+2. Install dependencies in both application folders:
 
-## 🏢 How to Contribute
-
-1. **Fork the repository** 📚
-2. **Clone your fork (Only the dev Branch)**
    ```bash
-   git clone --branch dev https://github.com/amritmaurya1504/Restaurant-POS-System.git
-   ```
-3. **Navigate into the project directory**
-   ```bash
-   cd Restaurant-POS-System
-   ```
-4. **Create a new branch** 🌿
-   ```bash
-   git checkout -b feature/your-feature-name
+   cd Restaurant_POS_System/pos-backend && npm install
+   cd ../pos-frontend && npm install
    ```
 
-5. **Navigate to the backend and frontend directories**
-   ```bash
-   cd pos-backend
-   npm install
+3. Create `.env` files from the available `.env.example` files.
+4. Start MongoDB, then run the backend on port `8000` and the frontend on port `5173`.
+5. Make your change, test it, and keep the related documentation up to date.
 
-   cd ../pos-frontend
-   npm install
-   ```
+## Project guidelines
 
-6. **Set up environment variables**
-   - Create a `.env` file in both `pos-backend` and `pos-frontend` using `.env.example` as a reference.
+- Follow the existing code style and naming patterns.
+- Keep commits short and descriptive.
+- Add or update tests when behavior changes.
+- Avoid committing secrets, local `.env` files, generated builds, or dependency folders.
+- Keep the docs casual and specific to DigiCraveOS.
 
-7. **Run the backend server** (Port: `8000`)
-   ```bash
-   cd pos-backend
-   npm run dev
-   ```
+## Pull requests
 
-8. **Run the frontend server** (Port: `5173`)
-   ```bash
-   cd pos-frontend
-   npm run dev
-   ```
-9. **Make your changes** ✨
-10. **Commit your changes** 💾
-   ```bash
-   git commit -m "Add: A meaningful commit message"
-   ```
-11. **Push to your branch** 👤
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-12. **Create a Pull Request** 🛠️
+- Branch from `main`.
+- Explain what changed and why.
+- Include the tests or checks you ran.
+- Keep unrelated cleanup out of feature changes.
+- Wait for review before merging.
 
----
+## Reporting an issue
 
-## 📋 Contribution Guidelines
+For bugs or ideas, add a clear note describing:
 
-- Follow the existing code style and naming conventions.
-- Write clear, concise commit messages.
-- Add comments where necessary.
+- What happened
+- What you expected
+- How to reproduce it
+- Any useful logs or screenshots
 
----
+## Ownership and license
 
-## ✅ Pull Request Process
+DigiCraveOS is an independent project maintained by **Lucifer-Newstar / Navin Jairam**. The repository documentation and project-specific material are kept here for this project.
 
-- Always branch out from the `dev` branch.
-- Submit your pull request to the `dev` branch.
-- Ensure your PR is linked to an issue if applicable.
-- Wait for approval before merging.
-- Only maintainers can merge into the `master` branch.
-
----
-
-## 🐛 Reporting Issues
-
-Found a bug or have a feature request? Open an [Issue](https://github.com/amritmaurya1504/Restaurant-POS-System/issues) and follow the template provided.
-
----
-
-## 🐝 Copyright Notice
-
-The UI of this project is **copyrighted content**. You **cannot** copy and sell it as your own product. Unauthorized use, redistribution, or resale of the UI is strictly prohibited.
-
-Original UI design can be found on [Behance](https://www.behance.net/gallery/210280099/Restaurant-POS-System-Point-of-Sale-UIUX-Design).
-
----
-
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-Happy Coding! 💻🎉
-
+The code is released under the project license in `LICENSE`. Libraries and services used by the app remain subject to their own licenses and terms.

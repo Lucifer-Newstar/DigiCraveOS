@@ -1,6 +1,6 @@
-# 🤖 Restaurant POS — ML Service (`Restaurant_POS_ML`)
+# 🤖 DigiCraveOS ML Service (`Restaurant_POS_ML`)
 
-A lightweight machine-learning microservice for the DigiCraveOS Restaurant POS.
+A lightweight machine-learning service for DigiCraveOS, maintained by Lucifer-Newstar / Navin Jairam.
 It reads **directly from the same MongoDB** the POS backend uses (the existing
 `orders` / `customers` schema and existing data — no data duplication) and
 exposes three capabilities:
