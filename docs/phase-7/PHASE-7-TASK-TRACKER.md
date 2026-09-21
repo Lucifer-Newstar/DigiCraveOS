@@ -13,10 +13,10 @@ Tasks require substantive implementation, tests, documentation, and verification
 - [x] 07. Validation error normalization
 - [x] 08. Validation normalization tests
 - [x] 09. Authentication error consistency
-- [ ] 10. Authentication error tests
-- [ ] 11. Idempotency-key contract review
-- [ ] 12. Idempotency regression coverage
-- [ ] 13. Idempotency documentation
+- [x] 10. Authentication error tests
+- [x] 11. Idempotency-key contract review
+- [x] 12. Idempotency regression coverage
+- [x] 13. Idempotency documentation
 - [ ] 14. Order transition audit context
 - [ ] 15. Order transition audit tests
 - [ ] 16. Order transition documentation
@@ -57,4 +57,4 @@ Tasks require substantive implementation, tests, documentation, and verification
 
 ## Commit accounting
 
-Current repository commit count: 298. Tasks 1–9 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 302. Tasks 1–13 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
