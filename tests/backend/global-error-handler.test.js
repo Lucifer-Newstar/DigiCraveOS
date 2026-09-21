@@ -17,6 +17,13 @@ describe("Phase 7 structured global errors", () => {
     expect(json.mock.calls[0][0].message).toBe("token=[REDACTED] password=[REDACTED]");
   });
 
+  test.each([[400, "VALIDATION_ERROR"], [401, "AUTHENTICATION_ERROR"], [403, "AUTHORIZATION_ERROR"]])("maps HTTP status %s to %s", (status, code) => {
+    const json = jest.fn();
+    const res = { status: jest.fn(() => ({ json })) };
+    globalErrorHandler({ statusCode: status, message: "failure" }, { requestId: "req-status" }, res);
+    expect(json.mock.calls[0][0].code).toBe(code);
+  });
+
   test("uses a safe default code for unknown errors", () => {
     const json = jest.fn();
     const res = { status: jest.fn(() => ({ json })) };
