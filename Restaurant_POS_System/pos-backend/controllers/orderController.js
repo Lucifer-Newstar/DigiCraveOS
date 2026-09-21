@@ -17,11 +17,12 @@ const upsertCustomerFromOrder = async (order) => {
 
 const addOrder = async (req, res, next) => {
   try {
-    if (req.body?.idempotencyKey) {
-      const existing = await Order.findOne({ idempotencyKey: req.body.idempotencyKey });
+    const idempotencyKey = req.get("Idempotency-Key") || req.body?.idempotencyKey;
+    if (idempotencyKey) {
+      const existing = await Order.findOne({ idempotencyKey });
       if (existing) return res.status(200).json({ success: true, queued: false, data: existing });
     }
-    const order = new Order(req.body);
+    const order = new Order({ ...req.body, ...(idempotencyKey ? { idempotencyKey } : {}) });
 
     // An order paid online arrives with Razorpay paymentData already verified,
     // so it enters the lifecycle as Paid (matches UML U11 sequence). Cash
