@@ -49,6 +49,15 @@ describe("Order status lifecycle (UML U10)", () => {
     expect(res.body.data.orderStatus).toBe("In Progress");
   });
 
+  test("Idempotency-Key header replays the existing order", async () => {
+    const key = `header-${Date.now()}`;
+    const first = await request(app).post("/api/order").set("Cookie", cookie).set("Idempotency-Key", key).send(baseOrder());
+    const second = await request(app).post("/api/order").set("Cookie", cookie).set("Idempotency-Key", key).send(baseOrder({ items: [{ name: "Different", price: 1, quantity: 1 }] }));
+    expect(first.status).toBe(201);
+    expect(second.status).toBe(200);
+    expect(String(second.body.data._id)).toBe(String(first.body.data._id));
+  });
+
   test("online-paid order enters as Paid", async () => {
     const res = await createOrder({
       paymentMethod: "Online",
