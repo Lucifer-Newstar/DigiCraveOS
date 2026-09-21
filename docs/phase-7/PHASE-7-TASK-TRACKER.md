@@ -10,9 +10,9 @@ Tasks require substantive implementation, tests, documentation, and verification
 - [x] 04. Request error log redaction
 - [x] 05. Redaction regression tests
 - [x] 06. API error catalog
-- [ ] 07. Validation error normalization
-- [ ] 08. Validation normalization tests
-- [ ] 09. Authentication error consistency
+- [x] 07. Validation error normalization
+- [x] 08. Validation normalization tests
+- [x] 09. Authentication error consistency
 - [ ] 10. Authentication error tests
 - [ ] 11. Idempotency-key contract review
 - [ ] 12. Idempotency regression coverage
@@ -57,4 +57,4 @@ Tasks require substantive implementation, tests, documentation, and verification
 
 ## Commit accounting
 
-Current repository commit count: 294. Tasks 1–6 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
+Current repository commit count: 298. Tasks 1–9 are complete with implementation, tests, and documentation. All commits must represent substantive implementation, tests, documentation, cleanup, or verification work.
